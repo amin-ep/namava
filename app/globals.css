@@ -2,20 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  direction: rtl;
+  box-sizing: border-box;
+}
+
+input,
+button {
+  outline: none;
+}
+
+.input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.mini-spinner-loading {
+  width: 27px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  border-right-color: var(--color-primary);
+  animation: rotating 1s infinite linear;
+}
+
+.header-scrolled-up {
+  animation: toUp;
+  animation-duration: 1s;
+}
+
+.header-scrolled-down {
+  animation: toDown;
+  animation-duration: 1s;
+}
+
+.toast-enter {
+  animation: toastEnter;
+  animation-duration: 1s;
+}
+
+.toast-exit {
+  animation: toastExit;
+  animation-duration: 1s;
+}
+
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes toastExit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes toDown {
+  from {
+    /* transform: translateY(-80px); */
+    top: -80px;
+  }
+  to {
+    /* transform: translateY(0); */
+    top: 0;
+  }
+}
+
+@keyframes toUp {
+  from {
+    /* transform: translateY(0); */
+    top: 0;
+  }
+  to {
+    /* transform: translateY(-80px); */
+    top: -80px;
+  }
+}
+
+@keyframes rotating {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-primary: #1993ff;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .form {
+    @apply flex flex-col gap-6;
+  }
+
+  .form-footer {
+    @apply text-center text-sm text-stone-900;
+  }
 }
