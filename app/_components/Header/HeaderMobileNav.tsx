@@ -12,6 +12,7 @@ const HeaderMobileNav = memo(function HeaderMobileNav({
 }) {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const listRef = useRef<HTMLUListElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     function handleOutsideClick(e: Event) {
@@ -20,7 +21,11 @@ const HeaderMobileNav = memo(function HeaderMobileNav({
         listRef &&
         !listRef.current?.contains(e.target as HTMLElement)
       ) {
-        setMenuIsOpen(false);
+        if (buttonRef?.current?.contains(e.target as HTMLButtonElement)) {
+          return;
+        } else {
+          setMenuIsOpen(false);
+        }
       }
     }
     if (listRef) {
@@ -33,7 +38,8 @@ const HeaderMobileNav = memo(function HeaderMobileNav({
   return (
     <nav className="relative block md:hidden">
       <button
-        onClick={() => setMenuIsOpen(true)}
+        ref={buttonRef}
+        onClick={() => setMenuIsOpen((open) => !open)}
         className="flex h-7 w-16 items-center justify-center gap-[6px] whitespace-nowrap rounded-full border border-[rgba(255,255,255,0.3)] bg-[rgba(102,102,102,0.3)] px-1 py-3 text-xs text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.2)]"
       >
         خانه

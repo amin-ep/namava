@@ -19,3 +19,8 @@ export interface MobileNavListItem {
   href: string;
   icon: ReactNode;
 }
+
+export interface LinkField {
+  title: string;
+  href: string;
+}

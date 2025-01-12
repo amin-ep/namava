@@ -5,11 +5,11 @@ export type User = {
   lastName?: string;
   email: string;
   password?: string;
-  role: "admin" | "user";
+  role: "admin" | "user" | string;
   verified: boolean;
   active: boolean;
   province?: string;
-  gender?: "male" | "female";
+  gender?: "male" | "female" | string;
   birthDate?: string | Date;
   phoneNumber?: string;
   imageUrl?: string;

@@ -58,7 +58,9 @@ function HeadingWrapper() {
 
   return (
     <div className="relative mb-5 flex items-center justify-center md:hidden">
-      <h1>{headingTitle}</h1>
+      <h1 className="text-sm font-bold text-stone-700 xsm:text-base">
+        {headingTitle}
+      </h1>
       <div className="absolute right-5">
         <button
           onClick={() => setNavIsOpen(true)}
