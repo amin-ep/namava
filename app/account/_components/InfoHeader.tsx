@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AccountMainHeading from "./AccountMainHeading";
 
 export default function InfoHeader({
   heading,
@@ -8,8 +9,8 @@ export default function InfoHeader({
   link?: { title: string; href: string };
 }) {
   return (
-    <div className="flex items-center justify-between text-xs xsm:text-sm xl:text-base">
-      <h3 className="font-bold text-stone-800">{heading}</h3>
+    <div className="flex items-center justify-between">
+      <AccountMainHeading>{heading}</AccountMainHeading>
       {link && (
         <Link href={link.href} className="text-primary">
           {link.title}

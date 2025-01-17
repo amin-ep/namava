@@ -16,7 +16,7 @@ async function Layout({ children }: { children: ReactNode }) {
       <HeadingWrapper />
       <div className="relative grid grid-cols-1 md:grid-cols-[16rem_1fr] md:gap-5 xl:grid-cols-[17.75rem_1fr]">
         <div className="relative">
-          <div className="fixed hidden w-64 md:block md:w-[17.75rem]">
+          <div className="fixed hidden w-64 md:block xl:w-[17.75rem]">
             <SideMenu
               firstName={userInfo?.firstName}
               lastName={userInfo?.lastName}

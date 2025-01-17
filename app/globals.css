@@ -45,20 +45,24 @@ input[type="number"]::-webkit-outer-spin-button {
 .toast-exit {
   animation: toastExit;
   animation-duration: 1s;
+  -webkit-animation: toastExit;
 }
 
 @keyframes toastEnter {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
+
 @keyframes toastExit {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -69,6 +73,7 @@ input[type="number"]::-webkit-outer-spin-button {
     /* transform: translateY(-80px); */
     top: -80px;
   }
+
   to {
     /* transform: translateY(0); */
     top: 0;
@@ -80,6 +85,7 @@ input[type="number"]::-webkit-outer-spin-button {
     /* transform: translateY(0); */
     top: 0;
   }
+
   to {
     /* transform: translateY(-80px); */
     top: -80px;
