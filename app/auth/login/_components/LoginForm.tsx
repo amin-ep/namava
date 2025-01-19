@@ -2,35 +2,40 @@
 
 import { LoginPayload } from "@/app/_types/AuthTypes";
 import FormLayout from "@/app/_components/FormLayout";
-import { useEffect, useTransition } from "react";
+import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
+import { login } from "../actions";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/app/_hooks/useToast";
 
 function LoginForm() {
-  const [isPending, startTransition] = useTransition();
+  const [response, formAction, isPending] = useActionState(login, null);
+  const toast = useToast();
+  const router = useRouter();
   const {
     register,
-    handleSubmit,
     formState: { isValid },
-    setValue,
   } = useForm<LoginPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      oneTimePassword: false,
+    },
   });
 
   useEffect(() => {
-    setValue("oneTimePassword", false, {
-      shouldValidate: true,
-    });
-  }, [setValue]);
-
-  const onSubmit = (data: LoginPayload) => {
-    console.log(data);
-  };
+    if (response)
+      if (response.status === "success") {
+        router.push("/");
+      } else if (response.status === "error") {
+        toast("error", response.message);
+      }
+  }, [response, router, toast]);
 
   return (
     <FormLayout
-      onSubmit={handleSubmit(onSubmit)}
+      action={formAction}
       description="لطفا ایمیل خود را وارد کنید."
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}
@@ -46,6 +51,7 @@ function LoginForm() {
         label="ایمیل"
         type="email"
       />
+      <input type="hidden" {...register("oneTimePassword")} />
       <FormLayout.Control
         register={register}
         validation={{

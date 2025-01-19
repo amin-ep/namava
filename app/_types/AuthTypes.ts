@@ -19,6 +19,11 @@ export interface LoginPayload extends FieldValues {
   password: User["password"];
 }
 
+export interface LoginResponse extends Status {
+  token: string;
+  data: User;
+}
+
 export interface OTPLoginPayload extends FieldValues {
   email: User["email"];
   oneTimePassword: boolean;
