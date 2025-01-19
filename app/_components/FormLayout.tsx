@@ -1,11 +1,10 @@
 "use client";
 
-import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { FormControl } from "./FormControl";
-import MiniSpinner from "./MiniSpinner";
+import FormSubmit from "./FormSubmit";
 
 function FormLayout({
   children,
@@ -13,14 +12,14 @@ function FormLayout({
   heading,
   headerLink,
   description,
-  onSubmit,
+  action,
 }: {
   children: ReactNode;
   icon: ReactNode;
   heading: string;
   headerLink?: { title: string; href: string };
   description: string;
-  onSubmit: () => void;
+  action: (payload: FormData) => void;
 }) {
   return (
     <div className="mx-auto max-w-[500px] rounded-xl bg-white px-6 py-10 xsm:p-10 xsm:shadow-[0_0px_8px_0_rgba(0,0,0,0.2)] md:px-[70px]">
@@ -57,35 +56,10 @@ function FormLayout({
           </p>
         </div>
       </header>
-      <form className="flex flex-col gap-6" onSubmit={onSubmit}>
+      <form className="flex flex-col gap-6" action={action}>
         {children}
       </form>
     </div>
-  );
-}
-
-function Submit({
-  label,
-  disabled,
-  pendingStatus,
-}: {
-  label: string;
-  disabled: boolean;
-  pendingStatus: boolean;
-}) {
-  return (
-    <button
-      type="submit"
-      className={cls(
-        "my-3 flex h-[42px] cursor-pointer items-center justify-center rounded-xl bg-primary px-5 text-xs leading-[42px] text-white xsm:my-4",
-        !pendingStatus
-          ? "disabled:cursor-default disabled:bg-stone-400"
-          : "disabled:cursor-default",
-      )}
-      disabled={disabled || pendingStatus}
-    >
-      {pendingStatus ? <MiniSpinner /> : label}
-    </button>
   );
 }
 
@@ -106,7 +80,7 @@ function ExtraLink({ children, href }: { children: ReactNode; href: string }) {
 }
 
 FormLayout.Control = FormControl;
-FormLayout.Submit = Submit;
+FormLayout.Submit = FormSubmit;
 FormLayout.Footer = Footer;
 FormLayout.ExtraLink = ExtraLink;
 

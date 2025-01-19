@@ -3,7 +3,7 @@
 import { OTPLoginPayload } from "@/app/_types/AuthTypes";
 import FormLayout from "@/app/_components/FormLayout";
 import { otpLogin } from "@/app/auth/login-otp/actions";
-import { ActionDispatch, useEffect, useTransition } from "react";
+import { ActionDispatch, useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { OTPLoginActionTypes } from "./OtpLoginForm";
@@ -13,40 +13,33 @@ function OtpLoginFormEmail({
 }: {
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [isPending, startTransition] = useTransition();
+  const [response, formAction, isPending] = useActionState(otpLogin, null);
   const {
     register,
-    handleSubmit,
     formState: { isValid },
-    setValue,
+    getValues,
   } = useForm<OTPLoginPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      oneTimePassword: true,
+    },
   });
 
   useEffect(() => {
-    setValue("oneTimePassword", true, {
-      shouldValidate: true,
-    });
-  }, [setValue]);
+    if (response && response.status === "success") {
+      dispatch({ type: "sent", payload: getValues()?.email });
+    }
+    console.log(response);
+  }, [response, getValues, dispatch]);
 
-  const onSubmit = (data: OTPLoginPayload) => {
-    startTransition(async () => {
-      const response: string = await otpLogin({
-        email: data.email,
-        oneTimePassword: data.oneTimePassword,
-      });
-      if (response === "OK") {
-        dispatch({ type: "sent", payload: data?.email });
-      } else {
-        console.log(response);
-      }
-    });
-  };
+  useEffect(() => {
+    console.log(getValues());
+  }, [getValues]);
 
   return (
     <FormLayout
-      onSubmit={handleSubmit(onSubmit)}
+      action={formAction}
       description="لطفا ایمیل خود را وارد کنید."
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}
@@ -62,7 +55,7 @@ function OtpLoginFormEmail({
         label="ایمیل"
         type="email"
       />
-
+      <input type="hidden" {...register("oneTimePassword")} />
       <FormLayout.Submit
         disabled={!isValid}
         label="دریافت رمز یکبار مصرف"

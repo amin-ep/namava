@@ -1,20 +1,27 @@
 "use server";
 
 import {
-  OTPLoginPayload,
   OTPLoginResponseData,
   OTPLoginVerificationPayload,
   OTPLoginVerificationResponseData,
 } from "@/app/_types/AuthTypes";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function otpLogin(payload: OTPLoginPayload) {
+export async function otpLogin(
+  _prevState: null | { status: "success" | "error"; message: string },
+  formData: FormData,
+) {
   try {
+    const entryValues = removeUnrecognizedFields(Object.fromEntries(formData));
+    entryValues.oneTimePassword = true;
+    console.log(entryValues);
     const res: AxiosResponse<OTPLoginResponseData> = await axios.post(
       `${process.env.API_BASE_URL}/auth/login`,
-      payload,
+      entryValues,
       {
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +29,9 @@ export async function otpLogin(payload: OTPLoginPayload) {
       },
     );
 
-    return res?.statusText;
+    if (res?.status === 200) {
+      return { status: res?.data.status, message: res?.data.message };
+    }
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log(error.response?.data.message);

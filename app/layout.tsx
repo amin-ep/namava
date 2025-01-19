@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from "./_components/Header/Header";
-import Toast from "./_components/Toast/Toast";
+import Toast from "./_components/Toast";
 import "./globals.css";
 import Nav from "./_components/Header/Nav";
 import HeaderActions from "./_components/Header/HeaderActions";

@@ -11,7 +11,7 @@ function InfoList({ items }: { items: InfoField[] }) {
         >
           <div className="flex">
             {item.label as string}:{" "}
-            <span className="text-stone-800">{item.content}</span>
+            <span className="px-1 text-stone-800">{item.content}</span>
           </div>
           {item.link && (
             <Link className="text-primary" href={item.link.href}>

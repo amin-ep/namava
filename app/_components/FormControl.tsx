@@ -40,12 +40,14 @@ export function FormControl<TFormValues extends FieldValues>({
   register,
   name,
   validation,
+  textAlign = "left",
 }: {
   label?: string;
   type: HTMLInputTypeAttribute;
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   validation: RegisterOptions<TFormValues, Path<TFormValues>> | undefined;
+  textAlign?: "right" | "left";
 }) {
   const [{ showPassword, showButton }, dispatch] = useReducer(
     reducer,
@@ -108,12 +110,16 @@ export function FormControl<TFormValues extends FieldValues>({
           {...register(name as Path<TFormValues>, {
             ...validation,
             onChange(e) {
-              if (e.target.value.length === 0) {
-                e.target.style.textAlign = "right";
-                e.target.style.direction = "rtl";
+              if (textAlign === "right") {
+                return;
               } else {
-                e.target.style.textAlign = "left";
-                e.target.style.direction = "ltr";
+                if (e.target.value.length === 0) {
+                  e.target.style.textAlign = "right";
+                  e.target.style.direction = "rtl";
+                } else {
+                  e.target.style.textAlign = "left";
+                  e.target.style.direction = "ltr";
+                }
               }
               if (type === "password" && e.target.value.length > 0) {
                 dispatch({

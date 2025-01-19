@@ -4,6 +4,7 @@ import Container from "./Container";
 import InfoHeader from "./InfoHeader";
 import InfoList from "./InfoList";
 import jalaali from "jalaali-js";
+import { numericJalaaliBirthDate } from "@/app/_utils/helpers";
 
 const userLabels: { [key: string]: string } = {
   firstName: "نام",
@@ -29,15 +30,8 @@ function PersonalInfo({ info }: { info: User }) {
     const userGeorgianBirthDate = new Date(
       infoArr.at(userBirthDateIndex)?.content as string,
     );
-    const birthYear = userGeorgianBirthDate.getFullYear();
-    const birthMonth = userGeorgianBirthDate.getMonth();
-    const birthDate = userGeorgianBirthDate.getDate();
-    const jalaaliBirthDateObject = jalaali.toJalaali(
-      birthYear,
-      birthMonth + 1,
-      birthDate,
-    );
-    userBirthDate = `${jalaaliBirthDateObject.jy}/${jalaaliBirthDateObject.jm}/${jalaaliBirthDateObject.jd}`;
+
+    userBirthDate = numericJalaaliBirthDate(userGeorgianBirthDate);
   }
 
   if (userBirthDate !== "") {

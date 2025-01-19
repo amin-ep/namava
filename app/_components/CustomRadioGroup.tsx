@@ -5,24 +5,27 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { Path, UseFormRegister } from "react-hook-form";
+import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
 import { FieldValues } from "../_types/GlobalTypes";
+import styles from "./CustomRadioGroup.module.css";
 
 function CustomRadioGroup<TFormValues extends FieldValues>({
   defaultChecked,
   name,
   options,
   register,
+  validation,
 }: {
   defaultChecked?: string;
   name: Path<TFormValues>;
   options: string[];
   register: UseFormRegister<TFormValues>;
+  validation: RegisterOptions<TFormValues, Path<TFormValues>> | undefined;
 }) {
   return (
     <FormControl>
       <RadioGroup
-        {...register(name)}
+        {...register(name, { ...validation })}
         {...(defaultChecked && { defaultValue: defaultChecked })}
         sx={{
           display: "flex",
@@ -35,23 +38,20 @@ function CustomRadioGroup<TFormValues extends FieldValues>({
           <FormControlLabel
             key={item}
             value={item}
-            control={<Radio sx={{}} />}
+            control={
+              <Radio
+                classes={{
+                  root: styles["radio-root"],
+                  checked: styles["radio-checked"],
+                  colorPrimary: styles["radio-color-primary"],
+                }}
+                size="small"
+              />
+            }
             label={item}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              ".css-1qirb4w-MuiFormControlLabel-root": {
-                marginLeft: 0,
-                marginRight: 0,
-              },
-              ".MuiFormControlLabel-root": {
-                marginLeft: 0,
-                marginRight: 0,
-              },
-              ".MuiFormControlLabel-labelPlacementEnd": {
-                marginLeft: 0,
-                marginRight: 0,
-              },
+            classes={{
+              root: styles["form-control-root"],
+              label: styles["form-control-label"],
             }}
           />
         ))}

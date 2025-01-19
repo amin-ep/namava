@@ -7,6 +7,7 @@ import { IoIosListBox } from "react-icons/io";
 import cls from "classnames";
 import { usePathname } from "next/navigation";
 import { User } from "@/app/_types/UserTypes";
+import { logout } from "@/app/auth/login-otp/actions";
 
 const navItems: MobileNavListItem[] = [
   {
@@ -48,21 +49,35 @@ function SideMenu({
         </h2>
       </div>
       <ul className="flex flex-col">
-        {navItems.map((item) => (
+        {navItems.map((item, index) => (
           <li key={item.href}>
             <Link
               href={item.href}
               className={cls(
                 "flex items-center justify-start gap-5 px-6 py-4 text-sm text-stone-400",
-                pathname === item.href && "bg-stone-200/70",
+                (pathname === "/account/edit" && index === 0) ||
+                  pathname === item.href
+                  ? "bg-stone-200/70"
+                  : "",
               )}
+              {...(index === navItems.length - 1 && { onClick: logout })}
             >
-              <span className={pathname === item.href ? "text-primary" : ""}>
+              <span
+                className={
+                  (pathname === "/account/edit" && index === 0) ||
+                  pathname === item.href
+                    ? "text-primary"
+                    : ""
+                }
+              >
                 {item.icon}
               </span>
               <span
                 className={
-                  pathname === item.href ? "text-primary" : "text-stone-800"
+                  (pathname === "/account/edit" && index === 0) ||
+                  pathname === item.href
+                    ? "text-primary"
+                    : "text-stone-800"
                 }
               >
                 {item.title}

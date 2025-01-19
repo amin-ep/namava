@@ -24,3 +24,5 @@ export interface LinkField {
   title: string;
   href: string;
 }
+
+export interface ApiError extends Status, Message {}

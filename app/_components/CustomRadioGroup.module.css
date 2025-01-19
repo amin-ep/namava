@@ -1,0 +1,30 @@
+@font-face {
+    font-family: iranYekan;
+    src: url('/app/_fonts/Qs_Iranyekan.ttf');
+}
+
+.form-control-root {
+    all: unset;
+    font-family: iranYekan;
+    color: #1a1a1a;
+}
+
+.form-control-label {
+    font-size: 12px;
+    cursor: pointer;
+    padding-inline: 8px;
+}
+
+.radio-root {
+    padding: 0;
+    font-size: 0.5rem;
+}
+
+.radio-checked {
+    color: #1a1a1a !important;
+
+}
+
+.radio-color-primary {
+    color: #1a1a1a;
+}

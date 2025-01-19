@@ -1,17 +1,23 @@
 "use client";
 
+import CustomRadioGroup from "@/app/_components/CustomRadioGroup";
 import { FormControl } from "@/app/_components/FormControl";
+import FormSubmit from "@/app/_components/FormSubmit";
 import { useSelect } from "@/app/_hooks/useSelect";
-import { UpdateMePayload, User } from "@/app/_types/UserTypes";
-import { useEffect } from "react";
+import { UpdateMePayload } from "@/app/_types/UserTypes";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import Select from "../../../_components/Select";
 import BirthDaySelectGroup from "./BirthDaySelectGroup";
-import EditFormSubmit from "./EditFormSubmit";
 import SelectLabel from "./SelectLabel";
-import CustomRadioGroup from "@/app/_components/CustomRadioGroup";
 
-function EditFormFields({ user }: { user: User }) {
+function EditFormFields({
+  user,
+  isPending,
+}: {
+  user: Partial<UpdateMePayload>;
+  isPending: boolean;
+}) {
   // province select hook
   const {
     close: closeProvince,
@@ -22,39 +28,70 @@ function EditFormFields({ user }: { user: User }) {
     clear: clearProvince,
   } = useSelect(user.province ?? "");
 
-  const { register, reset, getValues, setValue } = useForm<UpdateMePayload>({
+  const {
+    register,
+    setValue,
+    formState: { isDirty, isValidating },
+    getValues,
+  } = useForm<UpdateMePayload>({
     reValidateMode: "onChange",
     mode: "onChange",
+    defaultValues: useMemo(() => {
+      return {
+        firstName: user.firstName ?? "",
+        birthDate: user.birthDate ?? "",
+        lastName: user.lastName ?? "",
+        gender: user.gender ?? "",
+      };
+    }, [user.birthDate, user.firstName, user.gender, user.lastName]),
   });
 
   useEffect(() => {
-    reset({
-      firstName: user?.firstName ?? "",
-      birthDate: user?.birthDate ?? "",
-      lastName: user?.lastName ?? "",
-      gender: user?.gender ?? "",
-      province: provinceValue ?? "",
-    });
-  }, [reset, user, provinceValue]);
+    const values = getValues();
+    const keys = Object.keys(values);
+    if (isValidating) {
+      for (let i = 0; i < keys.length; i++) {
+        console.log(
+          (values[keys[i]] as string).trim() ===
+            (user[keys[i]] as string).trim(),
+        );
+      }
+    }
+  }, [isValidating]);
 
   return (
     <div className="flex flex-col gap-6">
       <FormControl
+        textAlign="right"
         name="firstName"
         register={register}
         type="text"
         label="نام"
-        validation={{ required: false }}
+        validation={{
+          required: false,
+          minLength: 3,
+          maxLength: 25,
+        }}
       />
       <FormControl
+        textAlign="right"
         name="lastName"
         register={register}
         type="text"
         label="نام خانوادگی"
-        validation={{ required: false }}
+        validation={{
+          required: false,
+          minLength: 4,
+          maxLength: 25,
+        }}
       />
       <div className="flex flex-col gap-2">
-        <input type="hidden" {...register("province")} />
+        <input
+          type="hidden"
+          {...register("province", {
+            required: false,
+          })}
+        />
         {/* Province Select */}
         <SelectLabel
           onClick={() => clearProvince()}
@@ -83,20 +120,33 @@ function EditFormFields({ user }: { user: User }) {
       {/* BirthDay Select group */}
       <BirthDaySelectGroup
         setValue={setValue}
-        defaultDate={getValues()?.birthDate}
+        defaultDate={user?.birthDate}
         name="birthDate"
         register={register}
+        validation={{
+          required: false,
+        }}
       />
       {/* Radio Group */}
-      <SelectLabel label={{ optionalTitle: "اختیاری", title: "جنسیت" }} />
-      <CustomRadioGroup
-        name="gender"
-        options={["مرد", "زن"]}
-        defaultChecked={user?.gender}
-        register={register}
-      />
+      <div className="flex flex-col gap-2">
+        <SelectLabel label={{ optionalTitle: "اختیاری", title: "جنسیت" }} />
+        <CustomRadioGroup
+          validation={{
+            required: false,
+          }}
+          name="gender"
+          options={["مرد", "زن"]}
+          defaultChecked={user?.gender}
+          register={register}
+        />
+      </div>
       {/* Submit Button */}
-      <EditFormSubmit>ثبت تغییرات</EditFormSubmit>
+
+      <FormSubmit
+        label="ثبت تغییرات"
+        pendingStatus={isPending}
+        disabled={!isDirty}
+      />
     </div>
   );
 }

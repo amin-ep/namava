@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 
 interface State {
   value: string;
@@ -49,9 +49,10 @@ export function useSelect(defaultValue?: string) {
     });
   };
 
-  const updateValue = (payload: string) => {
-    dispatch({ type: "value", payload });
-  };
+  const updateValue = useCallback(
+    (payload: string) => dispatch({ type: "value", payload }),
+    [],
+  );
 
   const clear = () => {
     dispatch({ type: "clear" });
@@ -61,7 +62,7 @@ export function useSelect(defaultValue?: string) {
     if (defaultValue) {
       updateValue(defaultValue);
     }
-  }, [defaultValue]);
+  }, [defaultValue, updateValue]);
 
   return { value, isOpen, close, open, updateValue, clear };
 }

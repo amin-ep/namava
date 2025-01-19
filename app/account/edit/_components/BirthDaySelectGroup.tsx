@@ -2,24 +2,59 @@
 
 import { useSelect } from "@/app/_hooks/useSelect";
 import { FieldValues } from "@/app/_types/GlobalTypes";
-import { jalaaliMonths, jMonthIndex } from "@/app/_utils/helpers";
+import {
+  jalaaliMonths,
+  jMonthIndex,
+  numericJalaaliBirthDate,
+} from "@/app/_utils/helpers";
 import jalaali, { GregorianDateObject } from "jalaali-js";
-import { useEffect, useMemo } from "react";
-import { Path, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { memo, useEffect, useMemo, useState } from "react";
+import {
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 import Select from "../../../_components/Select";
 import SelectLabel from "./SelectLabel";
 
-function BirthDaySelectGroup<TFormValues extends FieldValues>({
+const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
+  TFormValues extends FieldValues,
+>({
   register,
   name,
   defaultDate,
   setValue,
+  validation,
 }: {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   defaultDate: Date | string | undefined;
   setValue: UseFormSetValue<FieldValues>;
+  validation: RegisterOptions<TFormValues, Path<TFormValues>> | undefined;
 }) {
+  const [defaultBirthDateObject, setDefaultBirthDateObject] = useState<{
+    year: null | string | number;
+    month: null | string | number;
+    day: null | string | number;
+  }>({
+    day: null,
+    month: null,
+    year: null,
+  });
+
+  useEffect(() => {
+    if (defaultDate) {
+      const numericBirthDate = numericJalaaliBirthDate(new Date(defaultDate));
+      const numericBirthDateArr = numericBirthDate.split("/");
+      setDefaultBirthDateObject({
+        year: numericBirthDateArr.at(0) as string,
+        month: numericBirthDateArr.at(1) as string,
+        day: numericBirthDateArr.at(2) as string,
+      });
+    }
+  }, [defaultDate]);
+
   const daysArr = useMemo(() => {
     return [...Array(32).keys()].map(Number.call, String).slice(1, 32);
   }, []);
@@ -44,7 +79,7 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
     open: openDaySelect,
     updateValue: updateDayValue,
     value: dayValue,
-  } = useSelect();
+  } = useSelect((defaultBirthDateObject?.day as string) ?? "");
 
   // Month select
   const {
@@ -53,7 +88,7 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
     open: openMonthSelect,
     updateValue: updateMonthValue,
     value: monthValue,
-  } = useSelect();
+  } = useSelect((defaultBirthDateObject?.month as string) ?? "");
 
   // Year select
   const {
@@ -62,7 +97,7 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
     open: openYearSelect,
     updateValue: updateYearValue,
     value: yearValue,
-  } = useSelect();
+  } = useSelect((defaultBirthDateObject.year as string) ?? "");
 
   useEffect(() => {
     const birthDateObj: GregorianDateObject = jalaali.toGregorian(
@@ -70,12 +105,15 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
       +jMonthIndex(monthValue),
       +dayValue,
     );
+
     const strBirthDate = new Date(
-      birthDateObj.gy,
+      birthDateObj.gy + 1,
       birthDateObj.gm,
-      birthDateObj.gd + 1,
+      birthDateObj.gd + 4,
     ).toISOString();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     setValue(name, strBirthDate);
   }, [yearValue, dayValue, monthValue, setValue, name]);
 
@@ -83,7 +121,11 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
     <div className="flex flex-col gap-2">
       <SelectLabel
         label={{ title: "تاریخ تولد", optionalTitle: "اختیاری" }}
-        onClick={() => console.log("cleared")}
+        onClick={() => {
+          updateDayValue("");
+          updateMonthValue("");
+          updateYearValue("");
+        }}
       />
       <div className="grid grid-cols-3 gap-x-2">
         <Select
@@ -113,10 +155,10 @@ function BirthDaySelectGroup<TFormValues extends FieldValues>({
           items={years as string[]}
           placeholder="سال"
         />
-        <input type="hidden" {...register(name)} />
+        <input type="hidden" {...register(name, { ...validation })} />
       </div>
     </div>
   );
-}
+});
 
 export default BirthDaySelectGroup;

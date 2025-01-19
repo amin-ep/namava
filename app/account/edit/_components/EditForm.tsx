@@ -1,21 +1,32 @@
-import { getMe } from "@/app/api/userApi";
-import AccountMainHeading from "../../_components/AccountMainHeading";
-import Container from "../../_components/Container";
-import EditFormFields from "./EditFormFields";
-import { updateMe } from "../../actions";
+"use client";
 
-async function EditForm() {
-  const user = await getMe();
+import { useActionState, useEffect } from "react";
+import { updateMe } from "../../actions";
+import { useRouter } from "next/navigation";
+import { User } from "@/app/_types/UserTypes";
+import EditFormFields from "./EditFormFields";
+import { useToast } from "@/app/_hooks/useToast";
+
+function EditForm({ user }: { user: User }) {
+  const [res, formAction, isPending] = useActionState(updateMe, null);
+  const router = useRouter();
+  const toast = useToast();
+
+  useEffect(() => {
+    if (res && (res as { status: "success" | "error"; message: string })) {
+      if (res?.status === "success") {
+        toast(res?.status, res.message as string);
+        router.push("/account");
+      } else {
+        toast(res.status as string, res.message as string);
+      }
+    }
+  }, [res, router, toast]);
 
   return (
-    <Container className="flex flex-col gap-4 md:gap-6 xl:gap-8">
-      <div className="text-center">
-        <AccountMainHeading>ویرایش اطلاعات شخصی</AccountMainHeading>
-      </div>
-      <form action={updateMe} className="md:px-1 xl:px-[68px]">
-        <EditFormFields user={user} />
-      </form>
-    </Container>
+    <form className="md:px-1 xl:px-[68px]" action={formAction}>
+      <EditFormFields isPending={isPending} user={user} />
+    </form>
   );
 }
 
