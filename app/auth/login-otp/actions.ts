@@ -2,24 +2,29 @@
 
 import {
   OTPLoginResponseData,
-  OTPLoginVerificationPayload,
   OTPLoginVerificationResponseData,
 } from "@/app/_types/AuthTypes";
+import { ApiError } from "@/app/_types/GlobalTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function otpLogin(
-  _prevState: null | { status: "success" | "error"; message: string },
+  _prevState:
+    | {
+        status: string;
+        message: string;
+      }
+    | null
+    | undefined,
   formData: FormData,
 ) {
   try {
     const entryValues = removeUnrecognizedFields(Object.fromEntries(formData));
     entryValues.oneTimePassword = true;
     console.log(entryValues);
-    const res: AxiosResponse<OTPLoginResponseData> = await axios.post(
+    const res: AxiosResponse<OTPLoginResponseData, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/login`,
       entryValues,
       {
@@ -32,21 +37,28 @@ export async function otpLogin(
     if (res?.status === 200) {
       return { status: res?.data.status, message: res?.data.message };
     }
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.response?.data.message);
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
+  } catch (err) {
+    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
+    if (error) {
+      return { status: "error", message: error?.response?.data.message };
     }
   }
 }
 
-export async function otpVerifyLogin(payload: OTPLoginVerificationPayload) {
+export async function otpVerifyLogin(
+  _prevState:
+    | {
+        status: string;
+        message: string;
+      }
+    | null
+    | undefined,
+  formData: FormData,
+) {
   try {
+    const payload = removeUnrecognizedFields(Object.fromEntries(formData));
     console.log(payload);
-    const res: AxiosResponse<OTPLoginVerificationResponseData> =
+    const res: AxiosResponse<OTPLoginVerificationResponseData, ApiError> =
       await axios.post(
         `${process.env.API_BASE_URL}/auth/loginVerify`,
         payload,
@@ -64,16 +76,18 @@ export async function otpVerifyLogin(payload: OTPLoginVerificationPayload) {
         value: res?.data.token,
         expires: expires,
       });
+
+      return { status: "success", message: "login" };
     }
-    return res?.statusText;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.response?.data.message);
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
-    }
+  } catch (err) {
+    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
+
+    return {
+      status: "error",
+      message:
+        error?.response?.data.message ||
+        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+    };
   }
 }
 
@@ -82,13 +96,14 @@ export async function logout() {
     (await cookies()).delete(process.env.JWT_SECRET_KEY as string);
 
     revalidatePath("/");
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.response?.data.message);
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
-    }
+  } catch (err) {
+    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
+
+    return {
+      status: "error",
+      message:
+        error?.response?.data.message ||
+        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+    };
   }
 }

@@ -1,9 +1,9 @@
 "use server";
 
 import { LoginResponse } from "@/app/_types/AuthTypes";
+import { ApiError } from "@/app/_types/GlobalTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ApiError } from "next/dist/server/api-utils";
 
 export async function login(
   _prevState: { status: string; message: string } | null | undefined,

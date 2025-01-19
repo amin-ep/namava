@@ -1,12 +1,12 @@
 "use client";
 
-import { useToast } from "@/app/_hooks/useToast";
-import { OTPLoginVerificationPayload } from "@/app/_types/AuthTypes";
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
+import { useToast } from "@/app/_hooks/useToast";
+import { OTPLoginVerificationPayload } from "@/app/_types/AuthTypes";
 import { otpVerifyLogin } from "@/app/auth/login-otp/actions";
 import { useRouter } from "next/navigation";
-import { ActionDispatch, useTransition } from "react";
+import { ActionDispatch, useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { OTPLoginActionTypes } from "./OtpLoginForm";
@@ -18,38 +18,38 @@ function OtpLoginFormVerification({
   email: string;
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [isPending, startTransition] = useTransition();
+  const [response, formAction, isPending] = useActionState(
+    otpVerifyLogin,
+    null,
+  );
   const router = useRouter();
-  const notify = useToast();
+  const toast = useToast();
 
   const {
     register,
     formState: { isValid },
-    handleSubmit,
     setValue,
   } = useForm<OTPLoginVerificationPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      email: email,
+    },
   });
 
-  const onSubmit = (data: OTPLoginVerificationPayload) => {
-    startTransition(async () => {
-      const response = await otpVerifyLogin({
-        email: email,
-        verificationNumber: data.verificationNumber,
-      });
-
-      if (response === "OK") {
+  useEffect(() => {
+    if (response) {
+      if (response?.status === "success") {
         router.push("/");
-      } else {
-        notify("error", response || "مشکلی هنگام ارسال درخواست به وجود آمد");
+      } else if (response?.status === "error") {
+        toast("error", response?.message);
       }
-    });
-  };
+    }
+  }, [router, toast, response]);
 
   return (
     <FormLayout
-      onSubmit={handleSubmit(onSubmit)}
+      action={formAction}
       description={`کد تایید به ایمیل ${email} ارسال شد.لطفا کد را وارد کنید.`}
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}
@@ -64,6 +64,7 @@ function OtpLoginFormVerification({
         }}
         type="hidden"
       />
+      <input type="hidden" {...register("email")} />
       <SixDigitsNumberInput setValue={setValue} />
       <FormLayout.Submit
         disabled={!isValid}
