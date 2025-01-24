@@ -11,11 +11,24 @@ function InfoList({ items }: { items: InfoField[] }) {
         >
           <div className="flex">
             {item.label as string}:{" "}
-            <span className="px-1 text-stone-800">{item.content}</span>
+            <span className="px-1 text-stone-800">
+              {item.label === "رمز عبور" && item.content != "-"
+                ? "********"
+                : item.content}
+            </span>
           </div>
           {item.link && (
-            <Link className="text-primary" href={item.link.href}>
-              {item.link.title}
+            <Link
+              className="text-primary"
+              href={
+                item.label === "رمز عبور" && item.content === "-"
+                  ? "/account/set-password"
+                  : item.link.href
+              }
+            >
+              {item.label === "رمز عبور" && item.content === "-"
+                ? "افزودن رمز عبور"
+                : item.link.title}
             </Link>
           )}
         </li>

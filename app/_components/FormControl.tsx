@@ -1,9 +1,9 @@
 "use client";
 
 import { HTMLInputTypeAttribute, useEffect, useReducer, useRef } from "react";
-import { FieldValues } from "../_types/GlobalTypes";
 import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
+import { FieldValues } from "../_types/GlobalTypes";
 
 const eyeButtonInitialState: { showPassword: boolean; showButton: boolean } = {
   showButton: false,
@@ -34,7 +34,7 @@ const reducer = (
   }
 };
 
-export function FormControl<TFormValues extends FieldValues>({
+function FormControl<TFormValues extends FieldValues>({
   label,
   type,
   register,
@@ -165,3 +165,5 @@ export function FormControl<TFormValues extends FieldValues>({
     </>
   );
 }
+
+export default FormControl;

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { FormControl } from "./FormControl";
+import FormControl from "./FormControl";
 import FormSubmit from "./FormSubmit";
 
 function FormLayout({
@@ -19,7 +19,7 @@ function FormLayout({
   heading: string;
   headerLink?: { title: string; href: string };
   description: string;
-  action: (payload: FormData) => void;
+  action: (payload?: FormData) => void;
 }) {
   return (
     <div className="mx-auto max-w-[500px] rounded-xl bg-white px-6 py-10 xsm:p-10 xsm:shadow-[0_0px_8px_0_rgba(0,0,0,0.2)] md:px-[70px]">

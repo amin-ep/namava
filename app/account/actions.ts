@@ -56,7 +56,6 @@ export async function updateMe(
   } catch (err) {
     const error = err as AxiosError<ApiError, UpdateMeResponseData>;
     if (error) {
-      console.log(error);
       return {
         status: "error",
         message: error?.response?.data.message,

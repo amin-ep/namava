@@ -50,10 +50,16 @@ function Header({ children }: { children: ReactNode }) {
   // }, [pathname]);
 
   useEffect(() => {
-    const disableRoutes: string[] = ["auth"];
+    const disableRoutes: string[] = [
+      "/auth/login",
+      "/auth/login-otp",
+      "/auth/register",
+      "/account/change-password",
+      "/account/set-password",
+    ];
 
     for (let i = 0; i < disableRoutes.length; i++) {
-      if (disableRoutes[i] === pathname.split("/")[1]) {
+      if (disableRoutes[i] === pathname) {
         setShowHeader(false);
         break;
       } else {

@@ -14,15 +14,15 @@ const labels: Partial<User> = {
 const links: LinkField[] = [
   {
     title: "تغییر شماره موبایل",
-    href: "edit-phone",
+    href: "/account/edit-phone",
   },
   {
     title: "تغییر ایمیل",
-    href: "edit-email",
+    href: "/account/edit-email",
   },
   {
     title: "تغییر رمز عبور",
-    href: "change-password",
+    href: "/account/change-password",
   },
 ];
 

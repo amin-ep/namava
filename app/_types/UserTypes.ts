@@ -37,3 +37,14 @@ export interface UpdateMeResponseData extends Status {
     user: User;
   };
 }
+
+export interface ChangePasswordPayload extends FieldValues {
+  password: User["password"];
+  currentPassword: string;
+}
+
+export type ChangePasswordResponse = GetUserResponseData;
+
+export interface SetPasswordPayload extends FieldValues {
+  password: string;
+}
