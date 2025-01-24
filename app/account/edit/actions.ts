@@ -1,12 +1,12 @@
 "use server";
 
+import { UpdateMeResponseData, User } from "@/app/_types/UserTypes";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+import { getMe } from "@/app/api/userApi";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
+import { ApiError } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
-import { UpdateMeResponseData, User } from "../_types/UserTypes";
-import { getMe } from "../api/userApi";
-import { ApiError } from "../_types/GlobalTypes";
-import { removeUnrecognizedFields } from "../_utils/helpers";
 
 export async function updateMe(
   _prevState:

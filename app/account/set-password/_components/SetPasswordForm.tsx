@@ -1,3 +1,5 @@
+"use client";
+
 import FormLayout from "@/app/_components/FormLayout";
 import React, { useActionState, useEffect } from "react";
 import { setPassword } from "../actions";
@@ -6,11 +8,16 @@ import { MdLockReset } from "react-icons/md";
 import { SetPasswordPayload } from "@/app/_types/UserTypes";
 import { useToast } from "@/app/_hooks/useToast";
 import { useRouter } from "next/navigation";
+import { FormActionPreviousState } from "@/app/_types/GlobalTypes";
+
+type FormState = FormActionPreviousState;
 
 function SetPasswordForm() {
-  const [response, formAction, isPending] = useActionState(setPassword, null);
+  const [response, formAction, isPending] = useActionState<
+    FormState,
+    FormData | undefined
+  >(setPassword, null);
   const notify = useToast();
-
   const router = useRouter();
 
   const {
@@ -31,12 +38,13 @@ function SetPasswordForm() {
       }
     }
   }, [notify, response, router]);
+
   return (
     <FormLayout
       action={formAction}
       description="لطفا رمز عبور خود را تعیین کنید"
       heading="افزودن رمز عبور"
-      icon={<MdLockReset size={30} />}
+      icon={<MdLockReset size={30} className="text-primary" />}
     >
       <FormLayout.Control
         name="password"

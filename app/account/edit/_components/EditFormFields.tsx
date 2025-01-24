@@ -44,6 +44,10 @@ function EditFormFields({
         gender: user.gender ?? "",
       };
     }, [user.birthDate, user.firstName, user.gender, user.lastName]),
+    resetOptions: {
+      keepDefaultValues: true,
+      keepValues: true,
+    },
   });
 
   useEffect(() => {

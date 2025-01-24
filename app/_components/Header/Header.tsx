@@ -15,39 +15,25 @@ function Header({ children }: { children: ReactNode }) {
     const currentScrollY: number = window.scrollY;
     setLatestScrollY(currentScrollY);
     if (ref && ref.current) {
-      if (pathname.split("/")[1] !== "account") {
-        if (currentScrollY > latestScrollY) {
-          ref.current.style.top = "-80px";
-          ref.current.classList.remove("header-scrolled-down");
-          ref.current.classList.add("header-scrolled-up");
-        } else if (currentScrollY === 0) {
-          ref.current.style.top = "0";
-          ref.current.style.boxShadow = "unset";
-          ref.current.style.backgroundColor = "unset";
-        } else if (currentScrollY < latestScrollY) {
-          ref.current.style.top = "0";
-          ref.current.style.backgroundColor = "rgba(18, 18, 18, 1)";
-          ref.current.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.3)";
-          ref.current.classList.remove("header-scrolled-up");
-          ref.current.classList.add("header-scrolled-down");
-        }
-      } else {
+      // if (pathname.split("/")[1] !== "account") { // FIXME
+      if (currentScrollY > latestScrollY) {
+        ref.current.style.top = "-80px";
+        ref.current.classList.remove("header-scrolled-down");
+        ref.current.classList.add("header-scrolled-up");
+      } else if (currentScrollY === 0) {
+        ref.current.style.top = "0";
+        ref.current.style.boxShadow = "unset";
+        ref.current.style.backgroundColor = "unset";
+      } else if (currentScrollY < latestScrollY) {
         ref.current.style.top = "0";
         ref.current.style.backgroundColor = "rgba(18, 18, 18, 1)";
         ref.current.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.3)";
+        ref.current.classList.remove("header-scrolled-up");
+        ref.current.classList.add("header-scrolled-down");
       }
     }
-  }, [latestScrollY, pathname]);
-
-  // useEffect(() => {
-  //   if (pathname.split("/")[1] === "account") {
-  //     setHeaderStyles("");
-  //   } else {
-  //     setHeaderStyles(
-  //       "top-0 bg-[rgba(18,18,18,1)] shadow-[0_5px_10px_rgba(0,0,0,0.3)]",
-  //     );
-  //   }
-  // }, [pathname]);
+    // }
+  }, [latestScrollY]);
 
   useEffect(() => {
     const disableRoutes: string[] = [

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { updateMe } from "../../actions";
+import { updateMe } from "../actions";
 import { useRouter } from "next/navigation";
 import { User } from "@/app/_types/UserTypes";
 import EditFormFields from "./EditFormFields";

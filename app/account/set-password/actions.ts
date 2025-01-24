@@ -7,9 +7,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function setPasswordRequest(
-  _prevState: null | string | undefined,
-) {
+export async function setPasswordRequest() {
   try {
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
@@ -77,10 +75,10 @@ export async function setPasswordVerify(
 
 export async function setPassword(
   _prevState: FormActionPreviousState,
-  formData: FormData,
+  formData: FormData | undefined,
 ) {
   try {
-    const payload = removeUnrecognizedFields(Object.fromEntries(formData));
+    const payload = removeUnrecognizedFields(Object.fromEntries(formData!));
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;

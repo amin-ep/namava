@@ -25,7 +25,6 @@ function AccountLayout({
         break;
       } else {
         setShowSideMenu(true);
-        break;
       }
     }
   }, [pathname, unusedRoutes]);
