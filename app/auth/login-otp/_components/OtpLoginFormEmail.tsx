@@ -27,10 +27,9 @@ function OtpLoginFormEmail({
   });
 
   useEffect(() => {
-    if (response && response.status === "success") {
+    if (response && response?.status === "success") {
       dispatch({ type: "sent", payload: getValues()?.email });
     }
-    console.log(response);
   }, [response, getValues, dispatch]);
 
   useEffect(() => {

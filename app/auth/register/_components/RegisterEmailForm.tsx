@@ -5,7 +5,7 @@ import signup from "@/app/auth/register/actions";
 import { ActionDispatch, useTransition } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { MdEditNote } from "react-icons/md";
-import { RegisterActionTypes } from "./RegisterForm/RegisterForm";
+import { RegisterActionTypes } from "./RegisterForm";
 
 interface RegisterPayload extends FieldValues {
   email: string;

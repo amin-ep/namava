@@ -4,20 +4,14 @@ import {
   OTPLoginResponseData,
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
-import { ApiError } from "@/app/_types/globalTypes";
+import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function otpLogin(
-  _prevState:
-    | {
-        status: string;
-        message: string;
-      }
-    | null
-    | undefined,
+  _prevState: FormActionPreviousState,
   formData: FormData,
 ) {
   try {
@@ -35,7 +29,10 @@ export async function otpLogin(
     );
 
     if (res?.status === 200) {
-      return { status: res?.data.status, message: res?.data.message };
+      return {
+        status: res?.data.status as string,
+        message: res?.data.message as string,
+      };
     }
   } catch (err) {
     const error = err as AxiosError<ApiError, OTPLoginResponseData>;
