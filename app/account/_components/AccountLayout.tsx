@@ -14,7 +14,7 @@ function AccountLayout({
 }) {
   const [showSideMenu, setShowSideMenu] = useState<boolean | null>(null);
   const unusedRoutes = useMemo(() => {
-    return ["change-password", "set-password"];
+    return ["change-password", "set-password", "edit-email"];
   }, []);
   const pathname = usePathname();
 

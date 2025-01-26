@@ -1,9 +1,9 @@
-import SetPasswordContainer from "./_components/SetPasswordContainer";
+import SetPasswordSteps from "./_components/SetPasswordSteps";
 
 function Page() {
   return (
     <div>
-      <SetPasswordContainer />
+      <SetPasswordSteps />
     </div>
   );
 }

@@ -15,11 +15,11 @@ function FormLayout({
   action,
 }: {
   children: ReactNode;
-  icon: ReactNode;
-  heading: string;
+  icon?: ReactNode;
+  heading?: string;
   headerLink?: { title: string; href: string };
-  description: string;
-  action: (payload?: FormData) => void;
+  description?: string;
+  action: (payload: FormData) => void;
 }) {
   return (
     <div className="mx-auto max-w-[500px] rounded-xl bg-white px-6 py-10 xsm:p-10 xsm:shadow-[0_0px_8px_0_rgba(0,0,0,0.2)] md:px-[70px]">
@@ -38,19 +38,21 @@ function FormLayout({
           )}
         </div>
         <div className="flex flex-col gap-6">
-          <h1 className="flex items-center gap-3">
-            <span
-              className={`${
-                headerLink?.href === "login" && "bg-sky-100"
-              } flex aspect-square w-8 items-center justify-center rounded-full`}
-            >
-              {icon}
-            </span>
+          {heading && icon && (
+            <h1 className="flex items-center gap-3">
+              <span
+                className={`${
+                  headerLink?.href === "login" && "bg-sky-100"
+                } flex aspect-square w-8 items-center justify-center rounded-full`}
+              >
+                {icon}
+              </span>
 
-            <span className="text-sm font-bold text-stone-950 xsm:text-base">
-              {heading}
-            </span>
-          </h1>
+              <span className="text-sm font-bold text-stone-950 xsm:text-base">
+                {heading}
+              </span>
+            </h1>
+          )}
           <p className="mb-6 text-xs font-normal text-stone-600 md:text-base">
             {description}
           </p>

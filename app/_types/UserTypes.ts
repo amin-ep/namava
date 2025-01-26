@@ -16,6 +16,7 @@ export type User = {
   imageUrl?: string;
   createdAt: Date;
   updatedAt: Date;
+  candidateEmail?: string;
 };
 
 export interface GetUserResponseData extends Status {
@@ -47,4 +48,13 @@ export type ChangePasswordResponse = GetUserResponseData;
 
 export interface SetPasswordPayload extends FieldValues {
   password: string;
+}
+
+export interface VerifyMePayload extends FieldValues {
+  password: string;
+}
+
+export interface UpdateEmailPayload extends FieldValues {
+  verificationNumber: string;
+  email: string;
 }

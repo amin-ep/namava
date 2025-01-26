@@ -5,6 +5,8 @@ import Toast from "./_components/Toast";
 import "./globals.css";
 import Nav from "./_components/Header/Nav";
 import HeaderActions from "./_components/Header/HeaderActions";
+import QueryClientProvider from "./_providers/QueryClientProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const iran_yekan = localFont({ src: "_fonts/Qs_Iranyekan.ttf" });
 
@@ -21,12 +23,15 @@ export default function RootLayout({
   return (
     <html lang="fa-IR">
       <body className={`${iran_yekan.className} antialiased`}>
-        <Toast />
-        <Header>
-          <Nav />
-          <HeaderActions />
-        </Header>
-        <main>{children}</main>
+        <QueryClientProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toast />
+          <Header>
+            <Nav />
+            <HeaderActions />
+          </Header>
+          <main>{children}</main>
+        </QueryClientProvider>
       </body>
     </html>
   );

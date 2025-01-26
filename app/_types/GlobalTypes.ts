@@ -29,5 +29,5 @@ export interface ApiError extends Status, Message {}
 
 export type FormActionPreviousState =
   | null
-  | { status: string; message: string }
+  | { status: string; message: string; statusCode?: number }
   | undefined;
