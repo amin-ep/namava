@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useToast } from "@/app/_hooks/useToast";
+import { useTransition } from "react";
 import OptionsList from "../../_components/OptionsList";
 import { setPasswordRequest } from "../actions";
 
@@ -11,20 +12,26 @@ function SetPasswordOptions({
   setLevel: React.Dispatch<React.SetStateAction<number>>;
   email: string;
 }) {
-  const [message, formAction, isPending] = useActionState(
-    setPasswordRequest,
-    null,
-  );
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    if (message === "success") {
-      setLevel(2);
-    }
-  }, [message, setLevel]);
+  const notify = useToast();
+
+  const handleNextLevel = async () => {
+    startTransition(async () => {
+      const result: number | string | undefined = await setPasswordRequest();
+
+      if (result === 200) {
+        setLevel(2);
+      } else if (typeof result === "string") {
+        notify("error", result as string);
+      }
+    });
+  };
+
   return (
     <OptionsList heading="برای افزودن رمز عبور، یکی از راه‌های زیر را انتخاب کنید:">
       <OptionsList.Item
-        onClick={formAction}
+        onClick={handleNextLevel}
         iconPath={{
           onHover: "/icons/mobile-2-white.svg",
           static: "/icons/mobile-2-primary.svg",

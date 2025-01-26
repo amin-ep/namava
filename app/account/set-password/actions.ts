@@ -1,7 +1,10 @@
 "use server";
 
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
-import { SetPasswordPayload } from "@/app/_types/userTypes";
+import {
+  SetPasswordPayload,
+  SetPasswordResponse,
+} from "@/app/_types/userTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
@@ -22,7 +25,7 @@ export async function setPasswordRequest() {
       },
     );
 
-    if (res.status === 200) return "success";
+    if (res.status === 200) return res?.status as number;
   } catch (err) {
     const error = err as AxiosError<ApiError>;
 
@@ -83,7 +86,7 @@ export async function setPassword(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
 
-    const res: AxiosResponse<SetPasswordPayload, ApiError> = await axios.patch(
+    const res: AxiosResponse<SetPasswordResponse, ApiError> = await axios.patch(
       `${process.env.API_BASE_URL}/user/setPassword`,
       payload,
       {
@@ -99,7 +102,7 @@ export async function setPassword(
       return { status: "success", message: "رمز عبور شما با موفقیت ثبت شد." };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, SetPasswordPayload>;
+    const error = err as AxiosError<ApiError, SetPasswordResponse>;
 
     if (error) {
       return {
@@ -107,6 +110,9 @@ export async function setPassword(
         message:
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+        values: {
+          password: formData?.get("password"),
+        },
       };
     }
   }

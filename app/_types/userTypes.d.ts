@@ -60,6 +60,12 @@ export interface SetPasswordPayload extends FieldValues {
   password: string;
 }
 
+export interface SetPasswordResponse extends Status {
+  data: {
+    user: User;
+  };
+}
+
 // ***
 
 export interface VerifyMePayload extends FieldValues {

@@ -1,43 +1,41 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
-import React, { useActionState, useEffect } from "react";
-import { setPassword } from "../actions";
+import { useToast } from "@/app/_hooks/useToast";
+import { SetPasswordPayload } from "@/app/_types/userTypes";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { MdLockReset } from "react-icons/md";
-import { SetPasswordPayload } from "@/app/_types/userTypes";
-import { useToast } from "@/app/_hooks/useToast";
-import { useRouter } from "next/navigation";
-import { FormActionPreviousState } from "@/app/_types/globalTypes";
-
-type FormState = FormActionPreviousState;
+import { setPassword } from "../actions";
 
 function SetPasswordForm() {
-  const [response, formAction, isPending] = useActionState<
-    FormState,
-    FormData | undefined
-  >(setPassword, null);
+  const [result, formAction, isPending] = useActionState(setPassword, null);
   const notify = useToast();
   const router = useRouter();
 
   const {
     register,
     formState: { isValid },
+    reset,
   } = useForm<SetPasswordPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
 
   useEffect(() => {
-    if (response) {
-      if (response?.status === "success") {
-        notify("success", response?.message);
+    if (result) {
+      if (result?.status === "success") {
+        notify("success", result?.message);
         router.push("/account");
       } else {
-        notify("error", response?.message);
+        notify("error", result?.message);
+        reset({
+          password: result.values?.password as string,
+        });
       }
     }
-  }, [notify, response, router]);
+  }, [result, router]);
 
   return (
     <FormLayout
