@@ -3,16 +3,12 @@
 import FormLayout from "@/app/_components/FormLayout";
 import { useActionState, useEffect } from "react";
 import { verifyMe } from "../actions";
-import { FormActionPreviousState } from "@/app/_types/GlobalTypes";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/app/_hooks/useToast";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
 
 function EditEmailPasswordForm() {
-  const [result, formAction, isPending] = useActionState<
-    FormActionPreviousState,
-    FormData
-  >(verifyMe, null);
+  const [result, formAction, isPending] = useActionState(verifyMe, null);
   const { handleNextStep } = useEditEmail();
 
   const notify = useToast();
@@ -30,7 +26,7 @@ function EditEmailPasswordForm() {
       if (result?.status === "success") {
         handleNextStep();
       } else {
-        notify("error", result?.message);
+        notify("error", result?.message as string);
       }
     }
   }, [result, handleNextStep, notify]);

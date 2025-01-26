@@ -1,6 +1,6 @@
 "use client";
 
-import { MobileNavListItem } from "@/app/_types/GlobalTypes";
+import { MobileNavListItem } from "@/app/_types/globalTypes";
 import { memo, useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import MobileNavList from "../MobileNavList";

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import SideMenu from "./_components/SideMenu";
 import { ReactNode } from "react";
 import { getMe } from "../api/userApi";
-import { User } from "../_types/UserTypes";
+import { User } from "../_types/userTypes";
 import AccountLayout from "./_components/AccountLayout";
 
 export const metadata: Metadata = {

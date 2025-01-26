@@ -1,4 +1,4 @@
-import { MobileNavListItem } from "@/app/_types/GlobalTypes";
+import { MobileNavListItem } from "@/app/_types/globalTypes";
 import Logo from "../Logo/Logo";
 import HeaderMobileNav from "./HeaderMobileNav";
 import NavList from "./NavList";

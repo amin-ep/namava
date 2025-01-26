@@ -6,6 +6,7 @@ import { updateEmailRequest } from "../actions";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/app/_hooks/useToast";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
+import { UpdateEmailRequestPayload } from "@/app/_types/editEmail";
 
 function EditEmailForm() {
   const [result, formAction, isPending] = useActionState(
@@ -20,7 +21,7 @@ function EditEmailForm() {
   const {
     register,
     formState: { isValid },
-  } = useForm({
+  } = useForm<UpdateEmailRequestPayload>({
     reValidateMode: "onChange",
     mode: "onChange",
   });
@@ -30,7 +31,7 @@ function EditEmailForm() {
       if (result.status === "success") {
         handleNextStep();
       } else {
-        notify("error", result?.message);
+        notify("error", result?.message as string);
       }
     }
   }, [handleNextStep, notify, result]);

@@ -1,7 +1,7 @@
 "use client";
 
-import { MobileNavListItem } from "@/app/_types/GlobalTypes";
-import { User } from "@/app/_types/UserTypes";
+import { MobileNavListItem } from "@/app/_types/globalTypes";
+import { User } from "@/app/_types/userTypes";
 import { logout } from "@/app/auth/login-otp/actions";
 import cls from "classnames";
 import Link from "next/link";

@@ -14,7 +14,7 @@ function SetPasswordVerificationForm({
   email: string;
 }) {
   const notify = useToast();
-  const [response, formAction, isPending] = useActionState(
+  const [result, formAction, isPending] = useActionState(
     setPasswordVerify,
     null,
   );
@@ -29,14 +29,14 @@ function SetPasswordVerificationForm({
   });
 
   useEffect(() => {
-    if (response) {
-      if (typeof response !== "string" && response?.status === "error") {
-        notify("error", response?.message);
-      } else if (response === "success") {
+    if (result) {
+      if (result.status === "success") {
         setLevel(3);
+      } else {
+        notify("error", result?.message as string);
       }
     }
-  }, [response, notify, setLevel]);
+  }, [result, notify, setLevel]);
 
   return (
     <FormLayout

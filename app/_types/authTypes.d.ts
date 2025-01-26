@@ -1,6 +1,6 @@
 import { FieldValues } from "react-hook-form";
-import { User } from "./UserTypes";
-import { Message, Status } from "./GlobalTypes";
+import { User } from "./userTypes";
+import { Message, Status } from "./globalTypes";
 
 // Payloads
 

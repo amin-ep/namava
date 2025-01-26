@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { updateEmail } from "../actions";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
 import { useToast } from "@/app/_hooks/useToast";
-import { UpdateEmailPayload } from "@/app/_types/UserTypes";
+import { UpdateEmailPayload } from "@/app/_types/editEmail";
 
 function EditEmailConfirmForm() {
   const [result, formAction, isPending] = useActionState(updateEmail, null);
@@ -20,7 +20,10 @@ function EditEmailConfirmForm() {
     register,
     formState: { isValid },
     setValue,
-  } = useForm<UpdateEmailPayload>();
+  } = useForm<UpdateEmailPayload>({
+    reValidateMode: "onChange",
+    mode: "onChange",
+  });
 
   useEffect(() => {
     if (userData) setValue("email", userData?.candidateEmail as string);

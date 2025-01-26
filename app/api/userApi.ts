@@ -2,7 +2,7 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
-import { GetUserResponseData } from "../_types/UserTypes";
+import { GetUserResponseData } from "../_types/userTypes";
 
 export async function getMe() {
   try {

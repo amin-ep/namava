@@ -5,10 +5,10 @@ import React, { useActionState, useEffect } from "react";
 import { setPassword } from "../actions";
 import { useForm } from "react-hook-form";
 import { MdLockReset } from "react-icons/md";
-import { SetPasswordPayload } from "@/app/_types/UserTypes";
+import { SetPasswordPayload } from "@/app/_types/userTypes";
 import { useToast } from "@/app/_hooks/useToast";
 import { useRouter } from "next/navigation";
-import { FormActionPreviousState } from "@/app/_types/GlobalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 
 type FormState = FormActionPreviousState;
 

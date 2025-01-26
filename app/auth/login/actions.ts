@@ -1,7 +1,7 @@
 "use server";
 
-import { LoginResponse } from "@/app/_types/AuthTypes";
-import { ApiError } from "@/app/_types/GlobalTypes";
+import { LoginResponse } from "@/app/_types/authTypes";
+import { ApiError } from "@/app/_types/globalTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 

@@ -7,6 +7,7 @@ import { otpUpdateEmailVerify } from "../actions";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/app/_hooks/useToast";
+import { OtpUpdateEmailVerifyPayload } from "@/app/_types/editEmail";
 
 function EditEmailOtpPassword() {
   const [result, formAction, isPending] = useActionState(
@@ -21,7 +22,7 @@ function EditEmailOtpPassword() {
     register,
     formState: { isValid },
     setValue,
-  } = useForm({
+  } = useForm<OtpUpdateEmailVerifyPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -31,7 +32,7 @@ function EditEmailOtpPassword() {
       if (result?.status === "success") {
         handleNextStep();
       } else {
-        notify("error", result?.message);
+        notify("error", result?.message as string);
       }
     }
   }, [result, handleNextStep, notify]);

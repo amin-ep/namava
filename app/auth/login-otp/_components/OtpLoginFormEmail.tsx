@@ -1,6 +1,6 @@
 "use client";
 
-import { OTPLoginPayload } from "@/app/_types/AuthTypes";
+import { OTPLoginPayload } from "@/app/_types/authTypes";
 import FormLayout from "@/app/_components/FormLayout";
 import { otpLogin } from "@/app/auth/login-otp/actions";
 import { ActionDispatch, useActionState, useEffect } from "react";

@@ -6,7 +6,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
-import { FieldValues } from "../_types/GlobalTypes";
+import { FieldValues } from "../../_types/globalTypes";
 import styles from "./CustomRadioGroup.module.css";
 
 function CustomRadioGroup<TFormValues extends FieldValues>({

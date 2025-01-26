@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MobileNavListItem } from "../_types/GlobalTypes";
+import { MobileNavListItem } from "../_types/globalTypes";
 import { RefObject } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { usePathname } from "next/navigation";

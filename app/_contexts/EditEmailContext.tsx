@@ -2,7 +2,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useReducer } from "react";
-import { User } from "../_types/UserTypes";
+import { User } from "../_types/userTypes";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMe } from "../api/userApi";
 

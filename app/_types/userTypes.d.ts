@@ -1,6 +1,7 @@
 import { FieldValues } from "react-hook-form";
-import { Status } from "./GlobalTypes";
+import { Status } from "./globalTypes";
 
+// User
 export type User = {
   firstName?: string;
   lastName?: string;
@@ -17,14 +18,19 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   candidateEmail?: string;
+  [key: string]: string;
 };
+// ***
 
+// Get re response Data
 export interface GetUserResponseData extends Status {
   data: {
     document: User;
   };
 }
+// ***
 
+// Update me
 export interface UpdateMePayload extends FieldValues {
   firstName?: string;
   lastName?: string;
@@ -38,14 +44,18 @@ export interface UpdateMeResponseData extends Status {
     user: User;
   };
 }
+// ***
 
+// Change password
 export interface ChangePasswordPayload extends FieldValues {
   password: User["password"];
   currentPassword: string;
 }
 
 export type ChangePasswordResponse = GetUserResponseData;
+// ***
 
+// Set password
 export interface SetPasswordPayload extends FieldValues {
   password: string;
 }
@@ -53,8 +63,4 @@ export interface SetPasswordPayload extends FieldValues {
 export interface VerifyMePayload extends FieldValues {
   password: string;
 }
-
-export interface UpdateEmailPayload extends FieldValues {
-  verificationNumber: string;
-  email: string;
-}
+// ***

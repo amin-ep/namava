@@ -3,7 +3,7 @@
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { useToast } from "@/app/_hooks/useToast";
-import { OTPLoginVerificationPayload } from "@/app/_types/AuthTypes";
+import { OTPLoginVerificationPayload } from "@/app/_types/authTypes";
 import { otpVerifyLogin } from "@/app/auth/login-otp/actions";
 import { useRouter } from "next/navigation";
 import { ActionDispatch, useActionState, useEffect } from "react";

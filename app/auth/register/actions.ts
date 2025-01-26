@@ -7,7 +7,7 @@ import {
   RegisterResponseData,
   RegisterVerificationPayload,
   RegisterVerificationResponseData,
-} from "../../_types/AuthTypes";
+} from "../../_types/authTypes";
 import { JWT_EXPIRATION_DATE } from "../../_utils/constants";
 
 export default async function signup(payload: RegisterPayload) {

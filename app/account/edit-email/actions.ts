@@ -1,7 +1,12 @@
 "use server";
 
-import { ApiError, FormActionPreviousState } from "@/app/_types/GlobalTypes";
-import { VerifyMePayload } from "@/app/_types/UserTypes";
+import {
+  OtpUpdateEmailVerifyResponse,
+  UpdateEmailRequestResponse,
+  UpdateEmailResponse,
+} from "@/app/_types/editEmail";
+import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { VerifyMePayload } from "@/app/_types/userTypes";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
@@ -49,22 +54,23 @@ export async function updateEmailRequest(
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
-    const res: AxiosResponse<VerifyMePayload, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/user/updateEmailRequest`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+    const res: AxiosResponse<UpdateEmailRequestResponse, ApiError> =
+      await axios.post(
+        `${process.env.API_BASE_URL}/user/updateEmailRequest`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    );
+      );
 
     if (res?.status === 200) {
-      return { status: "success", message: "" };
+      return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
+    const error = err as AxiosError<ApiError, UpdateEmailRequestResponse>;
 
     if (error) {
       return {
@@ -118,11 +124,10 @@ export async function updateEmail(
   formData: FormData,
 ) {
   try {
-    console.log(formData);
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
-    const res: AxiosResponse<VerifyMePayload, ApiError> = await axios.patch(
+    const res: AxiosResponse<UpdateEmailResponse, ApiError> = await axios.patch(
       `${process.env.API_BASE_URL}/user/updateEmail`,
       formData,
       {
@@ -137,7 +142,7 @@ export async function updateEmail(
       return { status: "success", message: "تغییرات ثبت شد", statusCode: 200 };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
+    const error = err as AxiosError<ApiError, UpdateEmailResponse>;
 
     if (error) {
       if (error.status === 403) {
@@ -194,22 +199,23 @@ export async function otpUpdateEmailVerify(
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
-    const res = await axios.post(
-      `${process.env.API_BASE_URL}/user/otpUpdateEmail`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+    const res: AxiosResponse<OtpUpdateEmailVerifyResponse, ApiError> =
+      await axios.post(
+        `${process.env.API_BASE_URL}/user/otpUpdateEmail`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    );
+      );
 
     if (res.status === 200) {
-      return { status: "success", message: "" };
+      return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
+    const error = err as AxiosError<ApiError, OtpUpdateEmailVerifyResponse>;
 
     console.log(error.response?.data.message);
 

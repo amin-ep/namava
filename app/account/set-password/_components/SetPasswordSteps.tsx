@@ -5,7 +5,7 @@ import SetPasswordOptions from "./SetPasswordOptions";
 import SetPasswordVerificationForm from "./SetPasswordVerificationForm";
 import SetPasswordForm from "./SetPasswordForm";
 import { getMe } from "@/app/api/userApi";
-import { User } from "@/app/_types/UserTypes";
+import { User } from "@/app/_types/userTypes";
 import StepsContainer from "../../_components/StepsContainer";
 
 function SetPasswordSteps() {

@@ -1,9 +1,8 @@
-import { User } from "@/app/_types/UserTypes";
+import { User } from "@/app/_types/userTypes";
 import { InfoField } from "../page";
 import Container from "./Container";
 import InfoHeader from "./InfoHeader";
 import InfoList from "./InfoList";
-import jalaali from "jalaali-js";
 import { numericJalaaliBirthDate } from "@/app/_utils/helpers";
 
 const userLabels: { [key: string]: string } = {
@@ -17,7 +16,7 @@ function PersonalInfo({ info }: { info: User }) {
   const infoArr: InfoField[] = Object.entries(userLabels)?.map(
     ([field, label]) => ({
       label,
-      content: info[field] ?? "-",
+      content: info[field as keyof User] ?? "-",
     }),
   );
 

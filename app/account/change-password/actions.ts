@@ -1,7 +1,7 @@
 "use server";
 
-import { ApiError } from "@/app/_types/GlobalTypes";
-import { ChangePasswordResponse } from "@/app/_types/UserTypes";
+import { ApiError } from "@/app/_types/globalTypes";
+import { ChangePasswordResponse } from "@/app/_types/userTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";

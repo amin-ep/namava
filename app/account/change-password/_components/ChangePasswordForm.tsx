@@ -7,7 +7,7 @@ import { changePassword } from "../actions";
 import { useForm } from "react-hook-form";
 import ChangePasswordSuccess from "./ChangePasswordSuccess";
 import Image from "next/image";
-import { ChangePasswordPayload } from "@/app/_types/UserTypes";
+import { ChangePasswordPayload } from "@/app/_types/userTypes";
 import { useToast } from "@/app/_hooks/useToast";
 
 interface State {

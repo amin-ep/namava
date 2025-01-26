@@ -1,7 +1,7 @@
 "use client";
 
 import { verifyEmail } from "@/app/auth/register/actions";
-import { RegisterVerificationPayload } from "@/app/_types/AuthTypes";
+import { RegisterVerificationPayload } from "@/app/_types/authTypes";
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { useRouter } from "next/navigation";

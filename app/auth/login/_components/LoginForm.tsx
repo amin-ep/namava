@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginPayload } from "@/app/_types/AuthTypes";
+import { LoginPayload } from "@/app/_types/authTypes";
 import FormLayout from "@/app/_components/FormLayout";
 import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";

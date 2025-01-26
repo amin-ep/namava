@@ -3,7 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { updateMe } from "../actions";
 import { useRouter } from "next/navigation";
-import { User } from "@/app/_types/UserTypes";
+import { User } from "@/app/_types/userTypes";
 import EditFormFields from "./EditFormFields";
 import { useToast } from "@/app/_hooks/useToast";
 

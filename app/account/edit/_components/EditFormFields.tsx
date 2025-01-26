@@ -4,7 +4,7 @@ import CustomRadioGroup from "@/app/_components/CustomRadioGroup";
 import FormControl from "@/app/_components/FormControl";
 import FormSubmit from "@/app/_components/FormSubmit";
 import { useSelect } from "@/app/_hooks/useSelect";
-import { UpdateMePayload } from "@/app/_types/UserTypes";
+import { UpdateMePayload } from "@/app/_types/userTypes";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import Select from "../../../_components/Select";

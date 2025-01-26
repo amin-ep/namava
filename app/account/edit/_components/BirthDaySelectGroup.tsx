@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelect } from "@/app/_hooks/useSelect";
-import { FieldValues } from "@/app/_types/GlobalTypes";
+import { FieldValues } from "@/app/_types/globalTypes";
 import {
   jalaaliMonths,
   jMonthIndex,

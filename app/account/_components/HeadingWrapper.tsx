@@ -1,6 +1,6 @@
 "use client";
 import MobileNavList from "@/app/_components/MobileNavList";
-import { MobileNavListItem } from "@/app/_types/GlobalTypes";
+import { MobileNavListItem } from "@/app/_types/globalTypes";
 import { useEffect, useRef, useState } from "react";
 import { FaStar, FaUser } from "react-icons/fa";
 import { HiOutlineBars3, HiOutlineXMark } from "react-icons/hi2";

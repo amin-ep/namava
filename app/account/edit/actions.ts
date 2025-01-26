@@ -1,6 +1,6 @@
 "use server";
 
-import { UpdateMeResponseData, User } from "@/app/_types/UserTypes";
+import { UpdateMeResponseData, User } from "@/app/_types/userTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { getMe } from "@/app/api/userApi";
 import axios, { AxiosError, AxiosResponse } from "axios";

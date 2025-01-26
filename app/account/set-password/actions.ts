@@ -1,7 +1,7 @@
 "use server";
 
-import { ApiError, FormActionPreviousState } from "@/app/_types/GlobalTypes";
-import { SetPasswordPayload } from "@/app/_types/UserTypes";
+import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { SetPasswordPayload } from "@/app/_types/userTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
@@ -57,7 +57,7 @@ export async function setPasswordVerify(
     );
 
     if (res.status === 200) {
-      return "success";
+      return { status: "success" };
     }
   } catch (err) {
     const error = err as AxiosError<ApiError, SetPasswordPayload>;

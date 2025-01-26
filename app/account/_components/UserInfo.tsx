@@ -1,8 +1,8 @@
-import { User } from "@/app/_types/UserTypes";
+import { User } from "@/app/_types/userTypes";
 import Container from "./Container";
 import InfoHeader from "./InfoHeader";
 import InfoList from "./InfoList";
-import { LinkField } from "@/app/_types/GlobalTypes";
+import { LinkField } from "@/app/_types/globalTypes";
 import { InfoField } from "../page";
 
 const labels: Partial<User> = {
@@ -30,11 +30,11 @@ function UserInfo({ info }: { info: User }) {
   const userInfoArr: InfoField[] = Object.entries(labels)
     ?.map(([field, label]) => ({
       label,
-      content: info[field] ?? "-",
+      content: info[field as keyof User] ?? "-",
     }))
     .map((el, index) => ({
       ...el,
-      link: (links as LinkField)[index as number],
+      link: links[index],
     }));
 
   return (

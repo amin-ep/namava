@@ -1,10 +1,10 @@
-import { LinkField } from "../_types/GlobalTypes";
+import { LinkField } from "../_types/globalTypes";
 import { getMe } from "../api/userApi";
 import PersonalInfo from "./_components/PersonalInfo";
 import UserInfo from "./_components/UserInfo";
 
 export interface InfoField {
-  label: string | boolean | Date;
+  label: string | boolean | Date | undefined;
   content?: string;
   link?: LinkField;
 }
