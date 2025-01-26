@@ -18,17 +18,15 @@ function OtpLoginFormVerification({
   email: string;
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [response, formAction, isPending] = useActionState(
-    otpVerifyLogin,
-    null,
-  );
+  const [result, formAction, isPending] = useActionState(otpVerifyLogin, null);
   const router = useRouter();
-  const toast = useToast();
+  const notify = useToast();
 
   const {
     register,
     formState: { isValid },
     setValue,
+    reset,
   } = useForm<OTPLoginVerificationPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -38,14 +36,20 @@ function OtpLoginFormVerification({
   });
 
   useEffect(() => {
-    if (response) {
-      if (response?.status === "success") {
-        router.push("/");
-      } else if (response?.status === "error") {
-        toast("error", response?.message);
-      }
+    if (result?.status === "success") {
+      router.push("/");
     }
-  }, [router, toast, response]);
+  }, [router, result?.status]);
+
+  useEffect(() => {
+    if (result && result.status === "error") {
+      notify("error", result?.message as string);
+      reset({
+        verificationNumber: result.values?.verificationNumber as string,
+        email: email,
+      });
+    }
+  }, [result]);
 
   return (
     <FormLayout

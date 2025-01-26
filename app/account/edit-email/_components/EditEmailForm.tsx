@@ -21,6 +21,7 @@ function EditEmailForm() {
   const {
     register,
     formState: { isValid },
+    reset,
   } = useForm<UpdateEmailRequestPayload>({
     reValidateMode: "onChange",
     mode: "onChange",
@@ -32,9 +33,12 @@ function EditEmailForm() {
         handleNextStep();
       } else {
         notify("error", result?.message as string);
+        reset({
+          email: result.values?.email as string,
+        });
       }
     }
-  }, [handleNextStep, notify, result]);
+  }, [handleNextStep, result, reset]);
 
   return (
     <FormLayout action={formAction}>

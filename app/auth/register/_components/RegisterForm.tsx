@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducer } from "react";
-import RegisterEmailForm from "../RegisterEmailForm";
+import RegisterEmailForm from "./RegisterEmailForm";
 import RegisterFormVerification from "./RegisterFormVerification";
 
 type State = { email: string; hasSent: boolean };

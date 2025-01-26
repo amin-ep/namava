@@ -37,19 +37,19 @@ export async function otpLogin(
   } catch (err) {
     const error = err as AxiosError<ApiError, OTPLoginResponseData>;
     if (error) {
-      return { status: "error", message: error?.response?.data.message };
+      return {
+        status: "error",
+        message: error?.response?.data.message,
+        values: {
+          email: formData.get("email"),
+        },
+      };
     }
   }
 }
 
 export async function otpVerifyLogin(
-  _prevState:
-    | {
-        status: string;
-        message: string;
-      }
-    | null
-    | undefined,
+  _prevState: FormActionPreviousState,
   formData: FormData,
 ) {
   try {
@@ -74,7 +74,7 @@ export async function otpVerifyLogin(
         expires: expires,
       });
 
-      return { status: "success", message: "login" };
+      return { status: "success" };
     }
   } catch (err) {
     const error = err as AxiosError<ApiError, OTPLoginResponseData>;
@@ -84,6 +84,9 @@ export async function otpVerifyLogin(
       message:
         error?.response?.data.message ||
         "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+      values: {
+        verificationNumber: formData.get("verificationNumber"),
+      },
     };
   }
 }

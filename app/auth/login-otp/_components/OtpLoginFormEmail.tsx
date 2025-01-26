@@ -7,17 +7,19 @@ import { ActionDispatch, useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { OTPLoginActionTypes } from "./OtpLoginForm";
+import { useToast } from "@/app/_hooks/useToast";
 
 function OtpLoginFormEmail({
   dispatch,
 }: {
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [response, formAction, isPending] = useActionState(otpLogin, null);
+  const [result, formAction, isPending] = useActionState(otpLogin, null);
   const {
     register,
     formState: { isValid },
     getValues,
+    reset,
   } = useForm<OTPLoginPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -26,15 +28,22 @@ function OtpLoginFormEmail({
     },
   });
 
-  useEffect(() => {
-    if (response && response?.status === "success") {
-      dispatch({ type: "sent", payload: getValues()?.email });
-    }
-  }, [response, getValues, dispatch]);
+  const notify = useToast();
 
   useEffect(() => {
-    console.log(getValues());
-  }, [getValues]);
+    if (result?.status === "success") {
+      dispatch({ type: "sent", payload: getValues()?.email });
+    }
+  }, [result?.status, dispatch, getValues]);
+
+  useEffect(() => {
+    if (result && result?.status === "error") {
+      notify("error", result?.message as string);
+      reset({
+        email: result.values?.email as string,
+      });
+    }
+  }, [result, reset]);
 
   return (
     <FormLayout

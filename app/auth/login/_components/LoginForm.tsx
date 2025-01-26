@@ -1,21 +1,23 @@
 "use client";
 
-import { LoginPayload } from "@/app/_types/authTypes";
 import FormLayout from "@/app/_components/FormLayout";
+import { useToast } from "@/app/_hooks/useToast";
+import { LoginPayload } from "@/app/_types/authTypes";
+import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { login } from "../actions";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/app/_hooks/useToast";
 
 function LoginForm() {
-  const [response, formAction, isPending] = useActionState(login, null);
+  const [result, formAction, isPending] = useActionState(login, null);
   const toast = useToast();
   const router = useRouter();
+
   const {
     register,
     formState: { isValid },
+    reset,
   } = useForm<LoginPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -25,13 +27,26 @@ function LoginForm() {
   });
 
   useEffect(() => {
-    if (response)
-      if (response.status === "success") {
-        router.push("/");
-      } else if (response.status === "error") {
-        toast("error", response.message);
-      }
-  }, [response, router, toast]);
+    if (result?.status === "success") {
+      router.push("/");
+    }
+  }, [result?.status, router]);
+
+  useEffect(() => {
+    if (result && result?.status === "error") {
+      toast("error", result?.message as string);
+    }
+  }, [result]);
+
+  useEffect(() => {
+    if (result && result.status === "error") {
+      reset({
+        email: result.values?.email as string,
+        password: result.values?.password as string,
+        oneTimePassword: false,
+      });
+    }
+  }, [result, reset]);
 
   return (
     <FormLayout

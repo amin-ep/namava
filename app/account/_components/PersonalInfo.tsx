@@ -25,7 +25,9 @@ function PersonalInfo({ info }: { info: User }) {
   );
 
   let userBirthDate: string | Date = "";
-  if (userBirthDateIndex > 0) {
+  const userBirthDateValue: string = infoArr.at(userBirthDateIndex)
+    ?.content as string;
+  if (userBirthDateIndex > 0 && userBirthDateValue != "-") {
     const userGeorgianBirthDate = new Date(
       infoArr.at(userBirthDateIndex)?.content as string,
     );
@@ -33,10 +35,12 @@ function PersonalInfo({ info }: { info: User }) {
     userBirthDate = numericJalaaliBirthDate(userGeorgianBirthDate);
   }
 
-  if (userBirthDate !== "") {
+  if (userBirthDateValue !== "-") {
     infoArr.map((el) => {
       if (el.label === "تاریخ تولد") {
-        el.content = userBirthDate as string;
+        if (el.content !== "-") {
+          el.content = userBirthDate as string;
+        }
       }
     });
   }

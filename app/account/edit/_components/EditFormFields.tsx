@@ -1,6 +1,6 @@
 "use client";
 
-import CustomRadioGroup from "@/app/_components/CustomRadioGroup";
+import CustomRadioGroup from "@/app/_components/CustomRadioGroup/CustomRadioGroup";
 import FormControl from "@/app/_components/FormControl";
 import FormSubmit from "@/app/_components/FormSubmit";
 import { useSelect } from "@/app/_hooks/useSelect";

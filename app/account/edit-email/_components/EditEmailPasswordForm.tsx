@@ -6,6 +6,7 @@ import { verifyMe } from "../actions";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/app/_hooks/useToast";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
+import { VerifyMePayload } from "@/app/_types/userTypes";
 
 function EditEmailPasswordForm() {
   const [result, formAction, isPending] = useActionState(verifyMe, null);
@@ -16,7 +17,8 @@ function EditEmailPasswordForm() {
   const {
     register,
     formState: { isValid },
-  } = useForm({
+    reset,
+  } = useForm<VerifyMePayload>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -27,9 +29,12 @@ function EditEmailPasswordForm() {
         handleNextStep();
       } else {
         notify("error", result?.message as string);
+        reset({
+          password: result?.values?.password as string,
+        });
       }
     }
-  }, [result, handleNextStep, notify]);
+  }, [result, handleNextStep, reset]);
 
   return (
     <FormLayout action={formAction as (payload?: FormData | undefined) => void}>

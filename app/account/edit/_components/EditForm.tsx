@@ -8,20 +8,22 @@ import EditFormFields from "./EditFormFields";
 import { useToast } from "@/app/_hooks/useToast";
 
 function EditForm({ user }: { user: User }) {
-  const [res, formAction, isPending] = useActionState(updateMe, null);
+  const [result, formAction, isPending] = useActionState(updateMe, null);
   const router = useRouter();
   const toast = useToast();
 
   useEffect(() => {
-    if (res && (res as { status: "success" | "error"; message: string })) {
-      if (res?.status === "success") {
-        toast(res?.status, res.message as string);
-        router.push("/account");
-      } else {
-        toast(res.status as string, res.message as string);
-      }
+    if (result && result?.status === "success") {
+      toast("success", result?.message as string);
+      router.push("/account");
     }
-  }, [res, router, toast]);
+  }, [result?.status, result?.message]);
+
+  useEffect(() => {
+    if (result && result.status === "error") {
+      toast("error", result.message as string);
+    }
+  }, [result]);
 
   return (
     <form className="md:px-1 xl:px-[68px]" action={formAction}>

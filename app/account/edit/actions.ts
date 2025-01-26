@@ -1,5 +1,6 @@
 "use server";
 
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import { UpdateMeResponseData, User } from "@/app/_types/userTypes";
 import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { getMe } from "@/app/api/userApi";
@@ -9,17 +10,13 @@ import { ApiError } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
 
 export async function updateMe(
-  _prevState:
-    | null
-    | { status: string | "error" | "success"; message: string | undefined }
-    | undefined,
+  _prevState: FormActionPreviousState,
   formData: FormData,
 ) {
   try {
     const currentUser: User = await getMe();
     const entryValues: { [key: string]: FormDataEntryValue | undefined } =
       Object.fromEntries(formData);
-    console.log(entryValues);
     for (const [key] of Object.entries(entryValues)) {
       if (!entryValues[key]) {
         delete entryValues[key];

@@ -6,7 +6,7 @@ import {
   UpdateEmailResponse,
 } from "@/app/_types/editEmail";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
-import { VerifyMePayload } from "@/app/_types/userTypes";
+import { VerifyMePayload, VerifyMeResponse } from "@/app/_types/userTypes";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
@@ -18,7 +18,7 @@ export async function verifyMe(
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
-    const res: AxiosResponse<VerifyMePayload, ApiError> = await axios.post(
+    const res: AxiosResponse<VerifyMeResponse, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/user/verifyMe`,
       formData,
       {
@@ -33,7 +33,7 @@ export async function verifyMe(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
+    const error = err as AxiosError<ApiError, VerifyMeResponse>;
 
     if (error) {
       return {
@@ -41,6 +41,9 @@ export async function verifyMe(
         message:
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+        values: {
+          password: formData?.get("password"),
+        },
       };
     }
   }
@@ -78,6 +81,9 @@ export async function updateEmailRequest(
         message:
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+        values: {
+          email: formData?.get("email") as string,
+        },
       };
     }
   }
