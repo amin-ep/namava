@@ -1,21 +1,5 @@
 import jalaali from "jalaali-js";
-
-export const jalaaliMonths: () => string[] = () => {
-  return [
-    "فروردین",
-    "اردیبهشت",
-    "خرداد",
-    "تیر",
-    "مرداد",
-    "شهریور",
-    "مهر",
-    "آبان",
-    "آذر",
-    "دی",
-    "بهمن",
-    "اسفند",
-  ];
-};
+import { jalaaliMonths } from "./constants";
 
 export const jMonthIndex = (strMonth: string) => {
   return jalaaliMonths().findIndex((el) => el === strMonth);
@@ -45,3 +29,20 @@ export const removeUnrecognizedFields = (
   );
   return filteredPayload;
 };
+
+// export const convertJalaaliToGeorgian = (jy: number, jm:number, jd: number) => {
+//   const georgianDate = { jy, jm, jd };
+//   const jalaaliDate =
+// }
+
+export class ConvertDate {
+  toJalaali(gy: number, gm: number, gd: number) {
+    const jalaaliDate = jalaali.toJalaali(gy, gm, gd);
+    return jalaaliDate;
+  }
+
+  toGeorgian(jy: number, jm: number, jd: number) {
+    const georgianDate = jalaali.toGregorian(jy, jm, jd);
+    return georgianDate;
+  }
+}

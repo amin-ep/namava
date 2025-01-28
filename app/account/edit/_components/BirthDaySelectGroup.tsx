@@ -2,35 +2,25 @@
 
 import { useSelect } from "@/app/_hooks/useSelect";
 import { FieldValues } from "@/app/_types/globalTypes";
-import {
-  jalaaliMonths,
-  jMonthIndex,
-  numericJalaaliBirthDate,
-} from "@/app/_utils/helpers";
+import { jMonthIndex, numericJalaaliBirthDate } from "@/app/_utils/helpers";
 import jalaali, { GregorianDateObject } from "jalaali-js";
 import { memo, useEffect, useMemo, useState } from "react";
-import {
-  Path,
-  RegisterOptions,
-  UseFormRegister,
-  UseFormSetValue,
-} from "react-hook-form";
+import { Control, Controller, Path, RegisterOptions } from "react-hook-form";
 import Select from "../../../_components/Select";
 import SelectLabel from "./SelectLabel";
+import { jalaaliMonths } from "@/app/_utils/constants";
 
 const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
   TFormValues extends FieldValues,
 >({
-  register,
+  control,
   name,
   defaultDate,
-  setValue,
   validation,
 }: {
-  register: UseFormRegister<TFormValues>;
+  control: Control<TFormValues>;
   name: Path<TFormValues>;
   defaultDate: Date | string | undefined;
-  setValue: UseFormSetValue<FieldValues>;
   validation: RegisterOptions<TFormValues, Path<TFormValues>> | undefined;
 }) {
   const [defaultBirthDateObject, setDefaultBirthDateObject] = useState<{
@@ -49,7 +39,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
       const numericBirthDateArr = numericBirthDate.split("/");
       setDefaultBirthDateObject({
         year: numericBirthDateArr.at(0) as string,
-        month: numericBirthDateArr.at(1) as string,
+        month: jalaaliMonths()[+(numericBirthDateArr.at(1) as string) - 1],
         day: numericBirthDateArr.at(2) as string,
       });
     }
@@ -88,7 +78,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
     open: openMonthSelect,
     updateValue: updateMonthValue,
     value: monthValue,
-  } = useSelect((defaultBirthDateObject?.month as string) ?? "");
+  } = useSelect((defaultBirthDateObject?.month as string) ?? undefined);
 
   // Year select
   const {
@@ -97,67 +87,113 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
     open: openYearSelect,
     updateValue: updateYearValue,
     value: yearValue,
-  } = useSelect((defaultBirthDateObject.year as string) ?? "");
+  } = useSelect((defaultBirthDateObject.year as string) ?? undefined);
 
-  useEffect(() => {
-    const birthDateObj: GregorianDateObject = jalaali.toGregorian(
-      +yearValue,
-      +jMonthIndex(monthValue),
-      +dayValue,
-    );
+  // day select click
+  const handleClickDay = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const target = e.target as HTMLLIElement;
+    updateDayValue(target.textContent!);
+    closeDaySelect();
+  };
 
-    const strBirthDate = new Date(
-      birthDateObj.gy + 1,
-      birthDateObj.gm,
-      birthDateObj.gd + 4,
-    ).toISOString();
+  // month select click
+  const handleClickMonth = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const target = e.target as HTMLLIElement;
+    updateMonthValue(target.textContent!);
+    closeMonthSelect();
+  };
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    setValue(name, strBirthDate);
-  }, [yearValue, dayValue, monthValue, setValue, name]);
+  // year select click
+  const handleClickYear = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const target = e.target as HTMLLIElement;
+    updateYearValue(target.textContent!);
+    closeYearSelect();
+  };
+
+  // set value of birthDate
 
   return (
-    <div className="flex flex-col gap-2">
-      <SelectLabel
-        label={{ title: "تاریخ تولد", optionalTitle: "اختیاری" }}
-        onClick={() => {
-          updateDayValue("");
-          updateMonthValue("");
-          updateYearValue("");
-        }}
-      />
-      <div className="grid grid-cols-3 gap-x-2">
-        <Select
-          isOpen={dayIsOpen}
-          onOpen={openDaySelect}
-          updateValue={updateDayValue}
-          value={dayValue}
-          items={daysArr as string[]}
-          placeholder="روز"
-          close={closeDaySelect}
-        />
-        <Select
-          isOpen={monthIsOpen}
-          onOpen={openMonthSelect}
-          updateValue={updateMonthValue}
-          value={monthValue}
-          items={months as string[]}
-          placeholder="ماه"
-          close={closeMonthSelect}
-        />
-        <Select
-          isOpen={yearIsOpen}
-          onOpen={openYearSelect}
-          updateValue={updateYearValue}
-          value={yearValue}
-          close={closeYearSelect}
-          items={years as string[]}
-          placeholder="سال"
-        />
-        <input type="hidden" {...register(name, { ...validation })} />
-      </div>
-    </div>
+    <Controller
+      name={name}
+      control={control}
+      rules={validation}
+      render={({ field }) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+          if (yearValue && dayValue && monthValue) {
+            const birthDateObj: GregorianDateObject = jalaali.toGregorian(
+              +yearValue,
+              +jMonthIndex(monthValue) + 1,
+              +dayValue,
+            );
+
+            const georgianBirthDateString = new Date(
+              birthDateObj.gy,
+              birthDateObj.gm - 1,
+              birthDateObj.gd,
+            ).toISOString();
+
+            // Update the form value
+            field.onChange(georgianBirthDateString);
+          }
+        }, [field, yearValue, dayValue, monthValue]);
+
+        return (
+          <div className="flex flex-col gap-2">
+            <SelectLabel
+              label={{ title: "تاریخ تولد", optionalTitle: "اختیاری" }}
+              onClick={() => {
+                updateDayValue("");
+                updateMonthValue("");
+                updateYearValue("");
+                field.onChange(""); // Clear the field value
+              }}
+            />
+            <div className="grid grid-cols-3 gap-x-2">
+              <Select
+                onClick={(e) => {
+                  handleClickDay(
+                    e as React.MouseEvent<HTMLLIElement, MouseEvent>,
+                  );
+                }}
+                isOpen={dayIsOpen}
+                onOpen={openDaySelect}
+                value={dayValue}
+                items={daysArr as string[]}
+                placeholder="روز"
+                close={closeDaySelect}
+              />
+              <Select
+                onClick={(e) => {
+                  handleClickMonth(
+                    e as React.MouseEvent<HTMLLIElement, MouseEvent>,
+                  );
+                }}
+                isOpen={monthIsOpen}
+                onOpen={openMonthSelect}
+                value={monthValue}
+                items={months as string[]}
+                placeholder="ماه"
+                close={closeMonthSelect}
+              />
+              <Select
+                onClick={(e) => {
+                  handleClickYear(
+                    e as React.MouseEvent<HTMLLIElement, MouseEvent>,
+                  );
+                }}
+                isOpen={yearIsOpen}
+                onOpen={openYearSelect}
+                value={yearValue}
+                close={closeYearSelect}
+                items={years as string[]}
+                placeholder="سال"
+              />
+            </div>
+          </div>
+        );
+      }}
+    />
   );
 });
 

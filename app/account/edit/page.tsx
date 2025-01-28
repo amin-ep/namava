@@ -9,7 +9,6 @@ export const metadata = {
 
 async function page() {
   const user = await getMe();
-  console.log("render");
   return (
     <div>
       <Container className="flex flex-col gap-4 md:gap-6 xl:gap-8">
