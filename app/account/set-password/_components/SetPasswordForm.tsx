@@ -8,10 +8,6 @@ import { MdLockReset } from "react-icons/md";
 import { setPassword } from "../actions";
 
 function SetPasswordForm() {
-  // const [result, formAction, isPending] = useActionState(setPassword, null);
-  // const notify = useToast();
-  // const router = useRouter();
-
   const {
     register,
     formState: { isValid },
