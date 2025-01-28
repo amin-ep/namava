@@ -1,18 +1,22 @@
 "use server";
 
+import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 import {
-  RegisterPayload,
   RegisterResponseData,
-  RegisterVerificationPayload,
   RegisterVerificationResponseData,
 } from "../../_types/authTypes";
 import { JWT_EXPIRATION_DATE } from "../../_utils/constants";
 
-export default async function signup(payload: RegisterPayload) {
+export default async function signup(
+  _prevState: FormActionPreviousState,
+  formData: FormData,
+) {
   try {
-    const res: AxiosResponse<RegisterResponseData> = await axios.post(
+    const payload = removeUnrecognizedFields(Object.fromEntries(formData));
+    const res: AxiosResponse<RegisterResponseData, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/signup`,
       payload,
       {
@@ -22,47 +26,51 @@ export default async function signup(payload: RegisterPayload) {
       },
     );
 
-    return res?.statusText;
-  } catch (error) {
-    console.log(error);
-    if (error instanceof AxiosError) {
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
-    }
+    if (res?.data?.status === "success") return { status: "success" };
+  } catch (err) {
+    const error = err as AxiosError<ApiError, RegisterResponseData>;
+
+    return {
+      status: "error",
+      message:
+        error?.response?.data.message ||
+        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+    };
   }
 }
 
-export async function verifyEmail(payload: RegisterVerificationPayload) {
+export async function verifyEmail(
+  _prevState: FormActionPreviousState,
+  formData: FormData,
+) {
   try {
     const res: AxiosResponse<RegisterVerificationResponseData> =
       await axios.post(
         `${process.env.API_BASE_URL}/auth/verifyEmail`,
-        payload,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
         },
       );
-
-    if (res?.statusText === "OK") {
+    console.log(res?.status);
+    if (res?.data?.status === "success") {
       (await cookies()).set({
         name: process.env.JWT_SECRET_KEY as string,
         value: res?.data.token,
         expires: JWT_EXPIRATION_DATE,
       });
-      (await cookies()).delete(process.env.REGISTER_EMAIL_SECRET_KEY as string);
+      return { status: res?.data.status };
     }
-    return res?.statusText;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log(error.response?.data.message);
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
-    }
+  } catch (err) {
+    const error = err as AxiosError<ApiError, RegisterResponseData>;
+
+    return {
+      status: "error",
+      message:
+        error?.response?.data.message ||
+        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+    };
   }
 }

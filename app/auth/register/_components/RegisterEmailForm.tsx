@@ -1,8 +1,9 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
+import { useToast } from "@/app/_hooks/useToast";
 import signup from "@/app/auth/register/actions";
-import { ActionDispatch, useTransition } from "react";
+import { ActionDispatch, useActionState, useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { MdEditNote } from "react-icons/md";
 import { RegisterActionTypes } from "./RegisterForm";
@@ -16,26 +17,35 @@ function RegisterEmailForm({
 }: {
   dispatch: ActionDispatch<[action: RegisterActionTypes]>;
 }) {
-  const [isPending, startTransition] = useTransition();
+  const [result, formAction, isPending] = useActionState(signup, null);
+  // const [isPending, startTransition] = useTransition();
   const {
     register,
     formState: { isValid },
-    handleSubmit,
+    getValues,
   } = useForm<RegisterPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
 
-  const onSubmit = async (data: RegisterPayload) => {
-    startTransition(async () => {
-      const response: string = await signup(data);
-      if (response === "Created") {
-        dispatch({ type: "sent", payload: data.email });
-      } else {
-        console.log(response);
+  const notify = useToast();
+
+  useEffect(() => {
+    if (result) {
+      switch (result?.status) {
+        case "success":
+          dispatch({ type: "sent", payload: getValues()?.email });
+
+          break;
+        case "error":
+          notify("error", result?.message as string);
+          break;
+
+        default:
+          throw new Error("Unknown status");
       }
-    });
-  };
+    }
+  }, [result, dispatch, getValues]);
 
   return (
     <FormLayout
@@ -43,7 +53,7 @@ function RegisterEmailForm({
       heading="ثبت نام"
       icon={<MdEditNote className="text-primary" size={35} />}
       headerLink={{ title: "ورود", href: "/auth/login" }}
-      onSubmit={handleSubmit(onSubmit)}
+      action={formAction}
     >
       <FormLayout.Control
         register={register}
