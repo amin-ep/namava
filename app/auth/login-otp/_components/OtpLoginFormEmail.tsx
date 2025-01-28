@@ -1,20 +1,20 @@
 "use client";
 
-import { OTPLoginPayload } from "@/app/_types/authTypes";
 import FormLayout from "@/app/_components/FormLayout";
+import { useFormAction } from "@/app/_hooks/useFormAction";
+import { OTPLoginPayload } from "@/app/_types/authTypes";
 import { otpLogin } from "@/app/auth/login-otp/actions";
-import { ActionDispatch, useActionState, useEffect } from "react";
+import { ActionDispatch } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { OTPLoginActionTypes } from "./OtpLoginForm";
-import { useToast } from "@/app/_hooks/useToast";
 
 function OtpLoginFormEmail({
   dispatch,
 }: {
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [result, formAction, isPending] = useActionState(otpLogin, null);
+  // const [result, formAction, isPending] = useActionState(otpLogin, null);
   const {
     register,
     formState: { isValid },
@@ -28,26 +28,20 @@ function OtpLoginFormEmail({
     },
   });
 
-  const notify = useToast();
+  const handleFormSuccess = () => {
+    dispatch({ type: "sent", payload: getValues()?.email });
+  };
 
-  useEffect(() => {
-    if (result?.status === "success") {
-      dispatch({ type: "sent", payload: getValues()?.email });
-    }
-  }, [result?.status, dispatch, getValues]);
-
-  useEffect(() => {
-    if (result && result?.status === "error") {
-      notify("error", result?.message as string);
-      reset({
-        email: result.values?.email as string,
-      });
-    }
-  }, [result, reset]);
+  const { action, isPending } = useFormAction({
+    formAction: otpLogin,
+    shouldNotifyOnError: true,
+    onSuccess: handleFormSuccess,
+    resetOnError: reset,
+  });
 
   return (
     <FormLayout
-      action={formAction}
+      action={action}
       description="لطفا ایمیل خود را وارد کنید."
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}

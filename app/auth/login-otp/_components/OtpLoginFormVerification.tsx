@@ -2,11 +2,10 @@
 
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
-import { useToast } from "@/app/_hooks/useToast";
+import { useFormAction } from "@/app/_hooks/useFormAction";
 import { OTPLoginVerificationPayload } from "@/app/_types/authTypes";
 import { otpVerifyLogin } from "@/app/auth/login-otp/actions";
-import { useRouter } from "next/navigation";
-import { ActionDispatch, useActionState, useEffect } from "react";
+import { ActionDispatch } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { OTPLoginActionTypes } from "./OtpLoginForm";
@@ -18,10 +17,6 @@ function OtpLoginFormVerification({
   email: string;
   dispatch: ActionDispatch<[action: OTPLoginActionTypes]>;
 }) {
-  const [result, formAction, isPending] = useActionState(otpVerifyLogin, null);
-  const router = useRouter();
-  const notify = useToast();
-
   const {
     register,
     formState: { isValid },
@@ -35,25 +30,15 @@ function OtpLoginFormVerification({
     },
   });
 
-  useEffect(() => {
-    if (result?.status === "success") {
-      router.push("/");
-    }
-  }, [router, result?.status]);
-
-  useEffect(() => {
-    if (result && result.status === "error") {
-      notify("error", result?.message as string);
-      reset({
-        verificationNumber: result.values?.verificationNumber as string,
-        email: email,
-      });
-    }
-  }, [result]);
+  const { action, isPending } = useFormAction({
+    formAction: otpVerifyLogin,
+    resetOnError: reset,
+    onSuccessRouterHref: "/",
+  });
 
   return (
     <FormLayout
-      action={formAction}
+      action={action}
       description={`کد تایید به ایمیل ${email} ارسال شد.لطفا کد را وارد کنید.`}
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}

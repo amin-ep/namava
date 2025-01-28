@@ -1,14 +1,14 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
-import { useActionState, useEffect, useReducer, useState } from "react";
-import { MdLockReset } from "react-icons/md";
-import { changePassword } from "../actions";
-import { useForm } from "react-hook-form";
-import ChangePasswordSuccess from "./ChangePasswordSuccess";
-import Image from "next/image";
+import { useFormAction } from "@/app/_hooks/useFormAction";
 import { ChangePasswordPayload } from "@/app/_types/userTypes";
-import { useToast } from "@/app/_hooks/useToast";
+import Image from "next/image";
+import { useEffect, useReducer, useState } from "react";
+import { useForm } from "react-hook-form";
+import { MdLockReset } from "react-icons/md";
+import ResultCard from "../../_components/ResultCard";
+import { changePassword } from "../actions";
 
 interface State {
   passwordIsLarge: null | boolean;
@@ -51,33 +51,17 @@ function ChangePasswordForm() {
     reducer,
     initialState,
   );
-  const [response, formAction, isPending] = useActionState(
-    changePassword,
-    null,
-  );
-
-  const notify = useToast();
 
   const {
     register,
     formState: { isValid, isValidating },
     getFieldState,
     getValues,
+    reset,
   } = useForm<ChangePasswordPayload>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
-
-  useEffect(() => {
-    if (response) {
-      if (response?.status === "success") {
-        // setIsFinished(true);
-        console.log("success");
-      } else {
-        notify(response.status, response.message);
-      }
-    }
-  }, [response, notify]);
 
   useEffect(() => {
     if (isValidating) {
@@ -99,12 +83,23 @@ function ChangePasswordForm() {
     }
   }, [getFieldState, getValues, isValidating]);
 
+  const handleFormOnSuccess = () => {
+    setIsFinished(true);
+  };
+
+  const { action, isPending } = useFormAction({
+    formAction: changePassword,
+    onSuccess: handleFormOnSuccess,
+    shouldNotifyOnError: true,
+    resetOnError: reset,
+  });
+
   return (
     <>
       {!finished ? (
         <div className="my-10">
           <FormLayout
-            action={formAction}
+            action={action}
             description="لطفا رمز عبور جدید خود را تعیین کنید."
             heading="تغییر رمز عبور"
             icon={<MdLockReset size={35} className="text-primary" />}
@@ -170,7 +165,11 @@ function ChangePasswordForm() {
           </FormLayout>
         </div>
       ) : (
-        <ChangePasswordSuccess />
+        <ResultCard
+          status="success"
+          message="تغییر رمز عبور با موفقیت انجام شد."
+          link={{ href: "/account", label: "بازگشت" }}
+        />
       )}
     </>
   );

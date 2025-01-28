@@ -35,6 +35,9 @@ export default async function signup(
       message:
         error?.response?.data.message ||
         "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+      values: {
+        email: formData?.get("email"),
+      },
     };
   }
 }

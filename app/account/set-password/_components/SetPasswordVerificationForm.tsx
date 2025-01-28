@@ -1,7 +1,7 @@
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
-import { useToast } from "@/app/_hooks/useToast";
-import React, { useActionState, useEffect } from "react";
+import { useFormAction } from "@/app/_hooks/useFormAction";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { MdLockReset } from "react-icons/md";
 import { setPasswordVerify } from "../actions";
@@ -13,12 +13,6 @@ function SetPasswordVerificationForm({
   setLevel: React.Dispatch<React.SetStateAction<number>>;
   email: string;
 }) {
-  const notify = useToast();
-  const [result, formAction, isPending] = useActionState(
-    setPasswordVerify,
-    null,
-  );
-
   const {
     register,
     setValue,
@@ -28,19 +22,15 @@ function SetPasswordVerificationForm({
     mode: "onChange",
   });
 
-  useEffect(() => {
-    if (result) {
-      if (result.status === "success") {
-        setLevel(3);
-      } else {
-        notify("error", result?.message as string);
-      }
-    }
-  }, [result, notify, setLevel]);
+  const { action, isPending } = useFormAction({
+    formAction: setPasswordVerify,
+    shouldNotifyOnError: true,
+    onSuccess: () => setLevel(3),
+  });
 
   return (
     <FormLayout
-      action={formAction}
+      action={action}
       description={`کد تایید به ایمیل ${email} ارسال شد. لطفا کد را وارد کنید.`}
       heading="افزودن رمز عبور"
       icon={<MdLockReset className="text-primary" size={30} />}

@@ -39,6 +39,10 @@ export async function changePassword(
         message:
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
+        values: {
+          password: formData?.get("password"),
+          currentPassword: formData?.get("currentPassword"),
+        },
       };
     }
   }

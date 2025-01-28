@@ -1,18 +1,14 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
-import { useActionState, useEffect } from "react";
-import { verifyMe } from "../actions";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/app/_hooks/useToast";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
+import { useFormAction } from "@/app/_hooks/useFormAction";
 import { VerifyMePayload } from "@/app/_types/userTypes";
+import { useForm } from "react-hook-form";
+import { verifyMe } from "../actions";
 
 function EditEmailPasswordForm() {
-  const [result, formAction, isPending] = useActionState(verifyMe, null);
   const { handleNextStep } = useEditEmail();
-
-  const notify = useToast();
 
   const {
     register,
@@ -23,21 +19,15 @@ function EditEmailPasswordForm() {
     reValidateMode: "onChange",
   });
 
-  useEffect(() => {
-    if (result) {
-      if (result?.status === "success") {
-        handleNextStep();
-      } else {
-        notify("error", result?.message as string);
-        reset({
-          password: result?.values?.password as string,
-        });
-      }
-    }
-  }, [result, handleNextStep, reset]);
+  const { action, isPending } = useFormAction({
+    formAction: verifyMe,
+    shouldNotifyOnError: true,
+    resetOnError: reset,
+    onSuccess: () => handleNextStep(),
+  });
 
   return (
-    <FormLayout action={formAction as (payload?: FormData | undefined) => void}>
+    <FormLayout action={action}>
       <FormLayout.Control
         name="password"
         register={register}

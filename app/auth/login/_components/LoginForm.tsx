@@ -8,12 +8,9 @@ import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { login } from "../actions";
+import { useFormAction } from "@/app/_hooks/useFormAction";
 
 function LoginForm() {
-  const [result, formAction, isPending] = useActionState(login, null);
-  const toast = useToast();
-  const router = useRouter();
-
   const {
     register,
     formState: { isValid },
@@ -26,31 +23,16 @@ function LoginForm() {
     },
   });
 
-  useEffect(() => {
-    if (result?.status === "success") {
-      router.push("/");
-    }
-  }, [result?.status, router]);
-
-  useEffect(() => {
-    if (result && result?.status === "error") {
-      toast("error", result?.message as string);
-    }
-  }, [result]);
-
-  useEffect(() => {
-    if (result && result.status === "error") {
-      reset({
-        email: result.values?.email as string,
-        password: result.values?.password as string,
-        oneTimePassword: false,
-      });
-    }
-  }, [result, reset]);
+  const { action, isPending } = useFormAction({
+    formAction: login,
+    onSuccessRouterHref: "/",
+    shouldNotifyOnError: true,
+    resetOnError: reset,
+  });
 
   return (
     <FormLayout
-      action={formAction}
+      action={action}
       description="لطفا ایمیل خود را وارد کنید."
       heading="ورود"
       icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}

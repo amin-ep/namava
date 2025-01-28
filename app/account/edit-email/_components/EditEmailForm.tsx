@@ -1,22 +1,14 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
-import { useActionState, useEffect } from "react";
-import { updateEmailRequest } from "../actions";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/app/_hooks/useToast";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
+import { useFormAction } from "@/app/_hooks/useFormAction";
 import { UpdateEmailRequestPayload } from "@/app/_types/editEmail";
+import { useForm } from "react-hook-form";
+import { updateEmailRequest } from "../actions";
 
 function EditEmailForm() {
-  const [result, formAction, isPending] = useActionState(
-    updateEmailRequest,
-    null,
-  );
-
   const { handleNextStep } = useEditEmail();
-
-  const notify = useToast();
 
   const {
     register,
@@ -27,21 +19,15 @@ function EditEmailForm() {
     mode: "onChange",
   });
 
-  useEffect(() => {
-    if (result) {
-      if (result.status === "success") {
-        handleNextStep();
-      } else {
-        notify("error", result?.message as string);
-        reset({
-          email: result.values?.email as string,
-        });
-      }
-    }
-  }, [handleNextStep, result, reset]);
+  const { action, isPending } = useFormAction({
+    formAction: updateEmailRequest,
+    shouldNotifyOnError: true,
+    resetOnError: reset,
+    onSuccess: () => handleNextStep(),
+  });
 
   return (
-    <FormLayout action={formAction}>
+    <FormLayout action={action}>
       <FormLayout.Control
         name="email"
         register={register}
