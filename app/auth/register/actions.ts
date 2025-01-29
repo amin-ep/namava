@@ -57,7 +57,6 @@ export async function verifyEmail(
           },
         },
       );
-    console.log(res?.status);
     if (res?.data?.status === "success") {
       (await cookies()).set({
         name: process.env.JWT_SECRET_KEY as string,

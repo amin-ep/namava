@@ -43,7 +43,6 @@ export async function setPasswordVerify(
   formData: FormData,
 ) {
   try {
-    console.log(formData);
     const token = (await cookies()).get(
       process.env.JWT_SECRET_KEY as string,
     )?.value;

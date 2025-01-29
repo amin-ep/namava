@@ -17,7 +17,6 @@ export async function otpLogin(
   try {
     const entryValues = removeUnrecognizedFields(Object.fromEntries(formData));
     entryValues.oneTimePassword = true;
-    console.log(entryValues);
     const res: AxiosResponse<OTPLoginResponseData, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/login`,
       entryValues,
@@ -54,7 +53,6 @@ export async function otpVerifyLogin(
 ) {
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
-    console.log(payload);
     const res: AxiosResponse<OTPLoginVerificationResponseData, ApiError> =
       await axios.post(
         `${process.env.API_BASE_URL}/auth/loginVerify`,

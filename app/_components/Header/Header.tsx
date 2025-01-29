@@ -42,6 +42,7 @@ function Header({ children }: { children: ReactNode }) {
       "/auth/register",
       "/account/change-password",
       "/account/set-password",
+      "/auth/recover",
     ];
 
     for (let i = 0; i < disableRoutes.length; i++) {

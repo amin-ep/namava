@@ -29,7 +29,6 @@ export async function getMe() {
     }
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log(error.response?.data.message);
       return (
         error.response?.data?.message ||
         "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."

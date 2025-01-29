@@ -223,8 +223,6 @@ export async function otpUpdateEmailVerify(
   } catch (err) {
     const error = err as AxiosError<ApiError, OtpUpdateEmailVerifyResponse>;
 
-    console.log(error.response?.data.message);
-
     if (error) {
       return {
         status: "error",

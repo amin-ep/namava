@@ -14,7 +14,6 @@ export async function login(
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
     payload.oneTimePassword = false;
-    console.log(payload);
     const res: AxiosResponse<LoginResponse, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/login`,
       payload,

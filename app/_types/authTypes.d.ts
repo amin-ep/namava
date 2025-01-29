@@ -52,3 +52,30 @@ export interface OTPLoginVerificationResponseData extends Status {
 }
 
 export type RegisterError = RegisterResponseData;
+
+export interface IForgetPasswordResponse extends Status, Message {}
+
+export interface IForgetPasswordPayload extends FieldValues {
+  email: string;
+}
+
+export interface IForgetPasswordVerifyPayload extends FieldValues {
+  email: string;
+  verificationNumber: string;
+}
+
+export interface IForgetPasswordVerifyResponse extends Status, Message {
+  resetId: string;
+}
+
+export interface IResetPasswordPayload extends FieldValues {
+  resetId: string;
+  password: string;
+}
+
+export interface IResetPasswordResponse extends Status {
+  token: string;
+  data: {
+    user: User;
+  };
+}

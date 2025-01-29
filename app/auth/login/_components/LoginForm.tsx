@@ -69,7 +69,7 @@ function LoginForm() {
         <FormLayout.ExtraLink href="/auth/login-otp">
           ورود با رمز یکبار مصرف
         </FormLayout.ExtraLink>
-        <FormLayout.ExtraLink href="/auth/login-otp">
+        <FormLayout.ExtraLink href="/auth/recover">
           رمز عبور خود را فراموش کرده ام
         </FormLayout.ExtraLink>
       </FormLayout.Footer>
