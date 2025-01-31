@@ -2,10 +2,10 @@
 
 import FormLayout from "@/app/_components/FormLayout";
 import { useFormAction } from "@/app/_hooks/useFormAction";
-import { useForm } from "react-hook-form";
-import { resetPassword } from "../actions";
-import { MdLockReset } from "react-icons/md";
 import { IResetPasswordPayload } from "@/app/_types/authTypes";
+import { useForm } from "react-hook-form";
+import { MdLockReset } from "react-icons/md";
+import { resetPassword } from "../actions";
 
 function RecoverFormPassword({ resetId }: { resetId: string }) {
   const {
@@ -20,11 +20,17 @@ function RecoverFormPassword({ resetId }: { resetId: string }) {
     },
   });
 
-  const { action, isPending } = useFormAction({
+  const { action, isPending } = useFormAction<
+    IResetPasswordPayload,
+    {
+      password: string;
+      resetId: string;
+    }
+  >({
     formAction: resetPassword,
     resetOnError: reset,
-    shouldNotifyOnSuccess: true,
     onSuccessRouterHref: "/",
+    shouldNotifyOnError: true,
   });
 
   return (

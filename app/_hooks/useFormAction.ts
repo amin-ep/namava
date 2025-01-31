@@ -6,26 +6,7 @@ import { DefaultValues, UseFormReset } from "react-hook-form";
 import { FieldValues, FormActionPreviousState } from "../_types/globalTypes";
 import { useToast } from "./useToast";
 
-export type IFormAction = (
-  _prevState: FormActionPreviousState,
-  formData: FormData,
-) => Promise<
-  | {
-      status: string;
-      message?: undefined;
-      values?: undefined;
-    }
-  | {
-      status: string;
-      message: string;
-      values: {
-        email: FormDataEntryValue | null;
-      };
-    }
-  | undefined
->;
-
-export function useFormAction<T extends FieldValues>({
+export function useFormAction<S extends FieldValues, T>({
   formAction,
   shouldNotifyOnError,
   shouldNotifyOnSuccess,
@@ -34,12 +15,24 @@ export function useFormAction<T extends FieldValues>({
   onSuccessRouterHref,
   resetOnError,
 }: {
-  formAction: IFormAction;
+  formAction: (
+    _prevState: FormActionPreviousState,
+    formData: FormData,
+  ) => Promise<
+    | null
+    | {
+        status: string;
+        message?: undefined | string;
+        values?: undefined | T;
+        statusCode?: number | undefined;
+      }
+    | undefined
+  >;
   shouldNotifyOnError: boolean;
   onError?: () => void;
   onSuccess?: () => void;
   onSuccessRouterHref?: string;
-  resetOnError?: UseFormReset<T>;
+  resetOnError?: UseFormReset<S>;
   shouldNotifyOnSuccess?: boolean;
 }) {
   const [result, action, isPending] = useActionState(formAction, null);
@@ -71,7 +64,7 @@ export function useFormAction<T extends FieldValues>({
       }
 
       if (resetOnError) {
-        resetOnError(result?.values as T | DefaultValues<T> | undefined);
+        resetOnError(result?.values as S | DefaultValues<S> | undefined);
       }
     }
   }, [result, shouldNotifyOnError, onError, resetOnError]);

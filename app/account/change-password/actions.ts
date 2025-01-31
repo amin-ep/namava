@@ -17,6 +17,18 @@ export async function changePassword(
       process.env.JWT_SECRET_KEY as string,
     )?.value;
 
+    if (!token) {
+      return {
+        status: "error",
+        message: "خطای احراز هویت! لطفا دوباره وارد شوید.",
+        values: {
+          password: (String(formData.get("password")) as string) || "",
+          currentPassword:
+            (String(formData.get("currentPassword")) as string) || "",
+        },
+      };
+    }
+
     const res: AxiosResponse<ChangePasswordResponse, ApiError> =
       await axios.patch(
         `${process.env.API_BASE_URL}/user/updatePassword`,
@@ -29,7 +41,9 @@ export async function changePassword(
         },
       );
 
-    if (res.status === 200) return { status: "success", message: "success" };
+    if (res?.status === 200) {
+      return { status: "success" };
+    }
   } catch (err) {
     const error = err as AxiosError<ApiError, ChangePasswordResponse>;
 
@@ -40,8 +54,9 @@ export async function changePassword(
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
         values: {
-          password: formData?.get("password"),
-          currentPassword: formData?.get("currentPassword"),
+          password: (String(formData.get("password")) as string) || "",
+          currentPassword:
+            (String(formData.get("currentPassword")) as string) || "",
         },
       };
     }

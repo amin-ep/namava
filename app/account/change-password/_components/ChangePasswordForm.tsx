@@ -87,7 +87,12 @@ function ChangePasswordForm() {
     setIsFinished(true);
   };
 
-  const { action, isPending } = useFormAction({
+  const { action, isPending } = useFormAction<
+    ChangePasswordPayload,
+    { password: string; currentPassword: string }
+  >({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     formAction: changePassword,
     onSuccess: handleFormOnSuccess,
     shouldNotifyOnError: true,

@@ -34,6 +34,7 @@ function OtpLoginFormVerification({
     formAction: otpVerifyLogin,
     resetOnError: reset,
     onSuccessRouterHref: "/",
+    shouldNotifyOnError: true,
   });
 
   return (

@@ -118,8 +118,8 @@ export async function resetPassword(
         error?.response?.data.message ||
         "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
       values: {
-        password: formData.get("email"),
-        resetId: formData.get("resetId"),
+        password: (String(formData.get("password")) as string) || "",
+        resetId: (String(formData.get("resetId")) as string) || "",
       },
     };
   }

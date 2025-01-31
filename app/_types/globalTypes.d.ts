@@ -33,6 +33,6 @@ export type FormActionPreviousState =
       status: string;
       message?: string;
       statusCode?: number;
-      values?: T | undefined;
+      values?: T;
     }
   | undefined;

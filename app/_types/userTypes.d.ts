@@ -48,7 +48,7 @@ export interface UpdateMeResponseData extends Status {
 
 // Change password
 export interface ChangePasswordPayload extends FieldValues {
-  password: User["password"];
+  password: string;
   currentPassword: string;
 }
 
