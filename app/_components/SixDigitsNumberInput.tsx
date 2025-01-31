@@ -12,7 +12,7 @@ function SixDigitsNumberInput<T extends FieldValues>({
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     const sumValuesArr: string[] = [];
     ref.current.forEach((input) => {
@@ -23,7 +23,7 @@ function SixDigitsNumberInput<T extends FieldValues>({
           sumValuesArr.join("") as PathValue<T, Path<T>>,
           {
             shouldValidate: true,
-          }
+          },
         );
       }
     });
@@ -34,7 +34,7 @@ function SixDigitsNumberInput<T extends FieldValues>({
 
   const handleInputKeydown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.key === "Backspace") {
       ref.current[index]!.value = "";
@@ -50,7 +50,7 @@ function SixDigitsNumberInput<T extends FieldValues>({
         .map((_el, index) => (
           <input
             key={index}
-            className="text-center text-black outline-none border border-gray-300 w-full leading-6 h-[60px] rounded-xl"
+            className="h-[60px] w-full rounded-xl border border-gray-300 text-center leading-6 text-black outline-none"
             maxLength={1}
             minLength={1}
             type="text"
