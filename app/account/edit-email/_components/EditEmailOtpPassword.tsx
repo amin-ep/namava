@@ -6,7 +6,9 @@ import { useEditEmail } from "@/app/_contexts/EditEmailContext";
 import { useFormAction } from "@/app/_hooks/useFormAction";
 import { OtpUpdateEmailVerifyPayload } from "@/app/_types/editEmail";
 import { useForm } from "react-hook-form";
-import { otpUpdateEmailVerify } from "../actions";
+import { otpUpdateEmailRequest, otpUpdateEmailVerify } from "../actions";
+import { useTimer, UseTimerFormAction } from "@/app/_hooks/useTimer";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 
 function EditEmailOtpPassword() {
   const { userData, handleNextStep } = useEditEmail();
@@ -25,6 +27,20 @@ function EditEmailOtpPassword() {
     shouldNotifyOnError: true,
     onSuccess: () => handleNextStep(),
   });
+
+  const {
+    finished,
+    handleRestart: resendCode,
+    isPending: isSendingCode,
+    time,
+  } = useTimer({
+    finishesAt: 0,
+    formAction: otpUpdateEmailRequest as
+      | Promise<string | number | undefined>
+      | UseTimerFormAction<unknown>,
+    step: 60,
+    variant: "decrease",
+  });
   return (
     <FormLayout
       action={action}
@@ -41,9 +57,16 @@ function EditEmailOtpPassword() {
       />
       <FormLayout.Submit
         disabled={!isValid}
-        pendingStatus={isPending}
+        pendingStatus={isPending || isSendingCode}
         label="تایید"
       />
+      <FormLayout.Footer>
+        <FormTimerButton
+          formAction={resendCode}
+          time={time}
+          finished={finished}
+        />
+      </FormLayout.Footer>
     </FormLayout>
   );
 }

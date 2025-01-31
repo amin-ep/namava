@@ -11,12 +11,22 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function otpLogin(
-  _prevState: FormActionPreviousState,
-  formData: FormData,
+  _prevState?: FormActionPreviousState,
+  formData?: FormData,
 ) {
   try {
-    const entryValues = removeUnrecognizedFields(Object.fromEntries(formData));
-    entryValues.oneTimePassword = true;
+    let entryValues: null | { [k: string]: string | boolean } = null;
+    const otpLoginEmail = (await cookies()).get("otp-login-email")?.value;
+    if (!otpLoginEmail) {
+      entryValues = removeUnrecognizedFields(
+        Object.fromEntries(formData as FormData),
+      );
+    } else {
+      entryValues = { email: otpLoginEmail };
+    }
+
+    (entryValues as { [key: string]: string | boolean }).oneTimePassword = true;
+
     const res: AxiosResponse<OTPLoginResponseData, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/login`,
       entryValues,
@@ -28,6 +38,12 @@ export async function otpLogin(
     );
 
     if (res?.status === 200) {
+      const expires = Date.now() + 1 * 60 * 60 * 1000;
+      (await cookies()).set({
+        name: "otp-login-email",
+        value: entryValues.email as string,
+        expires,
+      });
       return {
         status: res?.data.status as string,
         message: res?.data.message as string,
@@ -40,7 +56,7 @@ export async function otpLogin(
         status: "error",
         message: error?.response?.data.message,
         values: {
-          email: formData.get("email"),
+          email: (formData as FormData).get("email"),
         },
       };
     }
@@ -65,8 +81,10 @@ export async function otpVerifyLogin(
       );
 
     if (res?.statusText === "OK") {
+      const cookieStore = await cookies();
+      cookieStore.delete("otp-login-email");
       const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
-      (await cookies()).set({
+      cookieStore.set({
         name: process.env.JWT_SECRET_KEY as string,
         value: res?.data.token,
         expires: expires,

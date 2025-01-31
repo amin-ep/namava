@@ -4,7 +4,9 @@ import { useFormAction } from "@/app/_hooks/useFormAction";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MdLockReset } from "react-icons/md";
-import { setPasswordVerify } from "../actions";
+import { setPasswordRequest, setPasswordVerify } from "../actions";
+import { useTimer, UseTimerFormAction } from "@/app/_hooks/useTimer";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 
 function SetPasswordVerificationForm({
   setLevel,
@@ -28,6 +30,18 @@ function SetPasswordVerificationForm({
     onSuccess: () => setLevel(3),
   });
 
+  const {
+    finished,
+    handleRestart: resendCode,
+    isPending: isSendingCode,
+    time,
+  } = useTimer({
+    finishesAt: 0,
+    formAction: setPasswordRequest as UseTimerFormAction<object>,
+    step: 60,
+    variant: "decrease",
+  });
+
   return (
     <FormLayout
       action={action}
@@ -47,8 +61,15 @@ function SetPasswordVerificationForm({
       <FormLayout.Submit
         disabled={!isValid}
         label="تایید"
-        pendingStatus={isPending}
+        pendingStatus={isPending || isSendingCode}
       />
+      <FormLayout.Footer>
+        <FormTimerButton
+          finished={finished}
+          formAction={resendCode}
+          time={time}
+        />
+      </FormLayout.Footer>
     </FormLayout>
   );
 }

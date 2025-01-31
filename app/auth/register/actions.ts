@@ -15,7 +15,15 @@ export default async function signup(
   formData: FormData,
 ) {
   try {
-    const payload = removeUnrecognizedFields(Object.fromEntries(formData));
+    let payload: null | { [k: string]: string } = null;
+    const cookieStore = await cookies();
+
+    const signupEmail = cookieStore.get("SIGNUP-EMAIL")?.value;
+    if (!signupEmail) {
+      payload = removeUnrecognizedFields(Object.fromEntries(formData));
+    } else {
+      payload = { email: signupEmail as string };
+    }
     const res: AxiosResponse<RegisterResponseData, ApiError> = await axios.post(
       `${process.env.API_BASE_URL}/auth/signup`,
       payload,
@@ -26,7 +34,15 @@ export default async function signup(
       },
     );
 
-    if (res?.data?.status === "success") return { status: "success" };
+    if (res?.data?.status === "success") {
+      const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
+      cookieStore.set({
+        name: "SIGNUP-EMAIL",
+        value: formData.get("email") as string,
+        expires: expires,
+      });
+      return { status: "success" };
+    }
   } catch (err) {
     const error = err as AxiosError<ApiError, RegisterResponseData>;
 
@@ -46,6 +62,7 @@ export async function verifyEmail(
   _prevState: FormActionPreviousState,
   formData: FormData,
 ) {
+  console.log(formData);
   try {
     const res: AxiosResponse<RegisterVerificationResponseData> =
       await axios.post(
@@ -58,7 +75,9 @@ export async function verifyEmail(
         },
       );
     if (res?.data?.status === "success") {
-      (await cookies()).set({
+      const cookieStore = await cookies();
+      cookieStore.delete("SIGNUP-EMAIL");
+      cookieStore.set({
         name: process.env.JWT_SECRET_KEY as string,
         value: res?.data.token,
         expires: JWT_EXPIRATION_DATE,

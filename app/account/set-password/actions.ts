@@ -12,9 +12,8 @@ import { cookies } from "next/headers";
 
 export async function setPasswordRequest() {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
+    const cookieStore = await cookies();
+    const token = cookieStore.get(process.env.JWT_SECRET_KEY as string)?.value;
     const res = await axios.get(
       `${process.env.API_BASE_URL}/user/setPasswordRequest`,
       {

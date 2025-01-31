@@ -1,10 +1,12 @@
 "use client";
 
 import FormLayout from "@/app/_components/FormLayout";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { useFormAction } from "@/app/_hooks/useFormAction";
+import { useTimer } from "@/app/_hooks/useTimer";
 import { OTPLoginVerificationPayload } from "@/app/_types/authTypes";
-import { otpVerifyLogin } from "@/app/auth/login-otp/actions";
+import { otpLogin, otpVerifyLogin } from "@/app/auth/login-otp/actions";
 import { ActionDispatch } from "react";
 import { useForm } from "react-hook-form";
 import { BsBoxArrowInLeft } from "react-icons/bs";
@@ -37,6 +39,18 @@ function OtpLoginFormVerification({
     shouldNotifyOnError: true,
   });
 
+  const {
+    time,
+    finished,
+    isPending: resendingCode,
+    handleRestart: resendCode,
+  } = useTimer({
+    finishesAt: 0,
+    step: 60,
+    variant: "decrease",
+    formAction: otpLogin,
+  });
+
   return (
     <FormLayout
       action={action}
@@ -59,9 +73,14 @@ function OtpLoginFormVerification({
       <FormLayout.Submit
         disabled={!isValid}
         label="تایید"
-        pendingStatus={isPending}
+        pendingStatus={isPending || resendingCode}
       />
       <FormLayout.Footer>
+        <FormTimerButton
+          formAction={resendCode as () => void}
+          finished={finished}
+          time={time}
+        />
         <button
           type="button"
           className="text-primary"

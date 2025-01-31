@@ -6,6 +6,20 @@ import { DefaultValues, UseFormReset } from "react-hook-form";
 import { FieldValues, FormActionPreviousState } from "../_types/globalTypes";
 import { useToast } from "./useToast";
 
+export type FormAction<T> = (
+  _prevState: FormActionPreviousState,
+  formData: FormData,
+) => Promise<
+  | null
+  | {
+      status: string;
+      message?: undefined | string;
+      values?: undefined | T;
+      statusCode?: number | undefined;
+    }
+  | undefined
+>;
+
 export function useFormAction<S extends FieldValues, T>({
   formAction,
   shouldNotifyOnError,
@@ -15,19 +29,7 @@ export function useFormAction<S extends FieldValues, T>({
   onSuccessRouterHref,
   resetOnError,
 }: {
-  formAction: (
-    _prevState: FormActionPreviousState,
-    formData: FormData,
-  ) => Promise<
-    | null
-    | {
-        status: string;
-        message?: undefined | string;
-        values?: undefined | T;
-        statusCode?: number | undefined;
-      }
-    | undefined
-  >;
+  formAction: FormAction<T>;
   shouldNotifyOnError: boolean;
   onError?: () => void;
   onSuccess?: () => void;

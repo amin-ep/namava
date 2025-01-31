@@ -2,12 +2,14 @@
 
 import FormLayout from "@/app/_components/FormLayout";
 import { useForm } from "react-hook-form";
-import { forgetPasswordVerify } from "../actions";
+import { forgetPassword, forgetPasswordVerify } from "../actions";
 import { MdLockReset } from "react-icons/md";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { IForgetPasswordVerifyPayload } from "@/app/_types/authTypes";
 import { useActionState, useEffect } from "react";
 import { useToast } from "@/app/_hooks/useToast";
+import { useTimer } from "@/app/_hooks/useTimer";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 
 function RecoverFormVerify({
   nextStep,
@@ -55,6 +57,18 @@ function RecoverFormVerify({
     }
   }, [result, nextStep, setResetId]);
 
+  const {
+    finished,
+    handleRestart: resendCode,
+    isPending: isSendingCode,
+    time,
+  } = useTimer({
+    finishesAt: 0,
+    formAction: forgetPassword,
+    step: 60,
+    variant: "decrease",
+  });
+
   return (
     <FormLayout
       action={action}
@@ -79,11 +93,20 @@ function RecoverFormVerify({
       />
       <FormLayout.Submit
         disabled={!isValid}
-        pendingStatus={isPending}
+        pendingStatus={isPending || isSendingCode}
         label="تایید"
       />
       <FormLayout.Footer>
-        <button type="button" onClick={wrongEmail}>
+        <FormTimerButton
+          finished={finished}
+          formAction={resendCode}
+          time={time}
+        />
+        <button
+          type="button"
+          className="text-xs text-primary md:text-sm"
+          onClick={wrongEmail}
+        >
           ایمیل را اشتباه وارد کرده اید؟
         </button>
       </FormLayout.Footer>

@@ -4,10 +4,12 @@ import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { updateEmail } from "../actions";
+import { updateEmail, updateEmailRequest } from "../actions";
 import { useEditEmail } from "@/app/_contexts/EditEmailContext";
 import { useToast } from "@/app/_hooks/useToast";
 import { UpdateEmailPayload } from "@/app/_types/editEmail";
+import { useTimer } from "@/app/_hooks/useTimer";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 
 function EditEmailConfirmForm() {
   const [result, formAction, isPending] = useActionState(updateEmail, null);
@@ -28,6 +30,18 @@ function EditEmailConfirmForm() {
   useEffect(() => {
     if (userData) setValue("email", userData?.candidateEmail as string);
   }, [userData, setValue]);
+
+  const {
+    finished,
+    handleRestart: resendCode,
+    isPending: isSendingCode,
+    time,
+  } = useTimer({
+    finishesAt: 0,
+    formAction: updateEmailRequest,
+    step: 60,
+    variant: "decrease",
+  });
 
   useEffect(() => {
     if (result) {
@@ -61,8 +75,15 @@ function EditEmailConfirmForm() {
       <FormLayout.Submit
         disabled={!isValid}
         label="تایید"
-        pendingStatus={isPending}
+        pendingStatus={isPending || isSendingCode}
       />
+      <FormLayout.Footer>
+        <FormTimerButton
+          finished={finished}
+          formAction={resendCode}
+          time={time}
+        />
+      </FormLayout.Footer>
     </FormLayout>
   );
 }

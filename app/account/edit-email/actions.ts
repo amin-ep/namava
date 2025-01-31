@@ -7,6 +7,7 @@ import {
 } from "@/app/_types/editEmail";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
 import { VerifyMePayload, VerifyMeResponse } from "@/app/_types/userTypes";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
@@ -50,17 +51,26 @@ export async function verifyMe(
 }
 
 export async function updateEmailRequest(
-  _prevState: FormActionPreviousState,
-  formData: FormData,
+  _prevState?: FormActionPreviousState,
+  formData?: FormData,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
+    const cookieStore = await cookies();
+    let payload: null | { [k: string]: string } = null;
+
+    const storedEmail = cookieStore.get("EDIT_EMAIL_EMAIL")?.value;
+    if (storedEmail) {
+      payload = { email: storedEmail };
+    } else {
+      payload = removeUnrecognizedFields(
+        Object.fromEntries(formData as FormData),
+      );
+    }
+    const token = cookieStore.get(process.env.JWT_SECRET_KEY as string)?.value;
     const res: AxiosResponse<UpdateEmailRequestResponse, ApiError> =
       await axios.post(
         `${process.env.API_BASE_URL}/user/updateEmailRequest`,
-        formData,
+        payload,
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,6 +80,13 @@ export async function updateEmailRequest(
       );
 
     if (res?.status === 200) {
+      const expires = Date.now() + 1 * 60 * 60 * 1000;
+
+      cookieStore.set({
+        name: "EDIT_EMAIL_EMAIL",
+        value: formData?.get("email") as string,
+        expires,
+      });
       return { status: "success" };
     }
   } catch (err) {

@@ -12,11 +12,21 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function forgetPassword(
-  _prevState: FormActionPreviousState,
-  formData: FormData,
+  _prevState?: FormActionPreviousState,
+  formData?: FormData,
 ) {
   try {
-    const payload = removeUnrecognizedFields(Object.fromEntries(formData));
+    let payload: null | { [k: string]: string } = null;
+    const cookieStore = await cookies();
+
+    const forgetPasswordEmail = cookieStore.get("FORGET-PASSWORD-EMAIL")?.value;
+    if (!forgetPasswordEmail) {
+      payload = removeUnrecognizedFields(
+        Object.fromEntries(formData as FormData),
+      );
+    } else {
+      payload = { email: forgetPasswordEmail as string };
+    }
     const res = await axios.post(
       `${process.env.API_BASE_URL}/auth/forgetPassword`,
       payload,
@@ -28,6 +38,13 @@ export async function forgetPassword(
     );
 
     if (res.status === 200) {
+      const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
+
+      cookieStore.set({
+        name: "FORGET-PASSWORD-EMAIL",
+        value: payload.email,
+        expires,
+      });
       return { status: "success" };
     }
   } catch (err) {
@@ -40,7 +57,7 @@ export async function forgetPassword(
           error?.response?.data.message ||
           "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
         values: {
-          email: formData.get("email"),
+          email: (formData as FormData).get("email"),
         },
       };
     }

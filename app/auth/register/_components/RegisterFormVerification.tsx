@@ -3,12 +3,17 @@
 import FormLayout from "@/app/_components/FormLayout";
 import SixDigitsNumberInput from "@/app/_components/SixDigitsNumberInput";
 import { useFormAction } from "@/app/_hooks/useFormAction";
-import { RegisterVerificationPayload } from "@/app/_types/authTypes";
-import { verifyEmail } from "@/app/auth/register/actions";
+import {
+  RegisterPayload,
+  RegisterVerificationPayload,
+} from "@/app/_types/authTypes";
+import signup, { verifyEmail } from "@/app/auth/register/actions";
 import { ActionDispatch } from "react";
 import { useForm } from "react-hook-form";
 import { MdEditNote } from "react-icons/md";
 import { RegisterActionTypes } from "./RegisterForm";
+import { useTimer, UseTimerFormAction } from "@/app/_hooks/useTimer";
+import FormTimerButton from "@/app/_components/FormTimerButton";
 
 function RegisterFormVerification({
   email,
@@ -35,6 +40,18 @@ function RegisterFormVerification({
     onSuccessRouterHref: "/",
   });
 
+  const {
+    finished,
+    handleRestart: resendCode,
+    isPending: isSendingCode,
+    time,
+  } = useTimer({
+    finishesAt: 0,
+    variant: "decrease",
+    step: 60,
+    formAction: signup as UseTimerFormAction<RegisterPayload>,
+  });
+
   return (
     <FormLayout
       action={action}
@@ -55,9 +72,15 @@ function RegisterFormVerification({
       <FormLayout.Submit
         disabled={!isValid}
         label="تایید"
-        pendingStatus={isPending}
+        pendingStatus={isPending || isSendingCode}
       />
+
       <FormLayout.Footer>
+        <FormTimerButton
+          finished={finished}
+          formAction={resendCode}
+          time={time}
+        />
         <button
           type="button"
           onClick={() => dispatch({ type: "clear" })}
