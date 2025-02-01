@@ -1,15 +1,16 @@
-import Image from "next/image";
+import PageContainer from "../_components/PageContainer";
 
 function Page() {
   return (
-    <div>
-      <Image
+    <PageContainer>
+      {/* <Image
         src="/Dirty-Angels.jpg"
         alt="image"
         fill
         className="min-h-[46.875vw] object-cover"
-      />
-    </div>
+      /> */}
+      <h1>Home page</h1>
+    </PageContainer>
   );
 }
 
