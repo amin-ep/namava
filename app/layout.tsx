@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa-IR">
-      <body className={`${iran_yekan.className} antialiased`}>
+      <body className={`${iran_yekan.className} bg-[#121212] antialiased`}>
         <QueryClientProvider>
           <ReactQueryDevtools initialIsOpen={false} />
           <Toast />
