@@ -115,7 +115,6 @@ function UserOptions() {
     };
   }, []);
 
-  // handling open and close functionalities
   useEffect(() => {
     const handleOpenOnClick = () => {
       dispatch({ type: "toggle" });
@@ -128,18 +127,34 @@ function UserOptions() {
         buttonRef.current?.removeEventListener("click", handleOpenOnClick);
       };
     }
-  }, [openingPattern, isOpen]);
 
-  useEffect(() => {
-    const handleChangingWindowSize = () => {
-      if (openingPattern === "onHover" && isOpen) dispatch({ type: "close" });
-    };
+    if (openingPattern === "onClick") {
+      if (isOpen) {
+        document.body.style.overflowY = "hidden";
+      } else {
+        document.body.style.overflowY = "auto";
+      }
+    }
 
-    window.addEventListener("resize", handleChangingWindowSize);
+    if (openingPattern === "onHover") {
+      const handleCloseDuringScroll = () => {
+        if (isOpen) {
+          dispatch({ type: "close" });
+        }
+      };
+      const handleChangingWindowSize = () => {
+        if (openingPattern === "onHover" && isOpen) dispatch({ type: "close" });
+      };
 
-    return () => {
-      window.removeEventListener("resize", handleChangingWindowSize);
-    };
+      window.addEventListener("resize", handleChangingWindowSize);
+
+      window.addEventListener("scroll", handleCloseDuringScroll);
+
+      return () => {
+        window.removeEventListener("resize", handleChangingWindowSize);
+        window.removeEventListener("scroll", handleCloseDuringScroll);
+      };
+    }
   }, [openingPattern, isOpen]);
 
   const items: {

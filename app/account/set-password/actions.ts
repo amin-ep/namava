@@ -5,8 +5,11 @@ import {
   SetPasswordPayload,
   SetPasswordResponse,
 } from "@/app/_types/userTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -26,14 +29,7 @@ export async function setPasswordRequest() {
 
     if (res.status === 200) return res?.status as number;
   } catch (err) {
-    const error = err as AxiosError<ApiError>;
-
-    if (error) {
-      return (
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید."
-      );
-    }
+    return handleServerActionError(err);
   }
 }
 
@@ -61,16 +57,7 @@ export async function setPasswordVerify(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, SetPasswordPayload>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      };
-    }
+    return handleServerActionError<SetPasswordPayload>(err);
   }
 }
 
@@ -100,18 +87,9 @@ export async function setPassword(
       return { status: "success", message: "رمز عبور شما با موفقیت ثبت شد." };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, SetPasswordResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          password: formData?.get("password"),
-        },
-      };
-    }
+    return handleServerActionError<
+      SetPasswordResponse,
+      { password: FormDataEntryValue }
+    >(err, { password: formData?.get("password") || "" });
   }
 }

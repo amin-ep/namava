@@ -2,8 +2,11 @@
 
 import { LoginResponse } from "@/app/_types/authTypes";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -35,16 +38,12 @@ export async function login(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, LoginResponse>;
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      values: {
-        email: formData.get("email"),
-        password: formData.get("password"),
-      },
-    };
+    return handleServerActionError<
+      LoginResponse,
+      { email: FormDataEntryValue; password: FormDataEntryValue }
+    >(err, {
+      email: formData.get("email") || "",
+      password: formData.get("password") || "",
+    });
   }
 }

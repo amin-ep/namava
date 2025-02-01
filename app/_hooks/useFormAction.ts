@@ -42,34 +42,41 @@ export function useFormAction<S extends FieldValues, T>({
   const notify = useToast();
 
   useEffect(() => {
-    if (result && result?.status === "success") {
-      if (shouldNotifyOnSuccess) {
-        notify("success", result?.message as string);
-      }
-      if (onSuccess) {
-        onSuccess();
-      }
-      if (onSuccessRouterHref) {
-        router.push(onSuccessRouterHref);
+    if (result) {
+      if (result?.status === "success") {
+        if (shouldNotifyOnSuccess) {
+          notify("success", result?.message as string);
+        }
+        if (onSuccess) {
+          onSuccess();
+        }
+        if (onSuccessRouterHref) {
+          router.push(onSuccessRouterHref);
+        }
+      } else if (result.status === "error") {
+        if (shouldNotifyOnError) {
+          notify("error", result?.message as string);
+        }
+
+        if (onError) {
+          onError();
+        }
+
+        if (resetOnError) {
+          resetOnError(result?.values as S | DefaultValues<S> | undefined);
+        }
       }
     }
-  }, [result, onSuccess, onSuccessRouterHref, router]);
-
-  useEffect(() => {
-    if (result && result?.status === "error") {
-      if (shouldNotifyOnError) {
-        notify("error", result?.message as string);
-      }
-
-      if (onError) {
-        onError();
-      }
-
-      if (resetOnError) {
-        resetOnError(result?.values as S | DefaultValues<S> | undefined);
-      }
-    }
-  }, [result, shouldNotifyOnError, onError, resetOnError]);
+  }, [
+    result,
+    onSuccess,
+    onSuccessRouterHref,
+    router,
+    onError,
+    shouldNotifyOnSuccess,
+    shouldNotifyOnError,
+    resetOnError,
+  ]);
 
   return { isPending, action };
 }

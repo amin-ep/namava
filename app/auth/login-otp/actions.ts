@@ -5,8 +5,11 @@ import {
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -50,16 +53,10 @@ export async function otpLogin(
       };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
-    if (error) {
-      return {
-        status: "error",
-        message: error?.response?.data.message,
-        values: {
-          email: (formData as FormData).get("email"),
-        },
-      };
-    }
+    return handleServerActionError<
+      OTPLoginResponseData,
+      { email: FormDataEntryValue }
+    >(err, { email: (formData as FormData).get("email") || "" });
   }
 }
 
@@ -93,17 +90,10 @@ export async function otpVerifyLogin(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
-
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      values: {
-        verificationNumber: formData.get("verificationNumber"),
-      },
-    };
+    return handleServerActionError<
+      OTPLoginVerificationResponseData,
+      { verificationNumber: FormDataEntryValue }
+    >(err, { verificationNumber: formData.get("verificationNumber") || "" });
   }
 }
 
@@ -113,13 +103,6 @@ export async function logout() {
 
     revalidatePath("/");
   } catch (err) {
-    const error = err as AxiosError<ApiError, OTPLoginResponseData>;
-
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-    };
+    return handleServerActionError(err);
   }
 }

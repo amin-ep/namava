@@ -15,7 +15,7 @@ async function UserActions() {
     <div className="flex-end flex items-center gap-1 md:gap-3">
       {token ? (
         <div className="flex items-center justify-end gap-5 text-[28px] text-white lg:gap-6 xl:text-[40px]">
-          <Link href="/search" className={cls(classes)}>
+          <Link href="/search" className={cls(classes, "hidden xl:block")}>
             <Image
               width={32}
               height={32}

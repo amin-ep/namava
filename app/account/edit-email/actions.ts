@@ -7,8 +7,11 @@ import {
 } from "@/app/_types/editEmail";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
 import { VerifyMePayload, VerifyMeResponse } from "@/app/_types/userTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function verifyMe(
@@ -34,19 +37,10 @@ export async function verifyMe(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMeResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          password: formData?.get("password"),
-        },
-      };
-    }
+    return handleServerActionError<
+      VerifyMeResponse,
+      { password: FormDataEntryValue }
+    >(err, { password: formData?.get("password") || "" });
   }
 }
 
@@ -90,19 +84,10 @@ export async function updateEmailRequest(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, UpdateEmailRequestResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          email: formData?.get("email") as string,
-        },
-      };
-    }
+    return handleServerActionError<
+      UpdateEmailRequestResponse,
+      { email: string }
+    >(err, { email: formData?.get("email") as string });
   }
 }
 
@@ -129,16 +114,7 @@ export async function otpUpdateEmail(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      };
-    }
+    return handleServerActionError<VerifyMePayload>(err);
   }
 }
 
@@ -165,23 +141,7 @@ export async function updateEmail(
       return { status: "success", message: "تغییرات ثبت شد", statusCode: 200 };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, UpdateEmailResponse>;
-
-    if (error) {
-      if (error.status === 403) {
-        return {
-          status: "error",
-          statusCode: 403,
-          message: error?.response?.data.message as string,
-        };
-      }
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      };
-    }
+    return handleServerActionError<UpdateEmailResponse>(err, undefined, 403);
   }
 }
 
@@ -203,14 +163,7 @@ export async function otpUpdateEmailRequest() {
 
     return res?.status;
   } catch (err) {
-    const error = err as AxiosError<ApiError, VerifyMePayload>;
-
-    if (error) {
-      return (
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید."
-      );
-    }
+    return handleServerActionError<UpdateEmailResponse>(err);
   }
 }
 
@@ -238,15 +191,6 @@ export async function otpUpdateEmailVerify(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, OtpUpdateEmailVerifyResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      };
-    }
+    return handleServerActionError<OtpUpdateEmailVerifyResponse>(err);
   }
 }

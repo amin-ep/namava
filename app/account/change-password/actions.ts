@@ -2,8 +2,11 @@
 
 import { ApiError } from "@/app/_types/globalTypes";
 import { ChangePasswordResponse } from "@/app/_types/userTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function changePassword(
@@ -45,20 +48,13 @@ export async function changePassword(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, ChangePasswordResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          password: (String(formData.get("password")) as string) || "",
-          currentPassword:
-            (String(formData.get("currentPassword")) as string) || "",
-        },
-      };
-    }
+    return handleServerActionError<
+      ChangePasswordResponse,
+      { currentPassword: string; password: string }
+    >(err, {
+      password: (String(formData.get("password")) as string) || "",
+      currentPassword:
+        (String(formData.get("currentPassword")) as string) || "",
+    });
   }
 }

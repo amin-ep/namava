@@ -1,8 +1,11 @@
 "use server";
 
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 import {
   RegisterResponseData,
@@ -44,17 +47,10 @@ export default async function signup(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, RegisterResponseData>;
-
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      values: {
-        email: formData?.get("email"),
-      },
-    };
+    return handleServerActionError<
+      RegisterResponseData,
+      { email: FormDataEntryValue }
+    >(err, { email: formData?.get("email") || "" });
   }
 }
 
@@ -62,7 +58,6 @@ export async function verifyEmail(
   _prevState: FormActionPreviousState,
   formData: FormData,
 ) {
-  console.log(formData);
   try {
     const res: AxiosResponse<RegisterVerificationResponseData> =
       await axios.post(
@@ -85,13 +80,6 @@ export async function verifyEmail(
       return { status: res?.data.status };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, RegisterResponseData>;
-
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-    };
+    return handleServerActionError<RegisterVerificationResponseData>(err);
   }
 }

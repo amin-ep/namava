@@ -7,8 +7,11 @@ import {
 } from "@/app/_types/authTypes";
 import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
 import { JWT_EXPIRATION_DATE } from "@/app/_utils/constants";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  handleServerActionError,
+  removeUnrecognizedFields,
+} from "@/app/_utils/helpers";
+import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function forgetPassword(
@@ -48,19 +51,10 @@ export async function forgetPassword(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, IForgetPasswordResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          email: (formData as FormData).get("email"),
-        },
-      };
-    }
+    return handleServerActionError<
+      IForgetPasswordResponse,
+      { email: FormDataEntryValue }
+    >(err, { email: (formData as FormData).get("email") || "" });
   }
 }
 
@@ -85,19 +79,10 @@ export async function forgetPasswordVerify(
       return { status: "success", message: res?.data.resetId };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, IForgetPasswordVerifyResponse>;
-
-    if (error) {
-      return {
-        status: "error",
-        message:
-          error?.response?.data.message ||
-          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-        values: {
-          email: formData.get("email"),
-        },
-      };
-    }
+    return handleServerActionError<
+      IForgetPasswordVerifyResponse,
+      { email: FormDataEntryValue }
+    >(err, { email: formData.get("email") || "" });
   }
 }
 
@@ -127,17 +112,12 @@ export async function resetPassword(
       return { status: "success" };
     }
   } catch (err) {
-    const error = err as AxiosError<ApiError, IForgetPasswordVerifyResponse>;
-
-    return {
-      status: "error",
-      message:
-        error?.response?.data.message ||
-        "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
-      values: {
-        password: (String(formData.get("password")) as string) || "",
-        resetId: (String(formData.get("resetId")) as string) || "",
-      },
-    };
+    return handleServerActionError<
+      IResetPasswordResponse,
+      { password: string; resetId: string }
+    >(err, {
+      password: (String(formData.get("password")) as string) || "",
+      resetId: (String(formData.get("resetId")) as string) || "",
+    });
   }
 }
