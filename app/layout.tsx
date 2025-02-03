@@ -8,7 +8,7 @@ import HeaderActions from "./_components/Header/HeaderActions";
 import QueryClientProvider from "./_providers/QueryClientProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrevPageButton from "./_components/Header/PrevPageButton";
-import Footer from "./_components/Footer";
+import Footer from "./_components/Footer/Footer";
 
 const iran_yekan = localFont({ src: "_fonts/Qs_Iranyekan.ttf" });
 
@@ -34,8 +34,8 @@ export default function RootLayout({
             <HeaderActions />
           </Header>
           <main>{children}</main>
+          <Footer />
         </QueryClientProvider>
-        <Footer />
       </body>
     </html>
   );

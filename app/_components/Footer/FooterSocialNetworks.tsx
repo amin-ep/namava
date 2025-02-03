@@ -1,8 +1,5 @@
 import Link from "next/link";
 import { FaTelegramPlane, FaInstagram, FaTwitter } from "react-icons/fa";
-// https://telegram.me/namava_ir
-// https://instagram.com/namava_ir
-// https://twitter.com/Namava_ir
 
 const socialNetworkItems: { icon: React.ReactNode; href: string }[] = [
   { icon: <FaTwitter size={26} />, href: "https://twitter.com/Namava_ir" },

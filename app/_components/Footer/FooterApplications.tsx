@@ -1,5 +1,5 @@
 import Image from "next/image";
-import MainLink from "./MainLink";
+import MainLink from "../MainLink";
 import Link from "next/link";
 
 interface AppLinkProps {
