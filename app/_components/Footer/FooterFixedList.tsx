@@ -33,7 +33,7 @@ function FooterFixedList({ className }: { className: string }) {
   return (
     <div
       className={cls(
-        "left-0 right-0 bg-[#222327]",
+        "left-0 right-0 z-10 bg-[#222327]",
         className,
         className === "fixed" ? "bottom-0" : "top-0",
       )}
@@ -99,7 +99,7 @@ function ListModalMenu({
       <Overlay onClose={onClose} isOpen={isOpen} />
       <ul
         className={cls(
-          "absolute bottom-10 left-8 z-10 flex flex-col bg-[#222327] p-0 transition-all delay-100 duration-500",
+          "absolute bottom-10 left-8 z-20 flex flex-col bg-[#222327] p-0 transition-all delay-100 duration-500",
         )}
         ref={ref}
       >
@@ -164,7 +164,7 @@ function Overlay({
       <div
         onClick={onClose}
         ref={ref}
-        className="absolute left-0 right-0 w-full bg-black/85"
+        className="absolute left-0 right-0 z-0 w-full bg-black/85"
       ></div>,
       document.body,
     );
