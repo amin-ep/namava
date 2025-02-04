@@ -52,7 +52,7 @@ async function UserActions() {
         <>
           <Link
             href="/"
-            className="px-5 text-center text-xs leading-[44px] text-white hover:text-primary"
+            className="px-5 text-center text-xs leading-[44px] text-white hover:text-primary-default"
           >
             خرید اشتراک
           </Link>
