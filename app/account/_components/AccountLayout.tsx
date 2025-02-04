@@ -32,7 +32,7 @@ function AccountLayout({
   return (
     <div
       className={cls(
-        "bg-[#f2f2f2]",
+        "bg-gray-100",
         showSideMenu ? "py-20 xsm:px-6 md:py-24 xl:py-28" : "",
       )}
     >

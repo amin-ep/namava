@@ -55,10 +55,10 @@ function SideMenu({
               <Link
                 href={item.href}
                 className={cls(
-                  "flex items-center justify-start gap-5 px-6 py-4 text-sm text-stone-400",
+                  "flex items-center justify-start gap-5 px-6 py-4 text-sm text-gray-400",
                   (pathname === "/account/edit" && index === 0) ||
                     pathname === item.href
-                    ? "bg-stone-200/70"
+                    ? "bg-gray-100"
                     : "",
                 )}
                 {...(index === navItems.length - 1 && { onClick: logout })}
@@ -67,7 +67,7 @@ function SideMenu({
                   className={
                     (pathname === "/account/edit" && index === 0) ||
                     pathname === item.href
-                      ? "text-primary"
+                      ? "text-primary-default"
                       : ""
                   }
                 >
@@ -77,8 +77,8 @@ function SideMenu({
                   className={
                     (pathname === "/account/edit" && index === 0) ||
                     pathname === item.href
-                      ? "text-primary"
-                      : "text-stone-800"
+                      ? "text-primary-default"
+                      : "text-gray-800"
                   }
                 >
                   {item.title}

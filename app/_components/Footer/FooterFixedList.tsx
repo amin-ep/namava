@@ -22,7 +22,7 @@ const items: ILink[] = [
 ];
 
 const linkStyles =
-  "text-[10px] text-stone-300/85 hover:text-white font-semibold base:text-xs";
+  "text-[10px] text-gray-500 hover:text-white font-semibold base:text-xs";
 
 function FooterFixedList({ className }: { className: string }) {
   const [modalMenuIsOpen, setModalMenuIsOpen] = useState<boolean>(false);
@@ -33,7 +33,7 @@ function FooterFixedList({ className }: { className: string }) {
   return (
     <div
       className={cls(
-        "left-0 right-0 z-10 hidden bg-[#222327] md:block",
+        "left-0 right-0 z-10 hidden bg-gray-900 md:block",
         className,
         className === "fixed" ? "bottom-0" : "top-0",
       )}
@@ -99,13 +99,13 @@ function ListModalMenu({
       <Overlay onClose={onClose} isOpen={isOpen} />
       <ul
         className={cls(
-          "absolute bottom-10 left-8 z-20 flex flex-col bg-[#222327] p-0 transition-all delay-100 duration-500",
+          "absolute bottom-10 left-8 z-20 flex flex-col bg-gray-900 p-0 transition-all delay-100 duration-500",
         )}
         ref={ref}
       >
         <button
           onClick={onClose}
-          className="flex w-full items-center justify-between px-6 py-3 text-center text-[10px] font-semibold text-stone-300/85 base:text-xs"
+          className="flex w-full items-center justify-between px-6 py-3 text-center text-[10px] font-semibold text-gray-500 base:text-xs"
         >
           <span className="hover:text-white">سایر لینک ها</span>
           <Image

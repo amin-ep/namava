@@ -48,7 +48,7 @@ function Item({
     <button
       {...(onClick && { onClick: onClick })}
       type="button"
-      className="flex items-center justify-between rounded-xl bg-stone-100 p-3 text-black hover:bg-primary hover:text-white md:p-4"
+      className="hover:bg-primary-default flex items-center justify-between rounded-xl bg-gray-100 p-3 text-black hover:text-white md:p-4"
       onMouseEnter={() => {
         setButtonIsOnHover(true);
       }}

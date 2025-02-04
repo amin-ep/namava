@@ -44,11 +44,11 @@ function HeadingWrapper() {
 
   return (
     <div className="relative mb-5 flex items-center justify-center md:hidden">
-      <h1 className="text-sm font-bold text-stone-700 xsm:text-base">
+      <h1 className="text-sm font-bold text-gray-800 xsm:text-base">
         {headingTitle}
       </h1>
       <div className="absolute right-5">
-        <button onClick={open} className="aspect-square w-6 text-stone-600">
+        <button onClick={open} className="aspect-square w-6 text-gray-800">
           {isOpen ? <HiOutlineXMark size={24} /> : <HiOutlineBars3 size={24} />}
         </button>
         {isOpen && (

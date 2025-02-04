@@ -12,7 +12,7 @@ export default function InfoHeader({
     <div className="flex items-center justify-between">
       <AccountMainHeading>{heading}</AccountMainHeading>
       {link && (
-        <Link href={link.href} className="text-primary">
+        <Link href={link.href} className="text-primary-default">
           {link.title}
         </Link>
       )}

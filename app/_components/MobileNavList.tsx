@@ -35,7 +35,7 @@ function MobileNavList({
       <ul
         className={cls(
           "fixed z-50 flex w-[11.25rem] translate-x-5 flex-col rounded-xl px-4 shadow-[0_5px_10px_rgba(0,0,0,0.3)]",
-          theme === "dark" ? "bg-[#37383e]" : "bg-white",
+          theme === "dark" ? "bg-gray-700" : "bg-white",
           className,
         )}
       >
@@ -47,15 +47,15 @@ function MobileNavList({
                 "flex items-center justify-between py-3",
                 index !== items.length - 1 && "border-b",
                 theme === "dark"
-                  ? "border-stone-500 text-white"
-                  : "border-stone-400 text-stone-800",
+                  ? "border-gray-500 text-white"
+                  : "border-gray-400 text-gray-800",
               )}
             >
               <div className="flex items-center justify-start gap-3">
                 {item.icon && (
                   <span
                     className={
-                      theme === "dark" ? "text-white" : "text-stone-400"
+                      theme === "dark" ? "text-white" : "text-gray-400"
                     }
                   >
                     {item.icon}
@@ -67,7 +67,7 @@ function MobileNavList({
                 <IoMdCheckmark
                   size={22}
                   className={
-                    theme === "dark" ? "text-primary" : "text-stone-950"
+                    theme === "dark" ? "text-primary-default" : "text-gray-950"
                   }
                 />
               )}

@@ -76,7 +76,7 @@ function Header({ children }: { children: ReactNode }) {
         id="header"
         className={cls(
           "fixed left-0 right-0 z-30 flex h-[60px] items-center justify-between bg-gradient-to-b from-[rgba(18,18,18,1)] to-[rgba(18,18,18,0)] px-5 xsm:px-6 md:px-8 lg:px-11 xl:h-20",
-          pathname.split("/")[1] === "account" ? "bg-black" : "",
+          pathname.split("/")[1] === "account" ? "bg-gray-950" : "",
         )}
         ref={ref}
       >

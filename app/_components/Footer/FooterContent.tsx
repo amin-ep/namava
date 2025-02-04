@@ -8,7 +8,7 @@ function FooterContent() {
     <div className="my-6 grid grid-cols-[1fr_208px] justify-between gap-8 xl:grid-cols-[1fr_238px] xl:gap-24">
       <div>
         <h6 className="mb-2 text-xs text-white">درباره نماوا</h6>
-        <p className="text-justify text-xs leading-6 text-stone-400">
+        <p className="text-justify text-xs leading-6 text-gray-500">
           سرزمین شاتل در سایت نماوا امکان پخش آنلاین فیلم‌ها و سریال‌های
           محبوبتان را در اختیار شما کاربران گرامی قرار می‌دهد. مشاهده پیش‌نمایش
           فیلم و سریال‌ها، جستجوی سریع مجموعه انتخابی، دانلود درون‌برنامه‌ای،

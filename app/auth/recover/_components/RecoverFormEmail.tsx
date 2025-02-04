@@ -42,7 +42,7 @@ function RecoverFormEmail({
       headerLink={{ title: "ثبت نام", href: "/auth/register" }}
       heading="بازیابی رمز عبور"
       description="لطفا ایمیل خود را وارد کنید."
-      icon={<MdLockReset size={35} className="text-primary" />}
+      icon={<MdLockReset size={35} className="text-primary-default" />}
     >
       <FormLayout.Control
         name="email"

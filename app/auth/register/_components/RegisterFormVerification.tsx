@@ -57,7 +57,7 @@ function RegisterFormVerification({
       action={action}
       description={`کد تایید به ایمیل ${email} ارسال شد.`}
       heading="ثبت نام"
-      icon={<MdEditNote className="text-primary" size={35} />}
+      icon={<MdEditNote className="text-primary-default" size={35} />}
       headerLink={{ href: "/auth/login", title: "ورود" }}
     >
       <input
@@ -84,7 +84,7 @@ function RegisterFormVerification({
         <button
           type="button"
           onClick={() => dispatch({ type: "clear" })}
-          className="text-primary"
+          className="text-primary-default"
         >
           ایمیل را اشتباه وارد کرده اید؟
         </button>

@@ -42,7 +42,7 @@ function RegisterEmailForm({
     <FormLayout
       description="لطفا ایمیل خود را وارد کنید."
       heading="ثبت نام"
-      icon={<MdEditNote className="text-primary" size={35} />}
+      icon={<MdEditNote className="text-primary-default" size={35} />}
       headerLink={{ title: "ورود", href: "/auth/login" }}
       action={action}
     >
@@ -62,7 +62,7 @@ function RegisterEmailForm({
         pendingStatus={isPending}
       />
       <FormLayout.Footer>
-        <p className="text-stone-950">
+        <p className="text-gray-800">
           با زدن ادامه دکمه{" "}
           <FormLayout.ExtraLink href="/terms-and-conditions">
             شرایط و قوانین سایت{" "}

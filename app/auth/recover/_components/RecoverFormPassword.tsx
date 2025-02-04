@@ -39,7 +39,7 @@ function RecoverFormPassword({ resetId }: { resetId: string }) {
       headerLink={{ title: "ثبت نام", href: "/auth/register" }}
       heading="بازیابی رمز عبور"
       description="لطفا رمز عبور جدید خود را تعیین کنید."
-      icon={<MdLockReset size={35} className="text-primary" />}
+      icon={<MdLockReset size={35} className="text-primary-default" />}
     >
       <FormLayout.Control
         register={register}

@@ -98,11 +98,31 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: #1993ff;
-  }
+
+:root {
+  --color-primary-default: #1993ff;
+  --color-primary-light: #6eb8ff;
+  --color-primary-dark: #158bf3;
+
+  --color-gray-100: #f2f2f2;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #aaaaaa;
+  --color-gray-500: #666666;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #37383e;
+  --color-gray-800: #1a1a1a;
+  --color-gray-900: #222327;
+  --color-gray-950: #121212;
+
+  --color-red-default: #d95c5c;
+  --color-red-light: #ff6b6b;
+  --color-red-dark: #b04141;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
 }
+
 
 @layer components {
   .form {

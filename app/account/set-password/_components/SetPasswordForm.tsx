@@ -30,7 +30,7 @@ function SetPasswordForm() {
       action={action}
       description="لطفا رمز عبور خود را تعیین کنید"
       heading="افزودن رمز عبور"
-      icon={<MdLockReset size={30} className="text-primary" />}
+      icon={<MdLockReset size={30} className="text-primary-default" />}
     >
       <FormLayout.Control
         name="password"

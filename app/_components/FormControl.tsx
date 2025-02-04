@@ -94,7 +94,7 @@ function FormControl<TFormValues extends FieldValues>({
                 });
               }
             }}
-            className="absolute right-[14px] text-stone-500"
+            className="absolute right-[14px] text-gray-500"
           >
             {showPassword ? <HiEyeSlash size={15} /> : <HiEye size={15} />}
           </button>
@@ -148,7 +148,7 @@ function FormControl<TFormValues extends FieldValues>({
       {type !== "hidden" ? (
         <div className="flex flex-col gap-2">
           {label && (
-            <label className="text-right text-xs font-normal text-stone-950 md:text-sm">
+            <label className="text-right text-xs font-normal text-gray-800 md:text-sm">
               {label}
             </label>
           )}

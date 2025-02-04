@@ -125,7 +125,7 @@ function ChangePasswordForm() {
               textAlign="left"
               type="password"
             />
-            <div className="flex flex-col items-start justify-center gap-2 text-sm text-stone-700">
+            <div className="flex flex-col items-start justify-center gap-2 text-sm text-gray-800">
               <p>رمز عبور باید دارای شرایط زیر باشد:</p>
               <ul className="flex flex-col gap-2">
                 <li className="flex items-center gap-3">

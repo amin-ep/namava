@@ -26,7 +26,7 @@ function NotFound() {
           </p>
         </div>
         <Link
-          className="w-56 rounded-xl bg-white px-5 py-3 text-center text-xs text-stone-800 hover:bg-primary hover:text-white md:w-60 md:text-sm"
+          className="hover:bg-primary-default w-56 rounded-xl bg-white px-5 py-3 text-center text-xs text-stone-800 hover:text-white md:w-60 md:text-sm"
           href="/"
         >
           رفتن به خانه

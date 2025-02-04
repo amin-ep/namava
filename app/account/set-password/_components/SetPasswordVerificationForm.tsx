@@ -47,7 +47,7 @@ function SetPasswordVerificationForm({
       action={action}
       description={`کد تایید به ایمیل ${email} ارسال شد. لطفا کد را وارد کنید.`}
       heading="افزودن رمز عبور"
-      icon={<MdLockReset className="text-primary" size={30} />}
+      icon={<MdLockReset className="text-primary-default" size={30} />}
     >
       <SixDigitsNumberInput setValue={setValue} />
       <input

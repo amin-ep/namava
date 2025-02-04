@@ -83,7 +83,7 @@ function OtpLoginFormVerification({
         />
         <button
           type="button"
-          className="text-primary"
+          className="text-primary-default"
           onClick={() => {
             dispatch({ type: "clear" });
           }}

@@ -9,7 +9,10 @@ function MainLink({
   children: React.ReactNode;
 }) {
   return (
-    <Link href={href} className="text-xs font-semibold text-primary md:text-sm">
+    <Link
+      href={href}
+      className="text-primary-default text-xs font-semibold md:text-sm"
+    >
       {children}
     </Link>
   );

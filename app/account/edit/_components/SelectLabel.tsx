@@ -16,14 +16,14 @@ export default function SelectLabel({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <div className="text-right text-xs font-normal text-stone-950 md:text-sm">
+      <div className="text-right text-xs font-normal text-gray-950 md:text-sm">
         {label.title}
         {label.optionalTitle && (
-          <span className="text-stone-400"> ({label.optionalTitle})</span>
+          <span className="text-gray-400"> ({label.optionalTitle})</span>
         )}
       </div>
       {onClick && (
-        <button type="button" className="text-stone-500" onClick={onClick}>
+        <button type="button" className="text-gray-500" onClick={onClick}>
           <PiTrashSimpleDuotone size={20} />
         </button>
       )}

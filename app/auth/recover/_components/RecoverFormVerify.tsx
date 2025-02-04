@@ -75,7 +75,7 @@ function RecoverFormVerify({
       headerLink={{ title: "ثبت نام", href: "/auth/register" }}
       heading="بازیابی رمز عبور"
       description={`کد تایید به ایمیل ${email} ارسال شد. لطفا کد را وارد کنید`}
-      icon={<MdLockReset size={35} className="text-primary" />}
+      icon={<MdLockReset size={35} className="text-primary-default" />}
     >
       <SixDigitsNumberInput setValue={setValue} />
       <input
@@ -104,7 +104,7 @@ function RecoverFormVerify({
         />
         <button
           type="button"
-          className="text-xs text-primary md:text-sm"
+          className="text-primary-default text-xs md:text-sm"
           onClick={wrongEmail}
         >
           ایمیل را اشتباه وارد کرده اید؟

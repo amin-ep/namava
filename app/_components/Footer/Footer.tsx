@@ -27,7 +27,7 @@ function Footer() {
       <footer
         id="footer"
         className={cls(
-          "hidden w-full bg-[#1A1A1A] px-5 pb-8 pt-14 xl:pb-6 xl:pt-16",
+          "hidden w-full bg-gray-800 px-5 pb-8 pt-14 xl:pb-6 xl:pt-16",
           pathname.split("/")[1] === "account" ? "md:hidden" : "md:block",
         )}
       >

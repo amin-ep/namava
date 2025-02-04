@@ -32,7 +32,7 @@ function LoginForm() {
       action={action}
       description="لطفا ایمیل خود را وارد کنید."
       heading="ورود"
-      icon={<BsBoxArrowInLeft className="text-sky-400" size={19} />}
+      icon={<BsBoxArrowInLeft className="text-primary-light" size={19} />}
       headerLink={{ title: "ثبت نام", href: "/auth/register" }}
     >
       <FormLayout.Control

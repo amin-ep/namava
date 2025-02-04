@@ -31,7 +31,7 @@ function FormLayout({
           {headerLink && (
             <Link
               href={headerLink.href}
-              className="absolute left-0 flex h-10 items-center text-sm font-semibold text-primary"
+              className="text-primary-default absolute left-0 flex h-10 items-center text-sm font-semibold"
             >
               {headerLink.title}
             </Link>
@@ -48,12 +48,12 @@ function FormLayout({
                 {icon}
               </span>
 
-              <span className="text-sm font-bold text-stone-950 xsm:text-base">
+              <span className="text-sm font-bold text-gray-950 xsm:text-base">
                 {heading}
               </span>
             </h1>
           )}
-          <p className="mb-6 text-xs font-normal text-stone-600 md:text-base">
+          <p className="mb-6 text-xs font-normal text-gray-600 md:text-base">
             {description}
           </p>
         </div>
@@ -67,7 +67,7 @@ function FormLayout({
 
 function Footer({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-8 text-center text-sm text-stone-900">
+    <div className="flex flex-col gap-8 text-center text-sm text-gray-800">
       {children}
     </div>
   );
@@ -75,7 +75,7 @@ function Footer({ children }: { children: ReactNode }) {
 
 function ExtraLink({ children, href }: { children: ReactNode; href: string }) {
   return (
-    <Link href={href} className="text-primary">
+    <Link href={href} className="text-primary-default">
       {children}
     </Link>
   );

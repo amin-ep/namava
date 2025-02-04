@@ -26,17 +26,17 @@ function Select({
     <div className="relative w-full">
       <button
         type="button"
-        className="flex h-10 w-full items-center justify-between rounded-xl border border-stone-300 px-4 text-stone-400 disabled:cursor-default xsm:h-[52px]"
+        className="flex h-10 w-full items-center justify-between rounded-xl border border-gray-300 px-4 text-gray-400 disabled:cursor-default xsm:h-[52px]"
         onClick={onOpen}
       >
         <div>
           {value.length > 0 ? (
-            <span className="text-stone-800">{value}</span>
+            <span className="text-gray-800">{value}</span>
           ) : (
             <span>{placeholder}</span>
           )}
         </div>
-        <span className="text-xl text-stone-700">
+        <span className="text-xl text-gray-800">
           {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </span>
       </button>
@@ -48,7 +48,7 @@ function Select({
           >
             {items.map((item) => (
               <li
-                className="cursor-pointer bg-transparent p-3 text-right text-base text-stone-900 hover:bg-stone-200"
+                className="cursor-pointer bg-transparent p-3 text-right text-base text-gray-800 hover:bg-gray-200"
                 key={item}
                 onClick={onClick}
               >

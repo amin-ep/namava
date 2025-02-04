@@ -28,7 +28,7 @@ const apps: AppLinkProps[] = [
 
 function FooterApplications() {
   return (
-    <div className="flex items-center justify-between rounded-md xl:bg-[#222327] xl:px-6 xl:py-4">
+    <div className="flex items-center justify-between rounded-md xl:bg-gray-900 xl:px-6 xl:py-4">
       <div className="flex flex-row items-center gap-4">
         <Image
           src="/namava.jpg"
@@ -58,7 +58,7 @@ function AppLink({ href, imageSrc, title }: AppLinkProps) {
   return (
     <Link
       href={href}
-      className="grid h-12 w-12 items-center justify-center rounded-md bg-[#37383e] p-1 xl:w-[106px] xl:grid-cols-[40px_1fr] xl:justify-between xl:gap-2"
+      className="grid h-12 w-12 items-center justify-center rounded-md bg-gray-700 p-1 xl:w-[106px] xl:grid-cols-[40px_1fr] xl:justify-between xl:gap-2"
     >
       <Image
         src={imageSrc}
@@ -67,10 +67,10 @@ function AppLink({ href, imageSrc, title }: AppLinkProps) {
         height={48}
         className="h-10 w-10"
       />
-      <div className="hidden text-[9px] text-stone-400 xl:block">
+      <div className="hidden text-[9px] text-gray-300 xl:block">
         دریافت از
         <br />
-        <span className="text-xs font-bold text-stone-300">{title}</span>
+        <span className="text-xs font-bold text-gray-100">{title}</span>
       </div>
     </Link>
   );

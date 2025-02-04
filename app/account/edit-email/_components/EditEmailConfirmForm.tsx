@@ -49,9 +49,9 @@ function EditEmailConfirmForm() {
         handleResult("success", result.message as string);
         handleNextStep();
       } else if (result.status === "error" && result.statusCode !== 403) {
-        notify("error", result.message);
+        notify("error", result.message as string);
       } else if (result.status === "error" && result.statusCode === 403) {
-        handleResult("error", result.message);
+        handleResult("error", result.message as string);
         handleNextStep();
       }
     }

@@ -28,12 +28,12 @@ function ResultCard({
         width={60}
         height={60}
       />
-      <p className="text-center text-sm text-stone-700 xsm:text-base">
+      <p className="text-center text-sm text-gray-800 xsm:text-base">
         {message}
       </p>
       <Link
         href={link.href}
-        className="my-3 flex h-[42px] w-[272px] cursor-pointer items-center justify-center rounded-xl bg-primary px-5 text-xs leading-[42px] text-white xsm:my-4 xsm:w-[360px]"
+        className="bg-primary-default my-3 flex h-[42px] w-[272px] cursor-pointer items-center justify-center rounded-xl px-5 text-xs leading-[42px] text-white xsm:my-4 xsm:w-[360px]"
       >
         {link.label}
       </Link>

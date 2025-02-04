@@ -5,7 +5,7 @@ import { cssTransition, ToastContainer } from "react-toastify";
 function Toast() {
   const contextClasses: { [key: string]: string } = {
     success: "bg-white text-black",
-    error: "bg-[#d95c5c] text-white",
+    error: "bg-red-default text-white",
   };
 
   const fade = cssTransition({

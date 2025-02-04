@@ -260,22 +260,22 @@ function UserOptions() {
         ref={optionsRef}
       >
         <div className="grid h-[calc(100vh)] grid-cols-1 grid-rows-[90px_auto] rounded-xl bg-white shadow-[0_10px_12px_rgba(0,0,0,0.3)] xsm:h-[340px]">
-          <div className="flex flex-col items-center justify-center gap-[10px] rounded-t-xl bg-[#d95c5c] p-4">
+          <div className="bg-red-default flex flex-col items-center justify-center gap-[10px] rounded-t-xl p-4">
             <p className="text-sm text-white">اشتراک فعالی ندارید.</p>
             <Link
               href="/plans"
-              className="w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:bg-primary hover:text-white"
+              className="hover:bg-primary-default w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:text-white"
             >
               خرید اشتراک
             </Link>
           </div>
-          <div className="h-[calc(100vh-90px)] overflow-auto px-3 py-2 text-xs text-black xsm:h-[250px] xsm:rounded-b-xl">
+          <div className="h-[calc(100vh-90px)] overflow-auto px-3 py-2 text-xs text-gray-800 xsm:h-[250px] xsm:rounded-b-xl">
             <ul className="flex flex-col gap-[15px]">
               {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="flex items-center justify-start gap-2 hover:text-primary"
+                    className="hover:text-primary-default flex items-center justify-start gap-2"
                     {...(item.onClick && { onClick: item.onClick })}
                   >
                     <span className="text-stone-400">{item.icon}</span>

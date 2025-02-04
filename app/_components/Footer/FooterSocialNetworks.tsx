@@ -11,15 +11,15 @@ const socialNetworkItems: { icon: React.ReactNode; href: string }[] = [
 ];
 function FooterSocialNetworks() {
   return (
-    <div className="flex items-start justify-between border-t border-gray-600 pt-5">
-      <p className="text-[10px] text-stone-400">
+    <div className="flex items-start justify-between border-t border-gray-700 pt-5">
+      <p className="text-[10px] text-gray-400">
         خدمات ارائه شده در نماوا، دارای مجوزهای لازم از مراجع مربوطه است و هر
         گونه بهره‌برداری و سوءاستفاده از محتوای نماوا، پیگرد قانونی دارد.
       </p>
       <div className="flex items-center justify-end gap-8">
         {socialNetworkItems.map((item) => (
           <Link
-            className="text-stone-200 hover:text-primary"
+            className="hover:text-primary-default text-gray-200"
             key={item.href}
             href={item.href}
           >
