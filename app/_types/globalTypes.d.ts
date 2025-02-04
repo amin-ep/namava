@@ -17,7 +17,7 @@ export interface FieldValues {
 export interface MobileNavListItem {
   title: string;
   href: string;
-  icon: ReactNode;
+  icon?: ReactNode;
 }
 
 export interface LinkField {

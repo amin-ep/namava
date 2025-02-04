@@ -229,17 +229,19 @@ function UserOptions() {
         onMouseOut: handleContainerOnMouseOut,
       })}
     >
-      <div
-        className={cls(
-          "fixed inset-0 bg-black/50 transition duration-[1300ms] xsm:hidden",
-          isOpen ? "z-10 opacity-100" : "-z-50 opacity-0",
-        )}
-        onClick={() => {
-          dispatch({
-            type: "close",
-          });
-        }}
-      ></div>
+      {isOpen && (
+        <div
+          className={cls(
+            "fixed inset-0 bg-black/50 transition duration-[1300ms] xsm:hidden",
+            isOpen ? "z-10 opacity-100" : "-z-50 opacity-0",
+          )}
+          onClick={() => {
+            dispatch({
+              type: "close",
+            });
+          }}
+        ></div>
+      )}
       <button ref={buttonRef}>
         <Image
           src="/user-icon.png"

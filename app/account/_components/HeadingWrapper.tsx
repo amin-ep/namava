@@ -1,7 +1,8 @@
 "use client";
 import MobileNavList from "@/app/_components/MobileNavList";
+import { useModal } from "@/app/_hooks/useModal";
 import { MobileNavListItem } from "@/app/_types/globalTypes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar, FaUser } from "react-icons/fa";
 import { HiOutlineBars3, HiOutlineXMark } from "react-icons/hi2";
 import { IoIosListBox } from "react-icons/io";
@@ -29,32 +30,17 @@ const navItems: MobileNavListItem[] = [
   },
 ];
 function HeadingWrapper() {
-  const [navIsOpen, setNavIsOpen] = useState(false);
   const [headingTitle, setHeadingTitle] = useState("");
 
-  const listRef = useRef<HTMLUListElement | null>(null);
+  const { close, isOpen, open } = useModal();
+
+  // const listRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (document) {
       setHeadingTitle(document.title);
     }
   }, []);
-  useEffect(() => {
-    function handleOutsideClick(e: Event) {
-      if (
-        navIsOpen &&
-        listRef &&
-        !listRef.current?.contains(e.target as HTMLElement)
-      ) {
-        setNavIsOpen(false);
-      }
-    }
-    if (listRef) {
-      document.addEventListener("click", handleOutsideClick, true);
-
-      return () => document.addEventListener("click", handleOutsideClick, true);
-    }
-  }, [navIsOpen]);
 
   return (
     <div className="relative mb-5 flex items-center justify-center md:hidden">
@@ -62,18 +48,17 @@ function HeadingWrapper() {
         {headingTitle}
       </h1>
       <div className="absolute right-5">
-        <button
-          onClick={() => setNavIsOpen(true)}
-          className="aspect-square w-6 text-stone-600"
-        >
-          {navIsOpen ? (
-            <HiOutlineXMark size={24} />
-          ) : (
-            <HiOutlineBars3 size={24} />
-          )}
+        <button onClick={open} className="aspect-square w-6 text-stone-600">
+          {isOpen ? <HiOutlineXMark size={24} /> : <HiOutlineBars3 size={24} />}
         </button>
-        {navIsOpen && (
-          <MobileNavList items={navItems} theme="light" ref={listRef} />
+        {isOpen && (
+          <MobileNavList
+            closeOnScroll={true}
+            items={navItems}
+            theme="light"
+            close={close}
+            className="right-16 top-28"
+          />
         )}
       </div>
     </div>

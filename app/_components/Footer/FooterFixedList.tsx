@@ -33,7 +33,7 @@ function FooterFixedList({ className }: { className: string }) {
   return (
     <div
       className={cls(
-        "left-0 right-0 z-10 bg-[#222327]",
+        "left-0 right-0 z-10 hidden bg-[#222327] md:block",
         className,
         className === "fixed" ? "bottom-0" : "top-0",
       )}

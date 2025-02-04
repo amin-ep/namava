@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 async function UserActions() {
   const classes = "w-8 aspect-square flex items-center justify-center xl:w-9";
 
+  const imageClasses = "w-8 xl:w-9";
   const token = await (
     await cookies()
   ).get(process.env.JWT_SECRET_KEY as string)?.value;
@@ -15,34 +16,34 @@ async function UserActions() {
     <div className="flex-end flex items-center gap-1 md:gap-3">
       {token ? (
         <div className="flex items-center justify-end gap-5 text-[28px] text-white lg:gap-6 xl:text-[40px]">
-          <Link href="/search" className={cls(classes, "hidden xl:block")}>
+          <Link href="/search" className={cls(classes, "hidden md:block")}>
             <Image
               width={32}
               height={32}
               alt="search"
-              src="/icons/search.svg"
+              src="/icons/search-white.svg"
               quality={100}
-              className="w-8 rotate-90 xl:w-9"
+              className={imageClasses}
             />
           </Link>
           <button className={cls(classes)}>
             <Image
               width={32}
               height={32}
-              alt="search"
+              alt="arrows"
               src="/icons/arrows.svg"
               quality={100}
-              className="w-8 xl:w-9"
+              className={imageClasses}
             />
           </button>
           <button className={cls(classes, "hidden xl:block")}>
             <Image
               width={32}
               height={32}
-              alt="search"
+              alt="mobile"
               src="/icons/mobile.svg"
               quality={100}
-              className="w-8 xl:w-9"
+              className={imageClasses}
             />
           </button>
           <UserOptions />
