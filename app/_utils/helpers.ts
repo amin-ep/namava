@@ -36,14 +36,15 @@ export function handleServerActionError<T, S = undefined>(
   values?: S,
   statusCode?: number,
 ) {
-  const error = err as AxiosError<ApiError, T>;
-
-  if (error && err) {
-    return {
-      status: "error",
-      message: error?.response?.data.message,
-      statusCode: statusCode,
-      values: values,
-    };
+  if (err) {
+    const error = err as AxiosError<ApiError, T>;
+    if (error) {
+      return {
+        status: "error",
+        message: error?.response?.data?.message,
+        statusCode: statusCode,
+        values: values,
+      };
+    }
   }
 }

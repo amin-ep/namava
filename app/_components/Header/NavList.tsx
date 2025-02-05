@@ -40,8 +40,8 @@ const NavList = memo(function NavList() {
           <li key={item.href}>
             <Link
               href={item.href}
-              className={`hover:text-primary-default font-medium ${
-                pathname === item.href ? "text-primary-default" : "text-white"
+              className={`font-medium hover:text-primary-light ${
+                pathname === item.href ? "text-primary-light" : "text-white"
               }`}
             >
               {item.title}

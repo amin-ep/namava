@@ -22,7 +22,7 @@ const items: ILink[] = [
 ];
 
 const linkStyles =
-  "text-[10px] text-gray-500 hover:text-white font-semibold base:text-xs";
+  "text-[10px] text-gray-400 hover:text-white font-semibold base:text-xs";
 
 function FooterFixedList({ className }: { className: string }) {
   const [modalMenuIsOpen, setModalMenuIsOpen] = useState<boolean>(false);
@@ -105,7 +105,7 @@ function ListModalMenu({
       >
         <button
           onClick={onClose}
-          className="flex w-full items-center justify-between px-6 py-3 text-center text-[10px] font-semibold text-gray-500 base:text-xs"
+          className="flex w-full items-center justify-between px-6 py-3 text-center text-[10px] font-semibold text-gray-400 base:text-xs"
         >
           <span className="hover:text-white">سایر لینک ها</span>
           <Image

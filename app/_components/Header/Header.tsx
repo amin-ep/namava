@@ -15,7 +15,6 @@ function Header({ children }: { children: ReactNode }) {
     const currentScrollY: number = window.scrollY;
     setLatestScrollY(currentScrollY);
     if (ref && ref.current) {
-      // if (pathname.split("/")[1] !== "account") { // FIXME
       if (currentScrollY > latestScrollY) {
         if (pathname.split("/")[1] !== "account") {
           ref.current.style.top = "-80px";
@@ -38,7 +37,6 @@ function Header({ children }: { children: ReactNode }) {
         }
       }
     }
-    // }
   }, [latestScrollY, pathname]);
 
   useEffect(() => {
@@ -51,24 +49,19 @@ function Header({ children }: { children: ReactNode }) {
       "/auth/recover",
     ];
 
-    for (let i = 0; i < disableRoutes.length; i++) {
-      if (disableRoutes[i] === pathname) {
-        setShowHeader(false);
-        break;
-      } else {
-        setShowHeader(true);
-      }
+    if (disableRoutes.includes(pathname)) {
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
     }
-  }, [pathname]);
 
-  useEffect(() => {
     if (showHeader) {
       handleScroll();
       window.addEventListener("scroll", handleScroll);
 
       return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, [handleScroll, showHeader]);
+  }, [handleScroll, pathname, showHeader]);
 
   if (showHeader)
     return (

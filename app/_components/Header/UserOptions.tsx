@@ -128,6 +128,35 @@ function UserOptions() {
       };
     }
 
+    if (openingPattern === "onHover") {
+      const handleChangingWindowSize = () => {
+        if (openingPattern === "onHover" && isOpen) dispatch({ type: "close" });
+      };
+
+      window.addEventListener("resize", handleChangingWindowSize);
+
+      return () => {
+        window.removeEventListener("resize", handleChangingWindowSize);
+      };
+    }
+  }, [openingPattern, isOpen]);
+
+  useEffect(() => {
+    if (openingPattern === "onHover" && isOpen) {
+      const handleCloseDuringScroll = () => {
+        if (isOpen) {
+          dispatch({ type: "close" });
+        }
+      };
+
+      window.addEventListener("scroll", handleCloseDuringScroll);
+
+      return () =>
+        window.removeEventListener("scroll", handleCloseDuringScroll);
+    }
+  }, [isOpen, openingPattern]);
+
+  useEffect(() => {
     if (openingPattern === "onClick") {
       if (isOpen) {
         document.body.style.overflowY = "hidden";
@@ -135,27 +164,7 @@ function UserOptions() {
         document.body.style.overflowY = "auto";
       }
     }
-
-    if (openingPattern === "onHover") {
-      const handleCloseDuringScroll = () => {
-        if (isOpen) {
-          dispatch({ type: "close" });
-        }
-      };
-      const handleChangingWindowSize = () => {
-        if (openingPattern === "onHover" && isOpen) dispatch({ type: "close" });
-      };
-
-      window.addEventListener("resize", handleChangingWindowSize);
-
-      window.addEventListener("scroll", handleCloseDuringScroll);
-
-      return () => {
-        window.removeEventListener("resize", handleChangingWindowSize);
-        window.removeEventListener("scroll", handleCloseDuringScroll);
-      };
-    }
-  }, [openingPattern, isOpen]);
+  }, [isOpen, openingPattern]);
 
   const items: {
     title: string;
@@ -260,11 +269,11 @@ function UserOptions() {
         ref={optionsRef}
       >
         <div className="grid h-[calc(100vh)] grid-cols-1 grid-rows-[90px_auto] rounded-xl bg-white shadow-[0_10px_12px_rgba(0,0,0,0.3)] xsm:h-[340px]">
-          <div className="bg-red-default flex flex-col items-center justify-center gap-[10px] rounded-t-xl p-4">
+          <div className="flex flex-col items-center justify-center gap-[10px] rounded-t-xl bg-red-default p-4">
             <p className="text-sm text-white">اشتراک فعالی ندارید.</p>
             <Link
               href="/plans"
-              className="hover:bg-primary-default w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:text-white"
+              className="w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:bg-primary-default hover:text-white"
             >
               خرید اشتراک
             </Link>
@@ -275,7 +284,7 @@ function UserOptions() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="hover:text-primary-default flex items-center justify-start gap-2"
+                    className="flex items-center justify-start gap-2 hover:text-primary-default"
                     {...(item.onClick && { onClick: item.onClick })}
                   >
                     <span className="text-stone-400">{item.icon}</span>

@@ -5,7 +5,7 @@ import { BsCameraReelsFill, BsFillCollectionPlayFill } from "react-icons/bs";
 import { LuPopcorn } from "react-icons/lu";
 import { MdChildCare } from "react-icons/md";
 import { TbCategoryFilled, TbHomeFilled } from "react-icons/tb";
-import Logo from "../Logo/Logo";
+import Logo from "../Logo";
 import HeaderMobileNav from "./HeaderMobileNav";
 import NavList from "./NavList";
 import { usePathname } from "next/navigation";

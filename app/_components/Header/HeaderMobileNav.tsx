@@ -39,7 +39,7 @@ const HeaderMobileNav = memo(function HeaderMobileNav({
         <MobileNavList
           closeOnScroll={true}
           close={close}
-          className=""
+          className="top-14"
           items={items}
           theme="dark"
         />

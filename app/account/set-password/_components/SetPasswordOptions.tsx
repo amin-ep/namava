@@ -4,6 +4,7 @@ import { useToast } from "@/app/_hooks/useToast";
 import { useTransition } from "react";
 import OptionsList from "../../_components/OptionsList";
 import { setPasswordRequest } from "../actions";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 
 function SetPasswordOptions({
   setLevel,
@@ -18,7 +19,8 @@ function SetPasswordOptions({
 
   const handleNextLevel = async () => {
     startTransition(async () => {
-      const result: number | string | undefined = await setPasswordRequest();
+      const result: number | string | undefined | FormActionPreviousState =
+        await setPasswordRequest();
 
       if (result === 200) {
         setLevel(2);
