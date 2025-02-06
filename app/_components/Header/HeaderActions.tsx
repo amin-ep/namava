@@ -3,6 +3,7 @@ import Link from "next/link";
 import HeaderActionLinkButton from "./HeaderActionLinkButton";
 import HeaderShuffleAction from "./HeaderShuffleAction";
 import UserOptions from "./UserOptions";
+import HeaderMobileAppAction from "./HeaderMobileAppAction";
 
 async function UserActions() {
   const token = await (
@@ -20,12 +21,7 @@ async function UserActions() {
           src="/icons/search-white.svg"
         />
         <HeaderShuffleAction />
-        <HeaderActionLinkButton
-          variation="button"
-          alt="mobile"
-          src="/icons/mobile.svg"
-          extraStyles="hidden xl:block"
-        />
+        <HeaderMobileAppAction />
         {token ? (
           <UserOptions />
         ) : (

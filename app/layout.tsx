@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrevPageButton from "./_components/Header/PrevPageButton";
 import Footer from "./_components/Footer/Footer";
 import MobileFooter from "./_components/Footer/MobileFooter";
+import BottomSheetModal from "./_components/BottomSheetModal";
 
 const iran_yekan = localFont({ src: "_fonts/Qs_Iranyekan.ttf" });
 
@@ -27,7 +28,11 @@ export default function RootLayout({
     <html lang="fa-IR">
       <body className={`${iran_yekan.className} bg-gray-950 antialiased`}>
         <QueryClientProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools
+            initialIsOpen={false}
+            buttonPosition="top-right"
+            position="bottom"
+          />
           <Toast />
           <Header>
             <PrevPageButton />
@@ -37,6 +42,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <MobileFooter />
+          <BottomSheetModal />
         </QueryClientProvider>
       </body>
     </html>
