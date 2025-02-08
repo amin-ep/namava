@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrevPageButton from "./_components/Header/PrevPageButton";
 import Footer from "./_components/Footer/Footer";
 import MobileFooter from "./_components/Footer/MobileFooter";
-import BottomSheetModal from "./_components/BottomSheetModal";
+import BottomSheetModal from "./_components/BottomSheetModal/BottomSheetModal";
 
 const iran_yekan = localFont({ src: "_fonts/Qs_Iranyekan.ttf" });
 
