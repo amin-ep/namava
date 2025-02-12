@@ -1,9 +1,13 @@
 "use client";
 
 import { HTMLInputTypeAttribute, useEffect, useReducer, useRef } from "react";
-import { Path, RegisterOptions, UseFormRegister } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
-import { FieldValues } from "../_types/globalTypes";
 
 const eyeButtonInitialState: { showPassword: boolean; showButton: boolean } = {
   showButton: false,

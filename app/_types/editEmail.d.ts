@@ -1,4 +1,5 @@
-import { FieldValues, Message, Status } from "./globalTypes";
+import { FieldValues } from "react-hook-form";
+import { Message, Status } from "./globalTypes";
 import { User } from "./userTypes";
 
 // Update Email

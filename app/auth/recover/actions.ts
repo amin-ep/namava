@@ -5,13 +5,13 @@ import {
   IForgetPasswordVerifyResponse,
   IResetPasswordResponse,
 } from "@/app/_types/authTypes";
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import { JWT_EXPIRATION_DATE } from "@/app/_utils/constants";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function forgetPassword(
@@ -30,15 +30,13 @@ export async function forgetPassword(
     } else {
       payload = { email: forgetPasswordEmail as string };
     }
-    const res = await axios.post(
-      `${process.env.API_BASE_URL}/auth/forgetPassword`,
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+
+    const res = await apiRequest({
+      method: "POST",
+      contentType: "application/json",
+      url: "/auth/forgetPassword",
+      data: payload,
+    });
 
     if (res.status === 200) {
       const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
@@ -64,16 +62,13 @@ export async function forgetPasswordVerify(
 ) {
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
-    const res: AxiosResponse<IForgetPasswordVerifyResponse, ApiError> =
-      await axios.post(
-        `${process.env.API_BASE_URL}/auth/forgetPasswordVerify`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+
+    const res = await apiRequest<IForgetPasswordVerifyResponse>({
+      method: "POST",
+      contentType: "application/json",
+      url: "/auth/forgetPasswordVerify",
+      data: payload,
+    });
 
     if (res.status === 200) {
       return { status: "success", message: res?.data.resetId };
@@ -82,7 +77,7 @@ export async function forgetPasswordVerify(
     return handleServerActionError<
       IForgetPasswordVerifyResponse,
       { email: FormDataEntryValue }
-    >(err, { email: formData.get("email") || "" });
+    >(err, { email: formData?.get("email") || "" });
   }
 }
 
@@ -92,16 +87,13 @@ export async function resetPassword(
 ) {
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
-    const res: AxiosResponse<IResetPasswordResponse, ApiError> =
-      await axios.patch(
-        `${process.env.API_BASE_URL}/auth/resetPassword`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+
+    const res = await apiRequest<IResetPasswordResponse>({
+      contentType: "application/json",
+      method: "PATCH",
+      url: "/auth/resetPassword",
+      data: payload,
+    });
 
     if (res.status === 200) {
       (await cookies()).set({

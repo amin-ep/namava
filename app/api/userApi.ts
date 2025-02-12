@@ -1,8 +1,9 @@
 "use server";
 
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { GetUserResponseData } from "../_types/userTypes";
+import { apiRequest } from "../_utils/helpers";
 
 export async function getMe() {
   try {
@@ -13,15 +14,12 @@ export async function getMe() {
     if (!token) {
       return null;
     } else {
-      const res: AxiosResponse<GetUserResponseData> = await axios.get(
-        `${process.env.API_BASE_URL}/user/me`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const res = await apiRequest<GetUserResponseData, never>({
+        contentType: "application/json",
+        method: "GET",
+        url: "/user/me",
+        authorization: true,
+      });
 
       if (res?.status === 200) {
         return res?.data.data.document;

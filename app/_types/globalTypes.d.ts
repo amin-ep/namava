@@ -10,10 +10,6 @@ export interface Message {
   message: string;
 }
 
-export interface FieldValues {
-  [key: string]: string;
-}
-
 export interface MobileNavListItem {
   title: string;
   href: string;

@@ -1,11 +1,16 @@
 "use client";
 
 import { useSelect } from "@/app/_hooks/useSelect";
-import { FieldValues } from "@/app/_types/globalTypes";
 import { jMonthIndex, numericJalaaliBirthDate } from "@/app/_utils/helpers";
 import jalaali, { GregorianDateObject } from "jalaali-js";
 import { memo, useEffect, useMemo, useState } from "react";
-import { Control, Controller, Path, RegisterOptions } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from "react-hook-form";
 import Select from "../../../_components/Select";
 import SelectLabel from "./SelectLabel";
 import { jalaaliMonths } from "@/app/_utils/constants";

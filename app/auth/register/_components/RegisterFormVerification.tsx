@@ -74,20 +74,15 @@ function RegisterFormVerification({
         label="تایید"
         pendingStatus={isPending || isSendingCode}
       />
-
       <FormLayout.Footer>
         <FormTimerButton
           finished={finished}
           formAction={resendCode}
           time={time}
         />
-        <button
-          type="button"
-          onClick={() => dispatch({ type: "clear" })}
-          className="text-primary-default"
-        >
+        <FormLayout.ExtraButton onClick={() => dispatch({ type: "clear" })}>
           ایمیل را اشتباه وارد کرده اید؟
-        </button>
+        </FormLayout.ExtraButton>
       </FormLayout.Footer>
     </FormLayout>
   );

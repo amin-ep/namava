@@ -102,13 +102,9 @@ function RecoverFormVerify({
           formAction={resendCode}
           time={time}
         />
-        <button
-          type="button"
-          className="text-primary-default text-xs md:text-sm"
-          onClick={wrongEmail}
-        >
+        <FormLayout.ExtraButton onClick={wrongEmail}>
           ایمیل را اشتباه وارد کرده اید؟
-        </button>
+        </FormLayout.ExtraButton>
       </FormLayout.Footer>
     </FormLayout>
   );

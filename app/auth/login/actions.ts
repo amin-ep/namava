@@ -1,12 +1,12 @@
 "use server";
 
 import { LoginResponse } from "@/app/_types/authTypes";
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -17,15 +17,12 @@ export async function login(
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
     payload.oneTimePassword = false;
-    const res: AxiosResponse<LoginResponse, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/auth/login`,
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const res = await apiRequest<LoginResponse, { [k: string]: string }>({
+      method: "POST",
+      url: "/auth/login",
+      contentType: "application/json",
+      data: payload,
+    });
 
     if (res?.status === 200) {
       const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;

@@ -1,13 +1,11 @@
 "use server";
 
-import { ApiError } from "@/app/_types/globalTypes";
 import { ChangePasswordResponse } from "@/app/_types/userTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
-import { cookies } from "next/headers";
 
 export async function changePassword(
   _prevState: null | { status: string; message: string } | undefined,
@@ -16,33 +14,13 @@ export async function changePassword(
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
 
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-
-    if (!token) {
-      return {
-        status: "error",
-        message: "خطای احراز هویت! لطفا دوباره وارد شوید.",
-        values: {
-          password: (String(formData.get("password")) as string) || "",
-          currentPassword:
-            (String(formData.get("currentPassword")) as string) || "",
-        },
-      };
-    }
-
-    const res: AxiosResponse<ChangePasswordResponse, ApiError> =
-      await axios.patch(
-        `${process.env.API_BASE_URL}/user/updatePassword`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+    const res = await apiRequest<ChangePasswordResponse>({
+      method: "PATCH",
+      contentType: "application/json",
+      url: "/user/updatePassword",
+      authorization: true,
+      data: payload,
+    });
 
     if (res?.status === 200) {
       return { status: "success" };

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import FormControl from "./FormControl";
 import FormSubmit from "./FormSubmit";
+import MainLink from "./MainLink";
 
 function FormLayout({
   children,
@@ -29,12 +30,13 @@ function FormLayout({
             <Image src="/logo.svg" width={85} height={40} alt="Namava Logo" />
           </Link>
           {headerLink && (
-            <Link
+            <MainLink
               href={headerLink.href}
-              className="text-primary-default absolute left-0 flex h-10 items-center text-sm font-semibold"
+              extraStyles="absolute left-0 flex h-10 items-center"
+              boldLevel="semibold"
             >
               {headerLink.title}
-            </Link>
+            </MainLink>
           )}
         </div>
         <div className="flex flex-col gap-6">
@@ -74,10 +76,24 @@ function Footer({ children }: { children: ReactNode }) {
 }
 
 function ExtraLink({ children, href }: { children: ReactNode; href: string }) {
+  return <MainLink href={href}>{children}</MainLink>;
+}
+
+function ExtraButton({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
   return (
-    <Link href={href} className="text-primary-default">
+    <button
+      type="button"
+      className="text-xs text-primary-default md:text-sm"
+      onClick={onClick}
+    >
       {children}
-    </Link>
+    </button>
   );
 }
 
@@ -85,5 +101,6 @@ FormLayout.Control = FormControl;
 FormLayout.Submit = FormSubmit;
 FormLayout.Footer = Footer;
 FormLayout.ExtraLink = ExtraLink;
+FormLayout.ExtraButton = ExtraButton;
 
 export default FormLayout;

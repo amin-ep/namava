@@ -4,6 +4,7 @@ import HeaderActionLinkButton from "./HeaderActionLinkButton";
 import HeaderShuffleAction from "./HeaderShuffleAction";
 import UserOptions from "./UserOptions";
 import HeaderMobileAppAction from "./HeaderMobileAppAction";
+import LinkButton from "../LinkButton";
 
 async function UserActions() {
   const token = await (
@@ -32,14 +33,11 @@ async function UserActions() {
             >
               خرید اشتراک
             </Link>
-            <Link
-              href="/auth/login"
-              className="flex h-[42px] items-center justify-between gap-[2px] rounded-xl bg-[rgba(255,255,255,0.2)] px-5 text-xs text-white hover:bg-[rgba(255,255,255,0.4)]"
-            >
+            <LinkButton href="/auth/login" color="glassy" variation="link">
               <span>ورود</span>
               <span className="hidden base:block">/</span>
               <span className="hidden base:block">ثبت نام</span>
-            </Link>
+            </LinkButton>
           </>
         )}
       </div>

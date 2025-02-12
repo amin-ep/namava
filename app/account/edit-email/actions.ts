@@ -5,13 +5,13 @@ import {
   UpdateEmailRequestResponse,
   UpdateEmailResponse,
 } from "@/app/_types/editEmail";
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import { VerifyMePayload, VerifyMeResponse } from "@/app/_types/userTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 
 export async function verifyMe(
@@ -19,19 +19,13 @@ export async function verifyMe(
   formData: FormData | undefined,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-    const res: AxiosResponse<VerifyMeResponse, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/user/verifyMe`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const res = await apiRequest<VerifyMeResponse>({
+      method: "POST",
+      contentType: "application/json",
+      url: "/user/verifyMe",
+      data: formData,
+      authorization: true,
+    });
 
     if (res?.status === 200) {
       return { status: "success" };
@@ -60,18 +54,14 @@ export async function updateEmailRequest(
         Object.fromEntries(formData as FormData),
       );
     }
-    const token = cookieStore.get(process.env.JWT_SECRET_KEY as string)?.value;
-    const res: AxiosResponse<UpdateEmailRequestResponse, ApiError> =
-      await axios.post(
-        `${process.env.API_BASE_URL}/user/updateEmailRequest`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+
+    const res = await apiRequest<UpdateEmailRequestResponse>({
+      method: "POST",
+      contentType: "application/json",
+      url: "/user/updateEmailRequest",
+      authorization: true,
+      data: payload,
+    });
 
     if (res?.status === 200) {
       const expires = Date.now() + 1 * 60 * 60 * 1000;
@@ -96,20 +86,13 @@ export async function otpUpdateEmail(
   formData: FormData,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-    const res: AxiosResponse<VerifyMePayload, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/user/otpUpdateEmail`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-
+    const res = await apiRequest({
+      method: "POST",
+      contentType: "application/json",
+      url: "/user/otpUpdateEmail",
+      authorization: true,
+      data: formData,
+    });
     if (res?.status === 200) {
       return { status: "success" };
     }
@@ -123,19 +106,13 @@ export async function updateEmail(
   formData: FormData,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-    const res: AxiosResponse<UpdateEmailResponse, ApiError> = await axios.patch(
-      `${process.env.API_BASE_URL}/user/updateEmail`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const res = await apiRequest({
+      method: "PATCH",
+      contentType: "application/json",
+      url: "/user/updateEmail",
+      authorization: true,
+      data: formData,
+    });
 
     if (res?.status === 200) {
       return { status: "success", message: "تغییرات ثبت شد", statusCode: 200 };
@@ -147,20 +124,13 @@ export async function updateEmail(
 
 export async function otpUpdateEmailRequest() {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-    const res = await axios.post(
-      `${process.env.API_BASE_URL}/user/otpUpdateEmail`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-
+    const res = await apiRequest({
+      contentType: "application/json",
+      authorization: true,
+      method: "POST",
+      url: "/user/otpUpdateEmail",
+      data: {},
+    });
     return res?.status;
   } catch (err) {
     return handleServerActionError<UpdateEmailResponse>(err);
@@ -172,20 +142,13 @@ export async function otpUpdateEmailVerify(
   formData: FormData,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-    const res: AxiosResponse<OtpUpdateEmailVerifyResponse, ApiError> =
-      await axios.post(
-        `${process.env.API_BASE_URL}/user/otpUpdateEmail`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+    const res = await apiRequest({
+      contentType: "application/json",
+      method: "POST",
+      url: "/user/otpUpdateEmail",
+      authorization: true,
+      data: formData,
+    });
 
     if (res.status === 200) {
       return { status: "success" };

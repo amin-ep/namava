@@ -1,14 +1,15 @@
 "use server";
 
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 import {
   RegisterResponseData,
+  RegisterVerificationPayload,
   RegisterVerificationResponseData,
 } from "../../_types/authTypes";
 import { JWT_EXPIRATION_DATE } from "../../_utils/constants";
@@ -27,15 +28,13 @@ export default async function signup(
     } else {
       payload = { email: signupEmail as string };
     }
-    const res: AxiosResponse<RegisterResponseData, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/auth/signup`,
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+
+    const res = await apiRequest<RegisterResponseData>({
+      method: "POST",
+      url: "/auth/signup",
+      data: payload,
+      contentType: "application/json",
+    });
 
     if (res?.data?.status === "success") {
       const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
@@ -59,16 +58,13 @@ export async function verifyEmail(
   formData: FormData,
 ) {
   try {
-    const res: AxiosResponse<RegisterVerificationResponseData> =
-      await axios.post(
-        `${process.env.API_BASE_URL}/auth/verifyEmail`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+    const res = await apiRequest<RegisterVerificationPayload>({
+      contentType: "application/json",
+      method: "POST",
+      url: "/auth/verifyEmail",
+      data: formData,
+    });
+
     if (res?.data?.status === "success") {
       const cookieStore = await cookies();
       cookieStore.delete("SIGNUP-EMAIL");

@@ -1,31 +1,25 @@
 "use server";
 
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import {
   SetPasswordPayload,
   SetPasswordResponse,
 } from "@/app/_types/userTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 
 export async function setPasswordRequest() {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(process.env.JWT_SECRET_KEY as string)?.value;
-    const res = await axios.get(
-      `${process.env.API_BASE_URL}/user/setPasswordRequest`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const res = await apiRequest({
+      contentType: "application/json",
+      method: "GET",
+      url: "/user/setPasswordRequest",
+      authorization: true,
+    });
 
     if (res.status === 200) return res?.status as number;
   } catch (err) {
@@ -38,20 +32,13 @@ export async function setPasswordVerify(
   formData: FormData,
 ) {
   try {
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
-
-    const res: AxiosResponse<SetPasswordPayload, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/user/setPasswordVerify`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const res = await apiRequest({
+      contentType: "application/json",
+      method: "POST",
+      url: "/user/setPasswordVerify",
+      authorization: true,
+      data: formData,
+    });
 
     if (res.status === 200) {
       return { status: "success" };
@@ -67,20 +54,14 @@ export async function setPassword(
 ) {
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData!));
-    const token = (await cookies()).get(
-      process.env.JWT_SECRET_KEY as string,
-    )?.value;
 
-    const res: AxiosResponse<SetPasswordResponse, ApiError> = await axios.patch(
-      `${process.env.API_BASE_URL}/user/setPassword`,
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const res = await apiRequest({
+      contentType: "application/json",
+      method: "PATCH",
+      url: "/user/setPassword",
+      authorization: true,
+      data: payload,
+    });
 
     if (res.status === 200) {
       revalidatePath("account", "layout");

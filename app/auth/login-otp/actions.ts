@@ -4,12 +4,12 @@ import {
   OTPLoginResponseData,
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
-import { ApiError, FormActionPreviousState } from "@/app/_types/globalTypes";
+import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import {
+  apiRequest,
   handleServerActionError,
   removeUnrecognizedFields,
 } from "@/app/_utils/helpers";
-import axios, { AxiosResponse } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -30,15 +30,13 @@ export async function otpLogin(
 
     (entryValues as { [key: string]: string | boolean }).oneTimePassword = true;
 
-    const res: AxiosResponse<OTPLoginResponseData, ApiError> = await axios.post(
-      `${process.env.API_BASE_URL}/auth/login`,
-      entryValues,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const res = await apiRequest<OTPLoginResponseData>({
+      method: "POST",
+      url: "/auth/login",
+      contentType: "application/json",
+      authorization: false,
+      data: entryValues,
+    });
 
     if (res?.status === 200) {
       const expires = Date.now() + 1 * 60 * 60 * 1000;
@@ -66,16 +64,13 @@ export async function otpVerifyLogin(
 ) {
   try {
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
-    const res: AxiosResponse<OTPLoginVerificationResponseData, ApiError> =
-      await axios.post(
-        `${process.env.API_BASE_URL}/auth/loginVerify`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+
+    const res = await apiRequest<OTPLoginVerificationResponseData>({
+      method: "POST",
+      contentType: "application/json",
+      data: payload,
+      url: "/auth/loginVerify",
+    });
 
     if (res?.statusText === "OK") {
       const cookieStore = await cookies();

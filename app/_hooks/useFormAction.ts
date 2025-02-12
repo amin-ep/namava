@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
-import { DefaultValues, UseFormReset } from "react-hook-form";
-import { FieldValues, FormActionPreviousState } from "../_types/globalTypes";
+import { DefaultValues, FieldValues, UseFormReset } from "react-hook-form";
+import { FormActionPreviousState } from "../_types/globalTypes";
 import { useToast } from "./useToast";
 
 export type FormAction<T> = (

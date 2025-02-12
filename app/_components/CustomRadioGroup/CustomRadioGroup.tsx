@@ -5,8 +5,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { Control, Path, RegisterOptions } from "react-hook-form";
-import { FieldValues } from "../../_types/globalTypes";
+import { Control, FieldValues, Path, RegisterOptions } from "react-hook-form";
 import styles from "./CustomRadioGroup.module.css";
 import { Controller } from "react-hook-form";
 

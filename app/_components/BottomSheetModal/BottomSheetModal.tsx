@@ -2,7 +2,7 @@
 
 import cls from "classnames";
 import Image from "next/image";
-import { useEffect, useReducer } from "react";
+import { useEffect, useLayoutEffect, useReducer, useState } from "react";
 import { browserName } from "react-device-detect";
 import { useModal } from "../../_hooks/useModal";
 import Modal from "../Modal";
@@ -10,6 +10,8 @@ import AndroidAppModal from "./AndroidAppModal";
 import BottomSheetModalCloseButton from "./BottomSheetModalCloseButton";
 import BottomSheetModalHeading from "./BottomSheetModalHeading";
 import WebAppModal from "./WebAppModal";
+import { usePathname } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface IBrowserTypes {
   Chrome: string;
@@ -61,16 +63,19 @@ const reducer = (state: IState, action: Actions) => {
 };
 
 function BottomSheetModal() {
+  const [userHasSeenModal, setUserHasSeenModal] = useState(false);
   const [{ browserTitle, browserImagePath }, dispatch] = useReducer(reducer, {
     browserTitle: "",
     browserImagePath: "",
   } as IState);
 
+  const pathname = usePathname();
+
   const {
     close: closeSheetModal,
     open: openSheetModal,
     isOpen: sheetModalIsOpen,
-  } = useModal(true);
+  } = useModal(false);
 
   const {
     close: closeAppModal,
@@ -92,12 +97,23 @@ function BottomSheetModal() {
         closeWebappModal();
       }
 
-      if (window.innerWidth < 800 && !appModalIsOpen && !webappModalIsOpen) {
-        openSheetModal();
+      if (
+        window.innerWidth < 800 &&
+        !appModalIsOpen &&
+        !webappModalIsOpen &&
+        pathname === "/home"
+      ) {
+        if (userHasSeenModal) {
+          closeSheetModal();
+        } else {
+          openSheetModal();
+        }
       }
     };
 
     window.addEventListener("resize", handleCloseSheetModal);
+
+    handleCloseSheetModal();
 
     return () => window.removeEventListener("resize", handleCloseSheetModal);
   }, [
@@ -106,7 +122,9 @@ function BottomSheetModal() {
     closeSheetModal,
     closeWebappModal,
     openSheetModal,
+    pathname,
     sheetModalIsOpen,
+    userHasSeenModal,
     webappModalIsOpen,
   ]);
 
@@ -140,9 +158,25 @@ function BottomSheetModal() {
     });
   }, []);
 
+  useLayoutEffect(() => {
+    const checkUserHasClosed = Cookies.get("SHEET-MODAL-CLOSED");
+
+    if (checkUserHasClosed) {
+      setUserHasSeenModal(true);
+    }
+  }, []);
+
+  const handleCloseModal = () => {
+    Cookies.set("SHEET-MODAL-CLOSED", "true", {
+      expires: 7,
+    });
+    setUserHasSeenModal(true);
+    closeSheetModal();
+  };
+
   return (
     <>
-      <Modal open={sheetModalIsOpen} onClose={closeSheetModal}>
+      <Modal open={sheetModalIsOpen} onClose={handleCloseModal}>
         <div className="absolute bottom-0 left-0 right-0 w-full rounded-t-xl bg-gray-700 px-5 pb-7 pt-6 md:px-6">
           <div className="flex flex-col gap-6 text-white">
             <div className="relative">

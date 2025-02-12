@@ -81,15 +81,13 @@ function OtpLoginFormVerification({
           finished={finished}
           time={time}
         />
-        <button
-          type="button"
-          className="text-primary-default"
+        <FormLayout.ExtraButton
           onClick={() => {
             dispatch({ type: "clear" });
           }}
         >
           ایمیل را اشتباه وارد کرده اید؟
-        </button>
+        </FormLayout.ExtraButton>
       </FormLayout.Footer>
     </FormLayout>
   );

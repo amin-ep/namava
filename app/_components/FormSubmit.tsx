@@ -1,6 +1,6 @@
 "use client";
 
-import cls from "classnames";
+import LinkButton from "./LinkButton";
 import MiniSpinner from "./MiniSpinner";
 
 export default function FormSubmit({
@@ -13,17 +13,15 @@ export default function FormSubmit({
   pendingStatus: boolean;
 }) {
   return (
-    <button
-      type="submit"
-      className={cls(
-        "bg-primary-default my-3 flex h-[42px] cursor-pointer items-center justify-center rounded-xl px-5 text-xs leading-[42px] text-white xsm:my-4",
-        !pendingStatus
-          ? "disabled:cursor-default disabled:bg-gray-400"
-          : "disabled:cursor-default",
-      )}
+    <LinkButton
+      color="primary"
+      variation="button"
+      buttonType="submit"
+      isPending={pendingStatus}
       disabled={disabled || pendingStatus}
+      extraStyles=""
     >
       {pendingStatus ? <MiniSpinner /> : label}
-    </button>
+    </LinkButton>
   );
 }
