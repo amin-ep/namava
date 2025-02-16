@@ -1,9 +1,5 @@
-import { ApiError } from "@/app/_types/globalTypes";
-import axios, { AxiosError, AxiosResponse } from "axios";
 import jalaali from "jalaali-js";
 import { jalaaliMonths } from "./constants";
-import { cookies } from "next/headers";
-import { FieldValues } from "react-hook-form";
 
 export const jMonthIndex = (strMonth: string) => {
   return jalaaliMonths().findIndex((el) => el === strMonth);
@@ -33,61 +29,105 @@ export const removeUnrecognizedFields = (
   return filteredPayload;
 };
 
-export async function apiRequest<T, S = never>({
-  method,
-  data,
-  url,
-  contentType,
-  params,
-  authorization = false,
-}: {
-  method: "POST" | "GET" | "PATCH" | "DELETE";
-  data?: S | FieldValues;
-  url: string;
-  contentType: "multipart/form-data" | "application/json";
-  params?: string;
-  authorization?: boolean;
-}) {
-  let token: null | string = null;
+export const categories: { title: string; imageSrc: string; href: string }[] = [
+  {
+    title: "ایرانی",
+    imageSrc: "/categories/irani-category.jpg",
+    href: "persian",
+  },
+  {
+    title: "انیمه و انیمیشن",
+    imageSrc: "/categories/anime-animation-category.jpg",
+    href: "anime-animation",
+  },
+  {
+    title: "دوبله نماوا",
+    imageSrc: "/categories/namava-dubbed-category.jpg",
+    href: "exclusive-dubs",
+  },
+  {
+    title: "پردیس نماوا",
+    imageSrc: "/categories/pardis-namava-category.jpg",
+    href: "collection-pardis",
+  },
+  {
+    title: "برترین ها",
+    imageSrc: "/categories/the-best-category.jpg",
+    href: "tops",
+  },
+  {
+    title: "ترکی",
+    imageSrc: "/categories/turkish-category.jpg",
+    href: "turkish",
+  },
+  {
+    title: "هندی",
+    imageSrc: "/categories/indian-category.jpg",
+    href: "indian",
+  },
+  {
+    title: "کره ای",
+    imageSrc: "/categories/korean-category.jpg",
+    href: "korean",
+  },
+  {
+    title: "کمدی",
+    imageSrc: "/categories/comedy-category.jpg",
+    href: "comedy",
+  },
+  {
+    title: "اکشن",
+    imageSrc: "/categories/action-category.jpg",
+    href: "action",
+  },
+  { title: "اسکار", imageSrc: "/categories/oscar-category.jpg", href: "oscar" },
+  {
+    title: "علمی تخیلی",
+    imageSrc: "/categories/science-fiction-category.jpg",
+    href: "scifi",
+  },
+  { title: "درام", imageSrc: "/categories/drama-category.jpg", href: "drama" },
+  {
+    title: "عاشقانه",
+    imageSrc: "/categories/romantic-category.jpg",
+    href: "romance",
+  },
+  {
+    title: "ترسناک",
+    imageSrc: "/categories/thriller-category.jpg",
+    href: "horror",
+  },
+  { title: "جنایی", imageSrc: "/categories/crime-category.jpg", href: "crime" },
+  {
+    title: "کلاسیک",
+    imageSrc: "/categories/classic-category.jpg",
+    href: "classic",
+  },
+  {
+    title: "خانوادگی",
+    imageSrc: "/categories/family-category.jpg",
+    href: "family",
+  },
+  {
+    title: "مستند",
+    imageSrc: "/categories/documentary-category.jpg",
+    href: "documentary",
+  },
+  {
+    title: "فیلم های کوتاه",
+    imageSrc: "/categories/short-movie-category.jpg",
+    href: "short-movie",
+  },
+  {
+    title: "ماجراجویی",
+    imageSrc: "/categories/adventure-category.jpg",
+    href: "adventure",
+  },
+];
 
-  if (authorization) {
-    token = (await cookies()).get(process.env.JWT_SECRET_KEY as string)
-      ?.value as string;
+export const findPersianCategoryName = (name: string) => {
+  if (name) {
+    const categoryName = categories.find((el) => el.href === name)?.title;
+    return categoryName;
   }
-
-  if (authorization && !token) {
-    throw new Error("خطای احراز هویت! لطفا دوباره وارد شوید.");
-  }
-
-  const res: AxiosResponse<T, ApiError> = await axios({
-    method: method,
-    baseURL: process.env.API_BASE_URL,
-    url: url,
-    params: params,
-    headers: {
-      "Content-Type": contentType,
-      Authorization: `Bearer ${token}`,
-    },
-    data: data,
-  });
-
-  return res;
-}
-
-export function handleServerActionError<T, S = undefined>(
-  err: unknown,
-  values?: S,
-  statusCode?: number,
-) {
-  if (err) {
-    const error = err as AxiosError<ApiError, T>;
-    if (error) {
-      return {
-        status: "error",
-        message: error?.response?.data?.message,
-        statusCode: statusCode,
-        values: values,
-      };
-    }
-  }
-}
+};

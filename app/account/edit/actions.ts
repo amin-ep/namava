@@ -1,7 +1,7 @@
 "use server";
 
 import { UpdateMePayload, UpdateMeResponseData } from "@/app/_types/userTypes";
-import { apiRequest, handleServerActionError } from "@/app/_utils/helpers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 import { revalidatePath } from "next/cache";
 
 export async function updateMe(payload: UpdateMePayload) {

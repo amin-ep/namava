@@ -78,7 +78,7 @@ function MobileFooter() {
   ];
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 grid h-14 grid-cols-5 border-t border-[#37383e] bg-gray-900 p-0 md:hidden">
+    <footer className="fixed bottom-0 left-0 right-0 z-20 grid h-14 grid-cols-5 border-t border-[#37383e] bg-gray-900 p-0 md:hidden">
       {items.map((item) =>
         item.href ? (
           <Link className={classes} key={item.href} href={item.href as string}>

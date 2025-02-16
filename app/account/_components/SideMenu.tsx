@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaStar, FaUser } from "react-icons/fa6";
 import { IoIosListBox } from "react-icons/io";
+import { PiPowerFill } from "react-icons/pi";
 
 const navItems: MobileNavListItem[] = [
   {
@@ -28,7 +29,7 @@ const navItems: MobileNavListItem[] = [
   {
     title: "خروج از حساب کاربری",
     href: "/",
-    icon: <IoIosListBox size={21} />,
+    icon: <PiPowerFill size={21} />,
   },
 ];
 

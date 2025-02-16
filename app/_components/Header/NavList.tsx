@@ -1,5 +1,7 @@
 "use client";
 
+import { findPersianCategoryName } from "@/app/_utils/helpers";
+import cls from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { memo } from "react";
@@ -7,29 +9,30 @@ import { memo } from "react";
 const items = [
   {
     title: "خانه",
-    href: "/home",
+    href: "home",
   },
   {
     title: "فیلم ها",
-    href: "/movie",
+    href: "movie",
   },
   {
     title: "سریال ها",
-    href: "/series",
+    href: "series",
   },
   {
     title: "دسته بندی",
-    href: "/category",
+    href: "category",
   },
   {
     title: "تازه ها",
-    href: "/latest",
+    href: "latest",
   },
   {
     title: "کودکان",
-    href: "/kids",
+    href: "kids",
   },
 ];
+
 const NavList = memo(function NavList() {
   const pathname = usePathname();
 
@@ -39,12 +42,19 @@ const NavList = memo(function NavList() {
         {items.map((item) => (
           <li key={item.href}>
             <Link
-              href={item.href}
-              className={`font-medium hover:text-primary-light ${
-                pathname === item.href ? "text-primary-light" : "text-white"
-              }`}
+              href={`/${item.href}`}
+              className={cls(
+                "font-medium hover:text-primary-light",
+                pathname.split("/")[1] === item.href
+                  ? "text-primary-default"
+                  : "text-white",
+              )}
             >
-              {item.title}
+              {item.title}{" "}
+              {item.href === "category" &&
+                pathname.split("/").length == 3 &&
+                pathname.split("/")[1] === "category" &&
+                `(${findPersianCategoryName(pathname.split("/")[2])})`}
             </Link>
           </li>
         ))}

@@ -5,11 +5,8 @@ import {
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 

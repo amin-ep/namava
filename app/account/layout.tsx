@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 };
 
 async function Layout({ children }: { children: ReactNode }) {
-  const userInfo: User = await getMe();
+  const userInfo: User = (await getMe()) as User;
   return (
     <AccountLayout
       Side={
         <SideMenu
-          firstName={userInfo?.firstName}
-          lastName={userInfo?.lastName}
+          firstName={userInfo?.firstName as string}
+          lastName={userInfo?.lastName as string}
         />
       }
     >

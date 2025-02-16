@@ -1,12 +1,9 @@
 "use server";
 
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { cookies } from "next/headers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 import {
   RegisterResponseData,
   RegisterVerificationPayload,

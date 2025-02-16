@@ -5,13 +5,9 @@ import {
   SetPasswordPayload,
   SetPasswordResponse,
 } from "@/app/_types/userTypes";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { revalidatePath } from "next/cache";
-
+import { apiRequest, handleServerActionError } from "@/app/api";
 export async function setPasswordRequest() {
   try {
     const res = await apiRequest({

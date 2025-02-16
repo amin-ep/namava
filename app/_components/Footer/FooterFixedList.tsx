@@ -164,7 +164,7 @@ function Overlay({
       <div
         onClick={onClose}
         ref={ref}
-        className="absolute left-0 right-0 z-0 w-full bg-black/85"
+        className="absolute inset-0 z-[6] w-full bg-black/85"
       ></div>,
       document.body,
     );

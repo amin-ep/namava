@@ -7,12 +7,9 @@ import {
 } from "@/app/_types/editEmail";
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import { VerifyMePayload, VerifyMeResponse } from "@/app/_types/userTypes";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { cookies } from "next/headers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 
 export async function verifyMe(
   _prevState: FormActionPreviousState,

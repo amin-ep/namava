@@ -1,77 +1,23 @@
 import Image from "next/image";
-import PageContainer from "../_components/PageContainer";
+import SliderBanner from "../_components/SliderBanner/SliderBanner";
+import { IMovie } from "../_types/movieTypes";
+import { getNewestMovies } from "../api/movieApi";
 
-function Page() {
+async function Page() {
+  const movies = await getNewestMovies();
   return (
-    <PageContainer>
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-      />
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-        quality={100}
-      />
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-        quality={100}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-        quality={100}
-      />{" "}
-      <Image
-        src="/Dirty-Angels.jpg"
-        alt="image"
-        className="w-40 object-cover"
-        width={25}
-        height={25}
-        quality={100}
-      />
-    </PageContainer>
+    <div>
+      <SliderBanner data={movies as IMovie[]} />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+    </div>
   );
 }
 

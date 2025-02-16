@@ -1,11 +1,8 @@
 "use server";
 
 import { ChangePasswordResponse } from "@/app/_types/userTypes";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 
 export async function changePassword(
   _prevState: null | { status: string; message: string } | undefined,

@@ -1,9 +1,8 @@
 "use server";
 
-import { AxiosError } from "axios";
 import { cookies } from "next/headers";
+import { apiRequest, handleServerActionError } from ".";
 import { GetUserResponseData } from "../_types/userTypes";
-import { apiRequest } from "../_utils/helpers";
 
 export async function getMe() {
   try {
@@ -26,11 +25,6 @@ export async function getMe() {
       }
     }
   } catch (error) {
-    if (error instanceof AxiosError) {
-      return (
-        error.response?.data?.message ||
-        "خطایی حین ثبت نام ایجاد شد. لطفا دوباره تلاش کنید."
-      );
-    }
+    return handleServerActionError(error);
   }
 }

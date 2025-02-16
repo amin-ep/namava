@@ -15,6 +15,8 @@ interface Props {
   disabled?: boolean;
   linkTarget?: React.HTMLAttributeAnchorTarget;
   linkDownload?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 function LinkButton({
@@ -29,6 +31,8 @@ function LinkButton({
   disabled = false,
   linkTarget,
   linkDownload,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) {
   const buttonStyles: { [k: string]: string } = {
     primary: "bg-primary-default text-white",
@@ -52,6 +56,8 @@ function LinkButton({
         disabled={disabled}
         type={buttonType}
         {...(onClick && { onClick: onClick })}
+        {...(onMouseEnter && { onMouseEnter: onMouseEnter })}
+        {...(onMouseLeave && { onMouseLeave: onMouseLeave })}
         className={classes}
       >
         {children}
@@ -69,7 +75,6 @@ function LinkButton({
       </Link>
     );
   }
-  return <div>LinkButton</div>;
 }
 
 export default LinkButton;

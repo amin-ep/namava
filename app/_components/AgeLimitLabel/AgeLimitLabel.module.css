@@ -1,0 +1,24 @@
+.lime {
+    background: linear-gradient(rgb(183, 211, 130) 0%, rgb(115, 145, 58) 100%);
+    color: #000;
+}
+
+.white {
+    background: linear-gradient(rgb(242, 242, 242) 0%, rgb(170, 170, 170) 100%);
+    color: #fff;
+}
+
+.yellow {
+    background: linear-gradient(rgb(255, 213, 76) 0%, rgb(222, 171, 0) 100%);
+    color: #000;
+}
+
+.clayBrown {
+    background: linear-gradient(rgb(244, 168, 134) 0%, rgb(186, 102, 64) 100%);
+    color: #000;
+}
+
+.appleBlossom {
+    background: linear-gradient(rgb(228, 140, 140) 0%, #ab4848 100%);
+    color: #000;
+}

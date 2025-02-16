@@ -7,11 +7,8 @@ import {
 } from "@/app/_types/authTypes";
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
 import { JWT_EXPIRATION_DATE } from "@/app/_utils/constants";
-import {
-  apiRequest,
-  handleServerActionError,
-  removeUnrecognizedFields,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+import { apiRequest, handleServerActionError } from "@/app/api";
 import { cookies } from "next/headers";
 
 export async function forgetPassword(

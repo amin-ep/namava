@@ -15,6 +15,7 @@ function HeaderShuffleAction() {
         alt="shuffle-white"
         onClick={open}
         src="/icons/shuffle-white.svg"
+        extraStyles="hidden xsm:block"
       />
       <Modal onClose={close} open={isOpen}>
         <div className="relative flex w-80 flex-col items-center rounded-md bg-gray-900 xsm:w-[27.5rem] md:w-[40rem] xl:w-[45rem]">
