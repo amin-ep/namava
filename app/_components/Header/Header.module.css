@@ -1,0 +1,54 @@
+.hidden {
+    animation: toUp;
+    animation-duration: 1s;
+    top: -80px;
+    transition: 1s;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+}
+
+.shown {
+    animation: toDown;
+    animation-duration: 1s;
+}
+
+.scrolled {
+    background: var(--color-gray-950);
+    transition: 1s;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.static {
+    background: linear-gradient(to bottom, var(--color-gray-950), transparent);
+    transition: 1s;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+}
+
+@keyframes toDown {
+    from {
+        top: -80px;
+    }
+
+    to {
+        top: 0;
+    }
+}
+
+@keyframes toUp {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: -80px;
+    }
+}

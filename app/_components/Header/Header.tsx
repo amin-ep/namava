@@ -1,43 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import cls from "classnames";
+import styles from "./Header.module.css";
 
 function Header({ children }: { children: ReactNode }) {
-  const [showHeader, setShowHeader] = useState(true);
-  const [latestScrollY, setLatestScrollY] = useState(0);
-  const ref = useRef<HTMLElement | null>(null);
-
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef<number>(0);
   const pathname = usePathname();
-
-  const handleScroll: () => void = useCallback(() => {
-    const currentScrollY: number = window.scrollY;
-    setLatestScrollY(currentScrollY);
-    if (ref && ref.current) {
-      if (currentScrollY > latestScrollY) {
-        if (pathname.split("/")[1] !== "account") {
-          ref.current.style.top = "-80px";
-          ref.current.classList.remove("header-scrolled-down");
-          ref.current.classList.add("header-scrolled-up");
-        }
-      } else if (currentScrollY === 0) {
-        ref.current.style.top = "0";
-        if (pathname.split("/")[1] !== "account") {
-          ref.current.style.boxShadow = "unset";
-          ref.current.style.backgroundColor = "unset";
-        }
-      } else if (currentScrollY < latestScrollY) {
-        ref.current.style.top = "0";
-        ref.current.style.backgroundColor = "rgba(18, 18, 18, 1)";
-        ref.current.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.3)";
-        if (pathname.split("/")[1] !== "account") {
-          ref.current.classList.remove("header-scrolled-up");
-          ref.current.classList.add("header-scrolled-down");
-        }
-      }
-    }
-  }, [latestScrollY, pathname]);
 
   useEffect(() => {
     const disableRoutes: string[] = [
@@ -49,34 +21,33 @@ function Header({ children }: { children: ReactNode }) {
       "/auth/recover",
     ];
 
-    if (disableRoutes.includes(pathname)) {
-      setShowHeader(false);
-    } else {
-      setShowHeader(true);
-    }
+    if (disableRoutes.includes(pathname)) return;
 
-    if (showHeader) {
-      handleScroll();
-      window.addEventListener("scroll", handleScroll);
+    const handle = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 0);
+      setHidden(currentScrollY > lastScrollY.current && currentScrollY > 50);
+      lastScrollY.current = currentScrollY;
+    };
 
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
-  }, [handleScroll, pathname, showHeader]);
+    window.addEventListener("scroll", handle);
 
-  if (showHeader)
-    return (
-      <header
-        id="header"
-        className={cls(
-          "fixed left-0 right-0 z-30 flex h-[60px] items-center justify-between bg-gradient-to-b from-[rgba(18,18,18,1)] to-[rgba(18,18,18,0)] px-5 xsm:px-6 md:px-8 lg:px-11 xl:h-20",
-          pathname.split("/")[1] === "account" ? "bg-gray-950" : "",
-        )}
-        ref={ref}
-      >
-        {children}
-      </header>
-    );
-  else return null;
+    return () => window.removeEventListener("scroll", handle);
+  }, [pathname]);
+
+  return (
+    <header
+      id="header"
+      className={cls(
+        "fixed left-0 right-0 z-30 flex h-[60px] items-center justify-between px-5 xsm:px-6 md:px-8 lg:px-11 xl:h-20",
+        pathname.split("/")[1] === "account" ? "bg-gray-950" : "",
+        hidden ? styles.hidden : styles.shown,
+        scrolled ? styles.scrolled : styles.static,
+      )}
+    >
+      {children}
+    </header>
+  );
 }
 
 export default Header;

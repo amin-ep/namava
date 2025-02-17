@@ -31,7 +31,7 @@ export async function getMoviesByGenre(genre: string) {
     const res = await apiRequest<IGetMoviesBasedOnGenresResponse>({
       method: "GET",
       contentType: "application/json",
-      url: `/movie/genres/${genre}`,
+      url: `/movie?genres=${genre}`,
       authorization: false,
     });
 
