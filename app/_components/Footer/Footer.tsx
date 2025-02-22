@@ -31,6 +31,7 @@ function Footer() {
       <footer
         className="relative"
         ref={ref as React.Ref<HTMLDivElement> | undefined}
+        id="footer"
       >
         <FooterFixedList
           className={

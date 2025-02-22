@@ -1,22 +1,19 @@
-import Image from "next/image";
+import MovieSlider from "../_components/MovieSlider/MovieSlider";
 import SliderBanner from "../_components/SliderBanner/SliderBanner";
 import { IMovie } from "../_types/movieTypes";
-import { getNewestMovies } from "../api/movieApi";
+import { getAllMovies, getNewestMovies } from "../api/movieApi";
+import NeonSlider from "./_components/NeonSlider";
 
 async function Page() {
   const movies = await getNewestMovies();
+  const data = await getAllMovies();
   return (
     <div>
       <SliderBanner data={movies as IMovie[]} />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
-      <Image width={200} height={170} alt="image" src="/Dirty-Angels.jpg" />
+      <div>
+        <NeonSlider />
+        <MovieSlider heading="ویژه" movies={data as IMovie[]} />
+      </div>
     </div>
   );
 }

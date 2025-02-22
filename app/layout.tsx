@@ -39,7 +39,8 @@ export default function RootLayout({
             <Nav />
             <HeaderActions />
           </Header>
-          <main>{children}</main>
+          <main id="main">{children}</main>
+          <div id="popup"></div>
           <Footer />
           <MobileFooter />
           <BottomSheetModal />

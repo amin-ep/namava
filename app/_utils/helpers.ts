@@ -131,3 +131,8 @@ export const findPersianCategoryName = (name: string) => {
     return categoryName;
   }
 };
+
+export const findCategoryHref = (title: string) => {
+  const href = categories.find((item) => item.title === title)?.href;
+  return href;
+};

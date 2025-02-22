@@ -3,7 +3,6 @@
 import { useModal } from "@/app/_hooks/useModal";
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
-import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -17,10 +16,12 @@ import AgeLimitLabel from "../AgeLimitLabel/AgeLimitLabel";
 import BuySubscriptionLink from "../BuySubscriptionLink";
 import FreeStatusLabel from "../FreeStatusLabel/FreeStatusLabel";
 import LinkButton from "../LinkButton";
+import MovieMoreInfoLink from "../MovieMoreInfoLink";
+import MovieStars from "../MovieStars";
 import TrailerModal from "../TrailerModal";
 import SliderBannerButtons from "./SliderBannerButtons";
 import SliderBannerPagination from "./SliderBannerPagination";
-import SliderBannerStars from "./SliderBannerStars";
+import ImdbLabel from "../ImdbLabel";
 
 function SliderBanner({ data }: { data: IMovie[] }) {
   const [videoUrl, setVideoUrl] = useState("");
@@ -58,7 +59,7 @@ function SliderBanner({ data }: { data: IMovie[] }) {
                 }}
                 className="relative z-[5] min-h-[135vw] w-full bg-cover bg-center bg-no-repeat bg-origin-border p-0 before:absolute before:bottom-0 before:left-0 before:right-0 before:-z-10 before:h-24 before:bg-gradient-to-t before:from-gray-950 before:to-transparent xsm:min-h-[50vw] xsm:pb-10"
               >
-                <div className="absolute bottom-12 z-20 h-fit w-full px-5 xsm:bottom-[unset] xsm:right-0 xsm:top-[72px] xsm:max-w-full xsm:px-6 md:top-[100px] md:max-w-[75%] xl:top-[9.03125vw]">
+                <div className="absolute bottom-12 z-20 h-fit w-full px-5 xsm:bottom-[unset] xsm:right-0 xsm:top-[72px] xsm:max-w-full xsm:px-6 md:top-[100px] md:max-w-[75%] md:px-8 xl:top-[9.03125vw] xl:px-11">
                   <div className="z-30 flex w-full flex-col gap-4 text-center xsm:justify-start xsm:text-right">
                     <div className="flex items-center justify-center xsm:justify-start">
                       <Link href="/">
@@ -68,6 +69,7 @@ function SliderBanner({ data }: { data: IMovie[] }) {
                           width={112}
                           height={52}
                           className="w-28 xsm:w-36 sm:w-40 md:w-44"
+                          unoptimized
                         />
                       </Link>
                     </div>
@@ -81,15 +83,7 @@ function SliderBanner({ data }: { data: IMovie[] }) {
                       <AgeLimitLabel age={movie.ageLimit} />
                       <span>{movie.releaseYear}</span>
                       <span>{movie.duration} دقیقه</span>
-                      <div className="flex items-center gap-1">
-                        <Image
-                          alt="imdb"
-                          src="/icons/imdb-white.svg"
-                          width={31}
-                          height={11}
-                        />
-                        <span>{movie.imdbRating}</span>
-                      </div>
+                      <ImdbLabel rate={movie.imdbRating as number} />
                     </div>
                     <div className="flex justify-center gap-4 xsm:justify-start">
                       <BuySubscriptionLink />
@@ -105,13 +99,13 @@ function SliderBanner({ data }: { data: IMovie[] }) {
                       >
                         پیش نمایش
                       </LinkButton>
-                      <InfoLink
+                      <MovieMoreInfoLink
                         extraStyles="hidden md:flex"
                         href={`/movie/${movie.slug}`}
                       />
                     </div>
                     {movie?.actors!.length > 0 && (
-                      <SliderBannerStars actors={movie?.actors} />
+                      <MovieStars actors={movie?.actors} />
                     )}
                   </div>
                 </div>
@@ -129,40 +123,6 @@ function SliderBanner({ data }: { data: IMovie[] }) {
         </>
       )}
     </div>
-  );
-}
-
-function InfoLink({
-  href,
-  extraStyles,
-}: {
-  href: string;
-  extraStyles?: string;
-}) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <Link
-      href={href}
-      className={cls(
-        "flex flex-row items-center justify-between gap-2 text-xs text-white hover:text-primary-default",
-        extraStyles,
-      )}
-      onMouseEnter={() => {
-        setHovered(true);
-      }}
-      onMouseLeave={() => {
-        setHovered(false);
-      }}
-    >
-      <Image
-        width={30}
-        height={30}
-        alt="info"
-        src={`/icons/info-${hovered ? "primary" : "white"}.svg`}
-      />
-      اطلاعات بیشتر
-    </Link>
   );
 }
 

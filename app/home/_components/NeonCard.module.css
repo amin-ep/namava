@@ -1,0 +1,32 @@
+.card {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(280px, 459px));
+    /* grid-template-rows: repeat(1, minmax(201px, 330px)); */
+
+}
+
+@media (min-width: 500px) {
+    .card {
+        grid-template-columns: repeat(1, minmax(220px, 369px));
+        /* grid-template-rows: repeat(1, minmax(158px, 266px)); */
+    }
+}
+
+@media (min-width: 800px) {
+    .card {
+        grid-template-columns: repeat(1, minmax(361px, 600px));
+        grid-template-rows: repeat(1, minmax(144px, 240px));
+    }
+
+    .img {
+        aspect-ratio: 5/2;
+    }
+}
+
+
+@media (min-width: 1280px) {
+    .card {
+        grid-template-columns: repeat(1, minmax(387px, 478px));
+        /* grid-template-rows: repeat(1, minmax(154px, 191px)); */
+    }
+}

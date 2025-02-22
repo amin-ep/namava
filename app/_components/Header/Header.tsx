@@ -23,16 +23,18 @@ function Header({ children }: { children: ReactNode }) {
 
     if (disableRoutes.includes(pathname)) return;
 
-    const handle = () => {
+    const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 0);
       setHidden(currentScrollY > lastScrollY.current && currentScrollY > 50);
       lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", handle);
+    window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handle);
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
   return (

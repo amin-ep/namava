@@ -4,6 +4,21 @@ import {
 } from "../_types/movieTypes";
 import { apiRequest, handleServerActionError } from ".";
 
+export async function getAllMovies() {
+  try {
+    const res = await apiRequest<IGetMoviesResponse>({
+      method: "GET",
+      contentType: "application/json",
+      url: "/movie",
+    });
+    if (res.data.status === "success") {
+      return res.data.data.docs;
+    }
+  } catch (err) {
+    return handleServerActionError(err);
+  }
+}
+
 export async function getNewestMovies() {
   try {
     const res = await apiRequest<IGetMoviesResponse>({

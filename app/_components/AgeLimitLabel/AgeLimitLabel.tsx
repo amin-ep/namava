@@ -16,7 +16,7 @@ function AgeLimitLabel({ age }: Props) {
   return (
     <div
       className={cls(
-        "flex h-6 w-9 items-center justify-center rounded-full text-center text-sm font-bold",
+        "flex h-6 w-9 items-center justify-center rounded-full text-center text-xs font-bold xl:text-sm",
         styles[agesClassNames[age]],
       )}
     >

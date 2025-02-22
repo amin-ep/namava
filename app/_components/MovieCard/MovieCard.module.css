@@ -1,0 +1,16 @@
+.details {
+    transition: .5s ease;
+    -webkit-transition: .5s ease;
+    -moz-transition: .5s ease;
+    -ms-transition: .5s ease;
+    -o-transition: .5s ease;
+    opacity: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9));
+}
+
+
+@media (min-width:767px) {
+    .details:hover {
+        opacity: 100;
+    }
+}

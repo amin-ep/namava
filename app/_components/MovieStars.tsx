@@ -1,10 +1,10 @@
-import { IMovie } from "@/app/_types/movieTypes";
 import Link from "next/link";
 import React from "react";
+import { IMovie } from "../_types/movieTypes";
 
 type Props = { actors: IMovie["actors"] };
 
-function SliderBannerStars({ actors }: Props) {
+function MovieStars({ actors }: Props) {
   return (
     <div className="hidden text-xs text-gray-300 xsm:flex">
       <span className="pl-1">ستارگان:</span>
@@ -24,4 +24,4 @@ function SliderBannerStars({ actors }: Props) {
   );
 }
 
-export default SliderBannerStars;
+export default MovieStars;
