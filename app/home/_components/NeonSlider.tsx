@@ -25,7 +25,7 @@ function NeonSlider() {
   const [sliderIsHovered, setSliderIsHovered] = useState(false);
   return (
     <div
-      className="mb-8 md:mb-11 xl:mb-12"
+      className="z-30 mb-8 md:-mt-5 md:mb-11 base:-mt-10 xl:-mt-20 xl:mb-12"
       onMouseEnter={() => setSliderIsHovered(true)}
       onMouseLeave={() => setSliderIsHovered(false)}
     >

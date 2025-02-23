@@ -1,6 +1,6 @@
 import MovieSlider from "../_components/MovieSlider/MovieSlider";
-import SliderBanner from "../_components/SliderBanner/SliderBanner";
 import { IMovie } from "../_types/movieTypes";
+import SliderBanner from "../_components/SliderBanner/SliderBanner";
 import { getAllMovies, getNewestMovies } from "../api/movieApi";
 import NeonSlider from "./_components/NeonSlider";
 

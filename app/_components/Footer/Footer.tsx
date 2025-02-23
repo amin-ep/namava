@@ -7,26 +7,13 @@ import FooterApplications from "./FooterApplications";
 import FooterContent from "./FooterContent";
 import FooterFixedList from "./FooterFixedList";
 import FooterSocialNetworks from "./FooterSocialNetworks";
-import { useEffect, useState } from "react";
 function Footer() {
   const pathname = usePathname();
   const [isVisible, ref] = useInView();
 
-  const [showFooter, setShowFooter] = useState(true);
+  const disableRoutes = ["/auth"];
 
-  useEffect(() => {
-    const protectedRoutes = ["/auth"];
-
-    const isPrivate = protectedRoutes.some((route) => {
-      return pathname.startsWith(route);
-    });
-
-    if (isPrivate) {
-      setShowFooter(!isPrivate);
-    }
-  }, [pathname]);
-
-  if (showFooter)
+  if (disableRoutes.includes(pathname.split("/")[1]))
     return (
       <footer
         className="relative"

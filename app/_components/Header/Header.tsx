@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import cls from "classnames";
 import styles from "./Header.module.css";
 
@@ -11,8 +11,8 @@ function Header({ children }: { children: ReactNode }) {
   const lastScrollY = useRef<number>(0);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const disableRoutes: string[] = [
+  const disableRoutes: string[] = useMemo(() => {
+    return [
       "/auth/login",
       "/auth/login-otp",
       "/auth/register",
@@ -20,7 +20,9 @@ function Header({ children }: { children: ReactNode }) {
       "/account/set-password",
       "/auth/recover",
     ];
+  }, []);
 
+  useEffect(() => {
     if (disableRoutes.includes(pathname)) return;
 
     const handleScroll = () => {
@@ -35,16 +37,19 @@ function Header({ children }: { children: ReactNode }) {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
+  }, [disableRoutes, pathname]);
 
   return (
     <header
       id="header"
       className={cls(
         "fixed left-0 right-0 z-30 flex h-[60px] items-center justify-between px-5 xsm:px-6 md:px-8 lg:px-11 xl:h-20",
-        pathname.split("/")[1] === "account" ? "bg-gray-950" : "",
+        pathname.split("/")[1] === "account"
+          ? "bg-gray-950 shadow-[0_5px_10px_rgba(0,0,0,0.3)]"
+          : "",
         hidden ? styles.hidden : styles.shown,
         scrolled ? styles.scrolled : styles.static,
+        disableRoutes.includes(pathname) && "hidden",
       )}
     >
       {children}

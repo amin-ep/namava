@@ -39,6 +39,7 @@ function TrailerModal({ videoUrl, onClose, open }: Props) {
           src={`${FILE_BASE_URL}/${videoUrl}`}
           controls
           className="w-full"
+          controlsList="nodownload"
         ></video>
       </div>
     </Modal>

@@ -1,4 +1,5 @@
 import { LinkField } from "../_types/globalTypes";
+import { User } from "../_types/userTypes";
 import { getMe } from "../api/userApi";
 import PersonalInfo from "./_components/PersonalInfo";
 import UserInfo from "./_components/UserInfo";
@@ -14,8 +15,8 @@ async function page() {
 
   return (
     <div className="flex flex-col gap-3 md:gap-4">
-      <PersonalInfo info={userInfo} />
-      <UserInfo info={userInfo} />
+      <PersonalInfo info={userInfo as User} />
+      <UserInfo info={userInfo as User} />
     </div>
   );
 }
