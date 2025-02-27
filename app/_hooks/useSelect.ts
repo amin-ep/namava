@@ -11,7 +11,8 @@ type Action =
   | { type: "open" }
   | { type: "close" }
   | { type: "value"; payload: string }
-  | { type: "clear" };
+  | { type: "clear" }
+  | { type: "toggle" };
 
 const initialState: State = {
   isOpen: false,
@@ -32,6 +33,9 @@ const reducer = (state: State, action: Action) => {
     case "clear":
       return { ...state, value: initialState.value };
 
+    case "toggle":
+      return { ...state, isOpen: !state.isOpen };
+
     default:
       throw new Error("Unknown action type");
   }
@@ -41,6 +45,10 @@ export function useSelect(defaultValue?: string) {
   const [{ value, isOpen }, dispatch] = useReducer(reducer, initialState);
   const open = () => {
     dispatch({ type: "open" });
+  };
+
+  const toggle = () => {
+    dispatch({ type: "toggle" });
   };
 
   const close = () => {
@@ -64,5 +72,5 @@ export function useSelect(defaultValue?: string) {
     }
   }, [defaultValue, updateValue]);
 
-  return { value, isOpen, close, open, updateValue, clear };
+  return { value, isOpen, close, open, updateValue, clear, toggle };
 }

@@ -11,7 +11,7 @@ import styles from "./MovieCard.module.css";
 type Props = {
   movie: IMovie;
   onClick: () => void;
-  selectedMovie: IMovie | null;
+  selectedMovie?: IMovie | null;
 };
 
 function MovieCard({ movie, onClick, selectedMovie }: Props) {
@@ -19,12 +19,14 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
   const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (selectedMovie?._id === movie._id) {
-      setMovieIsSelected(true);
-    } else {
-      setMovieIsSelected(false);
+    if (selectedMovie) {
+      if (selectedMovie?._id === movie._id) {
+        setMovieIsSelected(true);
+      } else {
+        setMovieIsSelected(false);
+      }
     }
-  }, [movie._id, selectedMovie?._id]);
+  }, [movie._id, selectedMovie]);
 
   function handleImageOnLoad() {
     setImageIsLoaded(true);

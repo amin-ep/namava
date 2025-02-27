@@ -6,7 +6,7 @@ export function useOutsideClick(close: () => void) {
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const handleClose = (e: MouseEvent) => {
+    const handleClose = (e: MouseEvent | TouchEvent) => {
       if (
         ref &&
         ref.current &&
@@ -15,9 +15,13 @@ export function useOutsideClick(close: () => void) {
         close();
       }
     };
-    document.addEventListener("click", handleClose, true);
+    document.addEventListener("click", handleClose);
+    document.addEventListener("touchstart", handleClose);
 
-    return () => document.removeEventListener("click", handleClose, true);
+    return () => {
+      document.removeEventListener("click", handleClose);
+      document.removeEventListener("touchstart", handleClose);
+    };
   }, [close]);
 
   return ref;

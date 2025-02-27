@@ -18,6 +18,11 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
 }
 
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
 .mini-spinner-loading {
   width: 27px;
   aspect-ratio: 1;

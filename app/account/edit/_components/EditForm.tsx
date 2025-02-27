@@ -42,10 +42,10 @@ function EditForm({ user }: { user: User }) {
   const {
     close: closeProvince,
     isOpen: provinceIsOpen,
-    open: openProvince,
     updateValue: updateProvinceValue,
     value: provinceValue,
     clear: clearProvince,
+    toggle: toggleProvince,
   } = useSelect(user?.province ?? "");
 
   // Validate fields
@@ -164,7 +164,7 @@ function EditForm({ user }: { user: User }) {
                   items={provincesArr.sort()}
                   placeholder="نام استان خود را وارد کنید"
                   isOpen={provinceIsOpen}
-                  onOpen={openProvince}
+                  onOpen={toggleProvince}
                   value={provinceValue}
                   close={closeProvince}
                   onClick={(e) => {

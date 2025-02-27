@@ -71,27 +71,27 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
   const {
     close: closeDaySelect,
     isOpen: dayIsOpen,
-    open: openDaySelect,
     updateValue: updateDayValue,
     value: dayValue,
+    toggle: toggleDaySelect,
   } = useSelect((defaultBirthDateObject?.day as string) ?? "");
 
   // Month select
   const {
     close: closeMonthSelect,
     isOpen: monthIsOpen,
-    open: openMonthSelect,
     updateValue: updateMonthValue,
     value: monthValue,
+    toggle: toggleMonthSelect,
   } = useSelect((defaultBirthDateObject?.month as string) ?? undefined);
 
   // Year select
   const {
     close: closeYearSelect,
     isOpen: yearIsOpen,
-    open: openYearSelect,
     updateValue: updateYearValue,
     value: yearValue,
+    toggle: toggleYearSelect,
   } = useSelect((defaultBirthDateObject.year as string) ?? undefined);
 
   // day select click
@@ -162,7 +162,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
                   );
                 }}
                 isOpen={dayIsOpen}
-                onOpen={openDaySelect}
+                onOpen={toggleDaySelect}
                 value={dayValue}
                 items={daysArr as string[]}
                 placeholder="روز"
@@ -175,7 +175,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
                   );
                 }}
                 isOpen={monthIsOpen}
-                onOpen={openMonthSelect}
+                onOpen={toggleMonthSelect}
                 value={monthValue}
                 items={months as string[]}
                 placeholder="ماه"
@@ -188,7 +188,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
                   );
                 }}
                 isOpen={yearIsOpen}
-                onOpen={openYearSelect}
+                onOpen={toggleYearSelect}
                 value={yearValue}
                 close={closeYearSelect}
                 items={years as string[]}

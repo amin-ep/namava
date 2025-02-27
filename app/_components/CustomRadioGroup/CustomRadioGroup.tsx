@@ -1,13 +1,15 @@
 "use client";
 
-import React from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { Control, FieldValues, Path, RegisterOptions } from "react-hook-form";
-import styles from "./CustomRadioGroup.module.css";
-import { Controller } from "react-hook-form";
+import RadioGroup from "@mui/material/RadioGroup";
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from "react-hook-form";
+import CustomRadio from "../CustomRadio/CustomRadio";
 
 function CustomRadioGroup<TFormValues extends FieldValues>({
   defaultChecked,
@@ -36,24 +38,11 @@ function CustomRadioGroup<TFormValues extends FieldValues>({
             value={field.value || defaultChecked || ""}
           >
             {options.map((item) => (
-              <FormControlLabel
+              <CustomRadio
+                themeColor="dark"
+                label={item}
                 key={item}
                 value={item}
-                control={
-                  <Radio
-                    classes={{
-                      root: styles["radio-root"],
-                      checked: styles["radio-checked"],
-                      colorPrimary: styles["radio-color-primary"],
-                    }}
-                    size="small"
-                  />
-                }
-                label={item}
-                classes={{
-                  root: styles["form-control-root"],
-                  label: styles["form-control-label"],
-                }}
               />
             ))}
           </RadioGroup>

@@ -55,4 +55,98 @@ export const jalaaliMonths: () => string[] = () => {
   ];
 };
 
+export const countriesArray = [
+  { title: "ایران" },
+  { title: "آمریکا" },
+  { title: "هند" },
+  { title: "چین" },
+  { title: "کره جنوبی" },
+  { title: "ژاپن" },
+  { title: "ترکیه" },
+  { title: "آلمان" },
+  { title: "فرانسه" },
+  { title: "ایتالیا" },
+  { title: "انگلستان" },
+  { title: "اسپانیا" },
+  { title: "دانمارک" },
+  { title: "سوئد" },
+  { title: "روسیه" },
+  { title: "آرژانتین" },
+  { title: "مکزیک" },
+  { title: "برزیل" },
+  { title: "استرالیا" },
+  { title: "کانادا" },
+];
+
 export const FILE_BASE_URL = `http://localhost:8000/static`;
+
+export const englishLetters = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+];
+
+export const persianLetters = [
+  "ا",
+  "ب",
+  "پ",
+  "ت",
+  "ث",
+  "ج",
+  "چ",
+  "ح",
+  "خ",
+  "د",
+  "ذ",
+  "ر",
+  "ز",
+  "ژ",
+  "س",
+  "ش",
+  "ص",
+  "ض",
+  "ط",
+  "ظ",
+  "ع",
+  "غ",
+  "ف",
+  "ق",
+  "ک",
+  "گ",
+  "ل",
+  "م",
+  "ن",
+  "و",
+  "ه",
+  "ی",
+];
+
+export const singleDigitNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+export const georgianYearsArray: string[] = Array.from(
+  { length: new Date().getFullYear() - 1900 + 1 },
+  (_, i) => (1900 + i).toString(),
+);

@@ -22,7 +22,7 @@ export interface IMovie {
   images?: string[];
   description?: string;
   //   directors: Types.ObjectId[];
-  country: string;
+  countries: string[];
   about: string;
   hasSubtitle?: boolean;
   imdbRating?: number;

@@ -56,7 +56,9 @@ export async function handleServerActionError<T, S = undefined>(
     if (error) {
       return {
         status: "error",
-        message: error?.response?.data?.message,
+        message:
+          error?.response?.data?.message ||
+          "مشکلی در ارسال درخواست پیش آمد. لطفا بعدا تلاش کنید.",
         statusCode: statusCode,
         values: values,
       };

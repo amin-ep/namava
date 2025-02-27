@@ -59,7 +59,7 @@ export default function SliderBanner({ data }: { data: IMovie[] }) {
                   backgroundImage: `url(${FILE_BASE_URL}/${movie?.bannerImageUrl})`,
                 }}
                 className={cls(
-                  "absolute inset-0 z-[5] w-full bg-cover bg-center bg-no-repeat bg-origin-border p-0 before:absolute before:bottom-0 before:left-0 before:right-0 before:-z-10 before:h-24 before:bg-gradient-to-t before:from-gray-950 before:to-transparent xsm:pb-10",
+                  "absolute inset-0 z-[5] w-full bg-cover bg-no-repeat p-0 before:absolute before:bottom-0 before:left-0 before:right-0 before:-z-10 before:h-24 before:bg-gradient-to-t before:from-gray-950 before:to-transparent xsm:pb-10",
                   styles.slide,
                 )}
               >
