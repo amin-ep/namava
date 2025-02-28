@@ -19,12 +19,10 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
   const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (selectedMovie) {
-      if (selectedMovie?._id === movie._id) {
-        setMovieIsSelected(true);
-      } else {
-        setMovieIsSelected(false);
-      }
+    if (selectedMovie?._id === movie._id) {
+      setMovieIsSelected(true);
+    } else {
+      setMovieIsSelected(false);
     }
   }, [movie._id, selectedMovie]);
 

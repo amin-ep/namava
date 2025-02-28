@@ -1,5 +1,6 @@
 import { FieldValues } from "react-hook-form";
 import { Status } from "./globalTypes";
+import { IReaction } from "./reactionTypes";
 
 // User
 export type User = {
@@ -19,6 +20,7 @@ export type User = {
   updatedAt: Date;
   candidateEmail?: string;
   [key: string]: string;
+  reactedMovies: IReaction[];
 };
 // ***
 

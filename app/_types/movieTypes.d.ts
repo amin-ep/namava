@@ -32,6 +32,7 @@ export interface IMovie {
   exclusiveDubbed?: boolean;
   logoImageUrl?: string;
   slug: string;
+  reactionAverage: null | string;
 }
 
 export interface IGetMoviesResponse extends Status {

@@ -1,0 +1,15 @@
+.tooltip {
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    padding: 0.5rem;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.tooltip-arrow::before {
+    background: #fff !important;
+}
