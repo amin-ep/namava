@@ -2,28 +2,18 @@
 
 import React from "react";
 import BuySubscriptionLink from "../BuySubscriptionLink";
-import LinkButton from "../LinkButton";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
+import MovieTrailerAction from "../MovieTrailerAction/MovieTrailerAction";
+import { IMovie } from "@/app/_types/movieTypes";
 
-type Props = { infoHrefPath: string; onTrailerButtonClick: () => void };
+type Props = { slug: IMovie["slug"]; videoUrl: string };
 
-function SliderBannerActions({ infoHrefPath, onTrailerButtonClick }: Props) {
+function SliderBannerActions({ slug, videoUrl }: Props) {
   return (
     <div className="flex justify-center gap-4 xsm:justify-start">
       <BuySubscriptionLink />
-      <LinkButton
-        extraStyles="z-20"
-        color="glassy"
-        variation="button"
-        onClick={onTrailerButtonClick}
-        buttonType="button"
-      >
-        پیش نمایش
-      </LinkButton>
-      <MovieMoreInfoLink
-        extraStyles="hidden md:flex"
-        href={`/movie/${infoHrefPath}`}
-      />
+      <MovieTrailerAction videoUrl={videoUrl} />
+      <MovieMoreInfoLink extraStyles="hidden md:flex" slug={slug} />
     </div>
   );
 }

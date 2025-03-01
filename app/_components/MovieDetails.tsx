@@ -1,19 +1,18 @@
-import { IMovie } from "@/app/_types/movieTypes";
-import { FILE_BASE_URL } from "@/app/_utils/constants";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import FreeStatusLabel from "../FreeStatusLabel/FreeStatusLabel";
-import AgeLimitLabel from "../AgeLimitLabel/AgeLimitLabel";
-import ImdbLabel from "../ImdbLabel";
+import { IMovie } from "../_types/movieTypes";
+import { FILE_BASE_URL } from "../_utils/constants";
+import FreeStatusLabel from "./FreeStatusLabel/FreeStatusLabel";
+import MovieStats from "./MovieStats/MovieStats";
 
 type Props = { movie: IMovie };
 
-export default function SliderBannerDetails({ movie }: Props) {
+function MovieDetails({ movie }: Props) {
   return (
     <React.Fragment>
       <div className="flex items-center justify-center xsm:justify-start">
-        <Link href="/">
+        <Link href={`/movie/${movie.slug}`}>
           <Image
             src={`${FILE_BASE_URL}/${movie?.logoImageUrl}`}
             alt={movie.name}
@@ -30,12 +29,9 @@ export default function SliderBannerDetails({ movie }: Props) {
         </h2>
         {movie.isFree && <FreeStatusLabel />}
       </div>
-      <div className="hidden items-center gap-6 text-sm text-white xl:flex">
-        <AgeLimitLabel age={movie.ageLimit} />
-        <span>{movie.releaseYear}</span>
-        <span>{movie.duration} دقیقه</span>
-        <ImdbLabel rate={movie.imdbRating as number} />
-      </div>
+      <MovieStats movie={movie} />
     </React.Fragment>
   );
 }
+
+export default MovieDetails;

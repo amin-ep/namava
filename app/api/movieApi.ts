@@ -1,6 +1,8 @@
 import {
+  IGetMovieBySlugResponse,
   IGetMoviesBasedOnGenresResponse,
   IGetMoviesResponse,
+  IMovie,
 } from "../_types/movieTypes";
 import { apiRequest, handleServerActionError } from ".";
 
@@ -48,6 +50,22 @@ export async function getMoviesByGenre(genre: string) {
       contentType: "application/json",
       url: `/movie?genres=${genre}`,
       authorization: false,
+    });
+
+    if (res.data.status === "success") {
+      return res.data.data;
+    }
+  } catch (err) {
+    return handleServerActionError(err);
+  }
+}
+
+export async function getMovieBySlug(slug: IMovie["slug"]) {
+  try {
+    const res = await apiRequest<IGetMovieBySlugResponse>({
+      method: "GET",
+      contentType: "application/json",
+      url: `/movie/slug/${slug}`,
     });
 
     if (res.data.status === "success") {

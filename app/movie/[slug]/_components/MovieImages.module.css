@@ -1,0 +1,27 @@
+.image-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(86px, 146px));
+    column-gap: 10px;
+    row-gap: 24px;
+}
+
+@media (min-width:500px) {
+    .image-wrapper {
+        grid-template-columns: repeat(4, minmax(104px, 178px));
+        column-gap: 12px;
+    }
+}
+
+@media (min-width:768px) {
+    .image-wrapper {
+        grid-template-columns: repeat(5, minmax(136px, 231px));
+        column-gap: 14px;
+    }
+}
+
+@media (min-width:1280px) {
+    .image-wrapper {
+        grid-template-columns: repeat(7, minmax(156px, 1fr));
+        column-gap: 16px;
+    }
+}

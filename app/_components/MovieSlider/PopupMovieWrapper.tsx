@@ -3,7 +3,7 @@ import cls from "classnames";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import MovieCard from "../MovieCard/MovieCard";
-import MovieOverview from "./MovieOverview";
+import MovieOverview from "../MovieOverview/MovieOverview";
 import styles from "./PopupMovieWrapper.module.css";
 import { useSelectMovie } from "@/app/_hooks/useSelectMovie";
 

@@ -8,7 +8,7 @@ import { findPersianCategoryName } from "@/app/_utils/helpers";
 type Props = { params: Params };
 
 async function page({ params }: Props) {
-  const { name } = params;
+  const { name } = await params;
 
   const categoryName = findPersianCategoryName(name as string);
   if (categoryName) {

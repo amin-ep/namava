@@ -33,6 +33,7 @@ export interface IMovie {
   logoImageUrl?: string;
   slug: string;
   reactionAverage: null | string;
+  relatedMovies: IMovie[];
 }
 
 export interface IGetMoviesResponse extends Status {
@@ -45,4 +46,8 @@ export interface IGetMoviesResponse extends Status {
 export interface IGetMoviesBasedOnGenresResponse extends Status {
   result: number;
   data: IMovie[];
+}
+
+export interface IGetMovieBySlugResponse extends Status {
+  data: IMovie;
 }

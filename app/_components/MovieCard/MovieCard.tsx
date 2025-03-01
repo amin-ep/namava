@@ -79,15 +79,17 @@ function Details({ movie }: { movie: IMovie }) {
       )}
     >
       <p>فیلم - {movie.releaseYear}</p>
-      <div className={rowStyles}>
-        <Image
-          src="/icons/heart-fill-white.svg"
-          alt="امتیاز"
-          width={22}
-          height={22}
-        />
-        <span>55%</span>
-      </div>
+      {movie.reactionAverage && (
+        <div className={rowStyles}>
+          <Image
+            src="/icons/heart-fill-white.svg"
+            alt="امتیاز"
+            width={22}
+            height={22}
+          />
+          <span>{movie.reactionAverage}%</span>
+        </div>
+      )}
       {movie.imdbRating && (
         <div className={rowStyles}>
           <Image

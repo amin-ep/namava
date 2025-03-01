@@ -4,11 +4,12 @@ import { findCategoryHref } from "@/app/_utils/helpers";
 import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import AgeLimitLabel from "../AgeLimitLabel/AgeLimitLabel";
-import ImdbLabel from "../ImdbLabel";
 import MovieStars from "../MovieStars";
 import styles from "./MovieOverview.module.css";
-import MovieOverviewActions from "./MovieOverviewActions";
+import MovieTooltipIconActions from "../MovieTooltipIconActions";
+import BuySubscriptionLink from "../BuySubscriptionLink";
+import MovieMoreInfoLink from "../MovieMoreInfoLink";
+import MovieStats from "../MovieStats/MovieStats";
 
 type Props = { movie: IMovie };
 
@@ -39,33 +40,24 @@ function MovieOverview({ movie }: Props) {
                 {movie.name}
               </Link>
             </div>
-
             {/* details */}
-            <div className="mb-3 flex items-center justify-start gap-4 text-xs text-white xl:text-sm">
-              <AgeLimitLabel age={movie.ageLimit} />
-              <span>{movie.releaseYear}</span>
-              <span>{movie.duration} دقیقه</span>
-              <ImdbLabel rate={movie.imdbRating as number} />
-
-              {movie.reactionAverage && (
-                <div className="flex items-center gap-1">
-                  <Image
-                    src="/icons/heart-fill-white.svg"
-                    alt="امتیاز"
-                    width={22}
-                    height={22}
-                  />
-                  <span>{movie.reactionAverage}%</span>
-                </div>
-              )}
-            </div>
+            {/* <div className="mb-3 flex items-center justify-start gap-4 text-xs text-white xl:text-sm"> */}
+            <MovieStats movie={movie} extraStyles="mb-3" />
+            {/* </div> */}
             {/* Description */}
             <div className="mb-4 text-xs text-white xl:mb-[18px]">
               <Link href={`/movie/${movie.slug}`}>{movie.description}</Link>
             </div>
             {/* Actions */}
-            <MovieOverviewActions movieId={movie._id} slug={movie.slug} />
-            <div>
+            <div className="mb-4 flex items-center xl:mb-[18px] xl:gap-4">
+              <BuySubscriptionLink />
+              <MovieTooltipIconActions
+                extraStyles="xl:gap-4"
+                movieId={movie._id}
+              />
+              <MovieMoreInfoLink slug={movie.slug} />
+            </div>
+            <div className="flex flex-col gap-1">
               <MovieStars actors={movie.actors} />
               <CategoryList categories={movie.genres} />
             </div>
