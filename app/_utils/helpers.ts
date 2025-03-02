@@ -136,3 +136,23 @@ export const findCategoryHref = (title: string) => {
   const href = categories.find((item) => item.title === title)?.href;
   return href;
 };
+
+export const cryptEmail = (email: string) => {
+  let hashedEmail: string = email;
+  const splittedEmail = hashedEmail.split("@");
+  hashedEmail = `${splittedEmail.at(0)?.replace(splittedEmail[0].slice(5, splittedEmail[0].length), "****")}@${splittedEmail[1]}`;
+
+  return hashedEmail;
+};
+
+export const jalaaliDateString = (date: string) => {
+  const convertedDate = new Date(date).toLocaleDateString("fa-IR", {
+    weekday: "long",
+    year: "numeric",
+    day: "2-digit",
+    month: "long",
+    era: "short",
+  });
+
+  return convertedDate;
+};

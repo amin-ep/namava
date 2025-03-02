@@ -1,7 +1,7 @@
 "use client";
 
 import LinkButton from "./LinkButton";
-import MiniSpinner from "./MiniSpinner";
+import MiniSpinner from "./MiniSpinner/MiniSpinner";
 
 export default function FormSubmit({
   label,

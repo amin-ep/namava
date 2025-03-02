@@ -18,7 +18,7 @@ function Banner({ movie }: Props) {
           backgroundImage: `url(${FILE_BASE_URL}/${movie.bannerImageUrl})`,
         }}
       >
-        <div className="absolute inset-0 h-full w-full bg-black/30">
+        <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-gray-950 to-black/30">
           <div className="absolute bottom-12 z-20 h-fit w-full px-5 xsm:bottom-[unset] xsm:right-0 xsm:top-[72px] xsm:max-w-full xsm:px-6 md:top-[100px] md:max-w-[75%] md:px-8 xl:top-[9.03125vw] xl:px-11">
             <div className="z-30 flex w-full flex-col items-center gap-4 text-center xsm:justify-start xsm:text-right md:items-start">
               <MovieBranding wrapperBreakpoint="medium" movie={movie} />

@@ -1,7 +1,7 @@
 "use client";
 
 import MainLink from "@/app/_components/MainLink";
-import MiniSpinner from "@/app/_components/MiniSpinner";
+import MiniSpinner from "@/app/_components/MiniSpinner/MiniSpinner";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -48,7 +48,7 @@ function Item({
     <button
       {...(onClick && { onClick: onClick })}
       type="button"
-      className="hover:bg-primary-default flex items-center justify-between rounded-xl bg-gray-100 p-3 text-black hover:text-white md:p-4"
+      className="flex items-center justify-between rounded-xl bg-gray-100 p-3 text-black hover:bg-primary-default hover:text-white md:p-4"
       onMouseEnter={() => {
         setButtonIsOnHover(true);
       }}

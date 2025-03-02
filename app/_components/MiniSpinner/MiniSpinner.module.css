@@ -1,0 +1,27 @@
+.spinner {
+    width: 27px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    animation: rotating 1s infinite linear;
+}
+
+.spinner-primary {
+    border: 3px solid var(--color-primary-default);
+    border-right-color: #fff;
+}
+
+.spinner-black {
+    border: 3px solid black;
+    border-right-color: transparent;
+}
+
+.spinner-white {
+    border: 3px solid #fff;
+    border-right-color: transparent;
+}
+
+@keyframes rotating {
+    to {
+        transform: rotate(1turn);
+    }
+}

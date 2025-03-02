@@ -7,34 +7,44 @@ import MovieImages from "./_components/MovieImages";
 import MovieInfo from "./_components/MovieInfo";
 import ActorsSlider from "./_components/ActorsSlider";
 import MovieSlider from "@/app/_components/MovieSlider/MovieSlider";
+import Comments from "./_components/Comments";
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const slug = (await params).slug;
+  const movie = await getMovieBySlug(slug as string);
+
+  return {
+    title: `فیلم ${(movie as IMovie).englishName} - ${(movie as IMovie).name} را آنلاین دانلود و تماشا کنید | نماوا`,
+  };
+}
 
 async function Page({ params }: { params: Params }) {
   const slug = (await params).slug;
-  const movie = await getMovieBySlug(slug as string);
+  const movieData = await getMovieBySlug(slug as string);
+  const movie = movieData as IMovie;
   return (
     <>
       {movie && (
         <div className="pb-36 text-white">
           <Suspense fallback={<p className="text-8xl">Loading...</p>}>
-            <Banner movie={movie as IMovie} />
+            <Banner movie={movie} />
           </Suspense>
           <div className="mb-10 px-5 xsm:mb-8 xsm:px-6 md:mb-11 md:px-8 xl:mb-12 xl:px-11">
-            <MovieImages movie={movie as IMovie} />
-            <MovieInfo movie={movie as IMovie} />
+            <MovieImages movie={movie} />
+            <MovieInfo movie={movie} />
           </div>
           <div className="mb-4 px-5 text-base xsm:px-6 xsm:text-lg md:px-8 md:text-base xl:px-11 xl:text-lg">
-            <h3 className="font-bold">
-              بازیگران فیلم {(movie as IMovie).name}
-            </h3>
+            <h3 className="font-bold">بازیگران فیلم {movie.name}</h3>
           </div>
           <div className="mb-16">
-            <ActorsSlider actors={(movie as IMovie).actors} />
+            <ActorsSlider actors={movie.actors} />
           </div>
           <MovieSlider
             disablePopup
-            movies={(movie as IMovie).relatedMovies}
-            heading={`بر اساس فیلم ${`"${(movie as IMovie).name}"`}`}
+            movies={movie.relatedMovies}
+            heading={`بر اساس فیلم ${`"${movie.name}"`}`}
           />
+          <Comments movieId={movie._id} />
         </div>
       )}
     </>
