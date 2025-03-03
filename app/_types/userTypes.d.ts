@@ -20,7 +20,7 @@ export type User = {
   updatedAt: Date;
   candidateEmail?: string;
   [key: string]: string;
-  reactedMovies: IReaction[];
+  reactedFields: IReaction[];
 };
 // ***
 

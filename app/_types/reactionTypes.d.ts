@@ -2,8 +2,9 @@ import { Status } from "./globalTypes";
 
 export interface IReaction {
   value: "like" | "dislike";
-  movie: string;
+  movie?: string;
   user: string;
+  comment?: string;
 }
 
 export interface IToggleReactionResponse extends Status {

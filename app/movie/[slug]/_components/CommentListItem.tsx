@@ -1,16 +1,32 @@
 "use client";
 
+import { useReaction } from "@/app/_hooks/useReaction";
 import { IComment } from "@/app/_types/commentTypes";
 import { cryptEmail, jalaaliDateString } from "@/app/_utils/helpers";
 import Image from "next/image";
 import React, { useState } from "react";
+import {
+  BsFillHandThumbsUpFill,
+  BsHandThumbsDown,
+  BsHandThumbsDownFill,
+  BsHandThumbsUp,
+} from "react-icons/bs";
 
 type Props = { comment: IComment };
 
 function CommentListItem({ comment }: Props) {
   const [textIsOpen, setTextIsOpen] = useState(false);
+  const { handleDislike, handleLike, reactionValue } = useReaction(
+    undefined,
+    comment._id,
+  );
 
   const handleOpenText = () => setTextIsOpen(true);
+
+  const reactionButtonSize = 16;
+
+  const reactionButtonClasses = "flex items-center gap-2 text-xs xl:text-sm";
+
   return (
     <li className="grid grid-cols-[32px_1fr] gap-2 md:grid-cols-[40px_1fr] md:gap-4">
       <div className="flex items-start justify-start">
@@ -31,7 +47,27 @@ function CommentListItem({ comment }: Props) {
         {comment.spoils && !textIsOpen ? (
           <OpenSpoiledCommentButton onClick={handleOpenText} />
         ) : (
-          <p className="mb-5 leading-[1.75]">{comment.text}</p>
+          <div>
+            <p className="mb-5 leading-[1.75]">{comment.text}</p>
+            <div className="mb-6 flex items-center justify-start gap-8">
+              <button className={reactionButtonClasses} onClick={handleLike}>
+                {reactionValue === "like" ? (
+                  <BsFillHandThumbsUpFill size={reactionButtonSize} />
+                ) : (
+                  <BsHandThumbsUp size={reactionButtonSize} />
+                )}
+                <span>{comment.likeQuantity}</span>
+              </button>
+              <button onClick={handleDislike} className={reactionButtonClasses}>
+                {reactionValue === "dislike" ? (
+                  <BsHandThumbsDownFill size={reactionButtonSize} />
+                ) : (
+                  <BsHandThumbsDown size={reactionButtonSize} />
+                )}
+                <span>{comment.dislikeQuantity}</span>
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </li>

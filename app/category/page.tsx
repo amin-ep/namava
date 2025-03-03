@@ -11,14 +11,16 @@ function Page() {
   return (
     <PageContainer>
       <CategoryWrapper>
-        {categories.map((category, i) => (
-          <CategoryItem
-            imageSrc={category.imageSrc}
-            title={category.title}
-            key={i}
-            href={category.href}
-          />
-        ))}
+        {categories
+          .filter((c) => c.imageSrc !== undefined)
+          .map((category, i) => (
+            <CategoryItem
+              imageSrc={category.imageSrc as string}
+              title={category.title}
+              key={i}
+              href={category.href}
+            />
+          ))}
       </CategoryWrapper>
     </PageContainer>
   );

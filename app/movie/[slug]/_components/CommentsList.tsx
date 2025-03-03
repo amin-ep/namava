@@ -1,16 +1,12 @@
 import { IComment } from "@/app/_types/commentTypes";
-import { getMovieComments } from "@/app/api/commentApi";
 import CommentListItem from "./CommentListItem";
 
-type Props = { movieId: string };
+type Props = { comments: IComment[] };
 
-async function CommentsList({ movieId }: Props) {
-  const commentsData = await getMovieComments(movieId);
-  const comments = commentsData as IComment[];
-
+async function CommentsList({ comments }: Props) {
   return (
     <ul className="flex flex-col gap-10 text-xs">
-      {comments.map((comment) => (
+      {comments?.map((comment) => (
         <CommentListItem key={comment._id} comment={comment} />
       ))}
     </ul>

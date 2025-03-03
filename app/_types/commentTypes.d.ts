@@ -1,6 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { Status } from "./globalTypes";
 import { User } from "./userTypes";
+import { IReaction } from "./reactionTypes";
 
 export interface IComment {
   _id: string;
@@ -11,6 +12,9 @@ export interface IComment {
   };
   movie: string;
   spoils: boolean;
+  reactions: IReaction[];
+  likeQuantity: number;
+  dislikeQuantity: number;
   createdAt: Date | string;
 }
 

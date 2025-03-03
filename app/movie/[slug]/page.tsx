@@ -33,17 +33,23 @@ async function Page({ params }: { params: Params }) {
             <MovieImages movie={movie} />
             <MovieInfo movie={movie} />
           </div>
-          <div className="mb-4 px-5 text-base xsm:px-6 xsm:text-lg md:px-8 md:text-base xl:px-11 xl:text-lg">
-            <h3 className="font-bold">بازیگران فیلم {movie.name}</h3>
-          </div>
-          <div className="mb-16">
-            <ActorsSlider actors={movie.actors} />
-          </div>
-          <MovieSlider
-            disablePopup
-            movies={movie.relatedMovies}
-            heading={`بر اساس فیلم ${`"${movie.name}"`}`}
-          />
+          {movie.actors && (
+            <>
+              <div className="mb-4 px-5 text-base xsm:px-6 xsm:text-lg md:px-8 md:text-base xl:px-11 xl:text-lg">
+                <h3 className="font-bold">بازیگران فیلم {movie.name}</h3>
+              </div>
+              <div className="mb-16">
+                <ActorsSlider actors={movie.actors} />
+              </div>
+            </>
+          )}
+          {movie.relatedMovies.length > 0 && (
+            <MovieSlider
+              disablePopup
+              movies={movie.relatedMovies}
+              heading={`بر اساس فیلم ${`"${movie.name}"`}`}
+            />
+          )}
           <Comments movieId={movie._id} />
         </div>
       )}

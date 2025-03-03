@@ -1,4 +1,6 @@
 import { IMovie } from "@/app/_types/movieTypes";
+import { findCategoryHref } from "@/app/_utils/helpers";
+import Link from "next/link";
 import React from "react";
 
 type Props = { movie: IMovie };
@@ -24,10 +26,10 @@ function MovieInfo({ movie }: Props) {
         <h2 className="text-xs md:text-sm">
           دسته بندی:{" "}
           {movie.genres.map((genre, index) => (
-            <span key={genre}>
+            <Link href={`/category/${findCategoryHref(genre)}`} key={genre}>
               {genre}
               {index !== movie.genres.length - 1 && "، "}
-            </span>
+            </Link>
           ))}
         </h2>
       </div>

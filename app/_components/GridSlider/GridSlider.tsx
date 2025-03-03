@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { Swiper } from "swiper/react";
 import SliderButton from "../SliderButton";
 import { Grid, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/grid";
+import "swiper/css/pagination";
 
 type Props = { children: React.ReactNode; dataType: "movies" | "actors" };
 

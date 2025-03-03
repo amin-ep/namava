@@ -6,10 +6,14 @@ import MovieTooltipIconActions from "@/app/_components/MovieTooltipIconActions";
 import MovieTrailerAction from "@/app/_components/MovieTrailerAction/MovieTrailerAction";
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
+import { cookies } from "next/headers";
 
 type Props = { movie: IMovie };
 
-function Banner({ movie }: Props) {
+async function Banner({ movie }: Props) {
+  const authToken = (await cookies()).get(
+    process.env.JWT_SECRET_KEY as string,
+  )?.value;
   return (
     <div className="banner-container">
       <div
@@ -26,10 +30,12 @@ function Banner({ movie }: Props) {
               <div className="flex justify-center gap-4 md:justify-start">
                 <BuySubscriptionLink />
                 <MovieTrailerAction videoUrl={movie.videoUrl} />
-                <MovieTooltipIconActions
-                  extraStyles="hidden md:flex"
-                  movieId={movie._id}
-                />
+                {authToken && (
+                  <MovieTooltipIconActions
+                    extraStyles="hidden md:flex"
+                    movieId={movie._id}
+                  />
+                )}
               </div>
               <div className="mx-auto mb-4 mt-3 hidden max-w-[28.25rem] text-center text-xs leading-5 text-white xsm:block md:mx-0 md:mt-0 md:max-w-[499px] md:text-right xl:mb-[18px] xl:max-w-[554px] xl:text-sm">
                 <p>{movie.description}</p>
@@ -39,10 +45,12 @@ function Banner({ movie }: Props) {
                   <MovieStars actors={movie?.actors} />
                 )}
               </div>
-              <MovieTooltipIconActions
-                extraStyles="md:hidden gap-4 justify-center"
-                movieId={movie._id}
-              />
+              {authToken && (
+                <MovieTooltipIconActions
+                  extraStyles="md:hidden gap-4 justify-center"
+                  movieId={movie._id}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -1,19 +1,23 @@
+"use client";
+
+import { useIsLoggedIn } from "@/app/_hooks/useIsLoggedIn";
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
 import { findCategoryHref } from "@/app/_utils/helpers";
 import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import MovieStars from "../MovieStars";
-import styles from "./MovieOverview.module.css";
-import MovieTooltipIconActions from "../MovieTooltipIconActions";
 import BuySubscriptionLink from "../BuySubscriptionLink";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
+import MovieStars from "../MovieStars";
 import MovieStats from "../MovieStats/MovieStats";
+import MovieTooltipIconActions from "../MovieTooltipIconActions";
+import styles from "./MovieOverview.module.css";
 
 type Props = { movie: IMovie };
 
 function MovieOverview({ movie }: Props) {
+  const [isLoggedIn] = useIsLoggedIn();
   return (
     <div className="relative mt-4 hidden h-[375px] justify-end md:flex base:h-[420px] lg:h-[480px] xl:h-[520px]">
       <div className="w-3/4">
@@ -51,10 +55,12 @@ function MovieOverview({ movie }: Props) {
             {/* Actions */}
             <div className="mb-4 flex items-center xl:mb-[18px] xl:gap-4">
               <BuySubscriptionLink />
-              <MovieTooltipIconActions
-                extraStyles="xl:gap-4"
-                movieId={movie._id}
-              />
+              {isLoggedIn && (
+                <MovieTooltipIconActions
+                  extraStyles="xl:gap-4"
+                  movieId={movie._id}
+                />
+              )}
               <MovieMoreInfoLink slug={movie.slug} />
             </div>
             <div className="flex flex-col gap-1">

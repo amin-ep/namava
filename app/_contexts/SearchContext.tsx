@@ -365,7 +365,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
   }
 
   function handleAddGenre(genre: string) {
-    console.log(genre);
     dispatch({ type: "addGenre", payload: genre });
   }
 
