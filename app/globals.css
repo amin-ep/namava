@@ -7,6 +7,17 @@
   box-sizing: border-box;
 }
 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+  color: #fff;
+}
+
 input,
 button {
   outline: none;
@@ -38,6 +49,27 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .banner-container {
   min-height: 135vw;
+}
+
+.gray-scroll::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.gray-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.gray-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-gray-500);
+  border-radius: 10px;
+  border: 8px solid var(--color-gray-500);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .gray-scroll {
+    scrollbar-color: var(--color-gray-500) transparent;
+  }
 }
 
 @layer components {

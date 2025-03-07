@@ -1,5 +1,8 @@
 import styles from "./FreeStatusLabel.module.css";
+import cls from "classnames";
 
-export default function FreeStatusLabel() {
-  return <span className={styles.label}>رایگان</span>;
+type Props = { extraStyles?: string };
+
+export default function FreeStatusLabel({ extraStyles }: Props) {
+  return <span className={cls(styles.label, extraStyles)}>رایگان</span>;
 }

@@ -2,7 +2,7 @@ import BuySubscriptionLink from "@/app/_components/BuySubscriptionLink";
 import MovieBranding from "@/app/_components/MovieBranding";
 import MovieStars from "@/app/_components/MovieStars";
 import MovieStats from "@/app/_components/MovieStats/MovieStats";
-import MovieTooltipIconActions from "@/app/_components/MovieTooltipIconActions";
+import MovieTooltipIconActions from "@/app/_components/MovieTooltipIconActions/MovieTooltipIconActions";
 import MovieTrailerAction from "@/app/_components/MovieTrailerAction/MovieTrailerAction";
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";

@@ -8,8 +8,10 @@ import {
   BsHandThumbsUp,
 } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi2";
-import { useReaction } from "../_hooks/useReaction";
-import TooltipIconButton from "./TooltipIconButton/TooltipIconButton";
+import { useReaction } from "../../_hooks/useReaction";
+import TooltipIconButton from "../TooltipIconButton/TooltipIconButton";
+import { useState } from "react";
+import PlaylistModal from "./PlaylistModal";
 
 type Props = {
   movieId: string;
@@ -17,14 +19,22 @@ type Props = {
 };
 
 function MovieTooltipIconActions({ movieId, extraStyles }: Props) {
+  const [playListModalIsOpen, setPlayListModalIsOpen] = useState(false);
   const { handleDislike, handleLike, reactionValue } = useReaction(movieId);
+
+  const handleClosePlaylist = () => setPlayListModalIsOpen(false);
+
+  const handleOpenPlaylist = () => setPlayListModalIsOpen(true);
 
   return (
     <div className={cls("flex items-center justify-start gap-3", extraStyles)}>
+      <PlaylistModal
+        isOpen={playListModalIsOpen}
+        onClose={handleClosePlaylist}
+        movieId={movieId}
+      />
       <TooltipIconButton
-        onClick={() => {
-          console.log("add to list");
-        }}
+        onClick={handleOpenPlaylist}
         tooltipTitle="افزودن به لیست"
       >
         <HiPlus />

@@ -1,43 +1,18 @@
+import { useMovieArrays } from "@/app/_hooks/useMovieArrays";
+import { useSelectMovie } from "@/app/_hooks/useSelectMovie";
 import { IMovie } from "@/app/_types/movieTypes";
 import cls from "classnames";
-import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import MovieCard from "../MovieCard/MovieCard";
 import MovieOverview from "../MovieOverview/MovieOverview";
 import styles from "./PopupMovieWrapper.module.css";
-import { useSelectMovie } from "@/app/_hooks/useSelectMovie";
 
 type Props = { movies: IMovie[]; heading: string };
 
 function PopupMovieWrapper({ movies, heading }: Props) {
-  const [movieArrays, setMovieArrays] = useState<IMovie[][]>([]);
   const [containerRef, selectedMovie, handleSelectMovie] = useSelectMovie();
 
-  useEffect(() => {
-    function handleMovieArrays() {
-      let rowColumns: number = 3;
-      if (window.innerWidth < 500) {
-        rowColumns = 3;
-      } else if (window.innerWidth >= 500 && window.innerWidth < 768) {
-        rowColumns = 4;
-      } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
-        rowColumns = 5;
-      } else if (window.innerWidth >= 1280) {
-        rowColumns = 7;
-      }
-      const moviesArr = movies;
-      const moviesGroupArray = new Array(
-        Math.ceil(moviesArr.length / rowColumns),
-      )
-        .fill("")
-        .map((_, i) => moviesArr.slice(i * rowColumns, (i + 1) * rowColumns));
-      setMovieArrays(moviesGroupArray);
-    }
-
-    window.addEventListener("resize", handleMovieArrays);
-    handleMovieArrays();
-    return () => window.removeEventListener("resize", handleMovieArrays);
-  }, [movieArrays.length, movies]);
+  const movieArrays = useMovieArrays(movies);
 
   return createPortal(
     <div className={"flex flex-col gap-4 bg-gray-800 pt-[60px]"}>

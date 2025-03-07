@@ -11,7 +11,7 @@ import BuySubscriptionLink from "../BuySubscriptionLink";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
 import MovieStars from "../MovieStars";
 import MovieStats from "../MovieStats/MovieStats";
-import MovieTooltipIconActions from "../MovieTooltipIconActions";
+import MovieTooltipIconActions from "../MovieTooltipIconActions/MovieTooltipIconActions";
 import styles from "./MovieOverview.module.css";
 
 type Props = { movie: IMovie };

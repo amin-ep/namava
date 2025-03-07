@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export function useOutsideClick(close: () => void) {
+export function useOutsideClick(close: () => void, disable?: boolean) {
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export function useOutsideClick(close: () => void) {
         ref.current &&
         !ref.current.contains(e.target as HTMLElement)
       ) {
-        close();
+        if (!disable) close();
       }
     };
     document.addEventListener("click", handleClose);
@@ -22,7 +22,7 @@ export function useOutsideClick(close: () => void) {
       document.removeEventListener("click", handleClose);
       document.removeEventListener("touchstart", handleClose);
     };
-  }, [close]);
+  }, [close, disable]);
 
   return ref;
 }

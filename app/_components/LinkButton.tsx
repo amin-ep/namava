@@ -6,7 +6,7 @@ import Link from "next/link";
 interface Props {
   variation: "link" | "button";
   buttonType?: "button" | "submit";
-  color: "primary" | "white" | "glassy";
+  color: "primary" | "white" | "glassy" | "red";
   onClick?: () => void;
   href?: string;
   children: React.ReactNode;
@@ -39,6 +39,7 @@ function LinkButton({
     glassy:
       " gap-[2px] bg-[rgba(255,255,255,0.2)] text-xs text-white hover:bg-[rgba(255,255,255,0.4)] disabled:cursor-not-allowed",
     white: "bg-white text-gray-900 hover:bg-primary-default hover:text-white",
+    red: "bg-red-default text-white",
   };
 
   const classes = cls(

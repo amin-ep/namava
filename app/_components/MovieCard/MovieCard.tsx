@@ -7,6 +7,7 @@ import cls from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./MovieCard.module.css";
+import FreeStatusLabel from "../FreeStatusLabel/FreeStatusLabel";
 
 type Props = {
   movie: IMovie;
@@ -47,6 +48,9 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
         )}
       >
         <div className="relative">
+          {movie.isFree && (
+            <FreeStatusLabel extraStyles="absolute top-2 right-2 md:top-3 md:right-3 xl:top-4 xl:right-4" />
+          )}
           <Details movie={movie} />
           <Image
             src={`${FILE_BASE_URL}/${movie.posterUrl}`}

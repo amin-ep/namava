@@ -13,7 +13,7 @@ function Footer() {
 
   const disableRoutes = ["/auth"];
 
-  if (disableRoutes.includes(pathname.split("/")[1]))
+  if (!disableRoutes.includes(pathname.split("/")[1]))
     return (
       <footer
         className="relative"
