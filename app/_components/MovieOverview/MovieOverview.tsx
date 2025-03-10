@@ -7,7 +7,9 @@ import { findCategoryHref } from "@/app/_utils/helpers";
 import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import BuySubscriptionLink from "../BuySubscriptionLink";
+import MiniSpinner from "../MiniSpinner/MiniSpinner";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
 import MovieStars from "../MovieStars";
 import MovieStats from "../MovieStats/MovieStats";
@@ -17,9 +19,11 @@ import styles from "./MovieOverview.module.css";
 type Props = { movie: IMovie };
 
 function MovieOverview({ movie }: Props) {
+  const [bannerLoaded, setBannerLoaded] = useState(false);
   const [isLoggedIn] = useIsLoggedIn();
+
   return (
-    <div className="relative mt-4 hidden h-[375px] justify-end md:flex base:h-[420px] lg:h-[480px] xl:h-[520px]">
+    <div className="relative mb-11 mt-4 hidden h-[375px] justify-end md:flex base:h-[420px] lg:h-[480px] xl:h-[520px]">
       <div className="w-3/4">
         <Image
           src={`${FILE_BASE_URL}/${movie.bannerImageUrl}`}
@@ -28,48 +32,56 @@ function MovieOverview({ movie }: Props) {
           height={300}
           unoptimized
           className="h-full w-full object-cover"
+          onLoad={() => setBannerLoaded(true)}
         />
       </div>
-      <div
-        className={cls(
-          "absolute inset-0 flex items-center justify-start px-8",
-          styles.container,
-        )}
-      >
-        <div className="max-w-[550px]">
-          {/* Name */}
-          <div className="table-cell align-middle">
-            <div className="mb-[6px] text-lg xl:text-xl">
-              <Link href={`/movie/${movie.slug}`} className="text-white">
-                {movie.name}
-              </Link>
-            </div>
-            {/* details */}
-            {/* <div className="mb-3 flex items-center justify-start gap-4 text-xs text-white xl:text-sm"> */}
-            <MovieStats movie={movie} extraStyles="mb-3" />
-            {/* </div> */}
-            {/* Description */}
-            <div className="mb-4 text-xs text-white xl:mb-[18px]">
-              <Link href={`/movie/${movie.slug}`}>{movie.description}</Link>
-            </div>
-            {/* Actions */}
-            <div className="mb-4 flex items-center xl:mb-[18px] xl:gap-4">
-              <BuySubscriptionLink />
-              {isLoggedIn && (
-                <MovieTooltipIconActions
-                  extraStyles="xl:gap-4"
-                  movieId={movie._id}
-                />
-              )}
-              <MovieMoreInfoLink slug={movie.slug} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <MovieStars actors={movie.actors} />
-              <CategoryList categories={movie.genres} />
+      {bannerLoaded ? (
+        <div
+          className={cls(
+            "absolute inset-0 flex items-center justify-start px-8",
+            styles.container,
+          )}
+        >
+          <div className="max-w-[550px]">
+            {/* Name */}
+            <div className="table-cell align-middle">
+              <div className="mb-[6px] text-lg xl:text-xl">
+                <Link href={`/movie/${movie.slug}`} className="text-white">
+                  {movie.name}
+                </Link>
+              </div>
+              {/* details */}
+              {/* <div className="mb-3 flex items-center justify-start gap-4 text-xs text-white xl:text-sm"> */}
+              <MovieStats movie={movie} extraStyles="mb-3" />
+              {/* </div> */}
+              {/* Description */}
+              <div className="mb-4 text-xs text-white xl:mb-[18px]">
+                <Link href={`/movie/${movie.slug}`}>{movie.description}</Link>
+              </div>
+              {/* Actions */}
+              <div className="mb-4 flex items-center xl:mb-[18px] xl:gap-4">
+                <BuySubscriptionLink />
+                {isLoggedIn && (
+                  <MovieTooltipIconActions
+                    extraStyles="xl:gap-4"
+                    movieId={movie._id}
+                  />
+                )}
+                <MovieMoreInfoLink slug={movie.slug} />
+              </div>
+              <div className="flex flex-col gap-1">
+                <MovieStars actors={movie.actors} />
+                <CategoryList categories={movie.genres} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex w-full items-center justify-center">
+          <MiniSpinner color="white" />
+          {/* LOADING PLACEHOLDER */}
+        </div>
+      )}
     </div>
   );
 }

@@ -53,6 +53,7 @@ export async function handleServerActionError<T, S = undefined>(
 ) {
   if (err) {
     const error = err as AxiosError<ApiError, T>;
+    console.log(error.response?.data);
     if (error) {
       return {
         status: "error",

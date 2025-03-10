@@ -10,7 +10,7 @@ export default async function middleware(req: NextRequest) {
   });
 
   const cookieStore = await cookies();
-  const authToken = await cookieStore.get(process.env.JWT_SECRET_KEY as string)
+  const authToken = await cookieStore?.get(process.env.JWT_SECRET_KEY as string)
     ?.value;
 
   if (!authToken && isProtectedRoute) {

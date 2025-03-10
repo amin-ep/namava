@@ -1,25 +1,16 @@
-import { useMovieArrays } from "@/app/_hooks/useMovieArrays";
-import { useSelectMovie } from "@/app/_hooks/useSelectMovie";
 import { IMovie } from "@/app/_types/movieTypes";
-import cls from "classnames";
 import { createPortal } from "react-dom";
-import MovieCard from "../MovieCard/MovieCard";
-import MovieOverview from "../MovieOverview/MovieOverview";
-import styles from "./PopupMovieWrapper.module.css";
+import MovieArraysWrapper from "../MovieArraysWrapper/MovieArraysWrapper";
 
 type Props = { movies: IMovie[]; heading: string };
 
 function PopupMovieWrapper({ movies, heading }: Props) {
-  const [containerRef, selectedMovie, handleSelectMovie] = useSelectMovie();
-
-  const movieArrays = useMovieArrays(movies);
-
   return createPortal(
     <div className={"flex flex-col gap-4 bg-gray-800 pt-[60px]"}>
       <h3 className="px-5 text-base leading-[1.75] text-white xsm:px-6 xsm:text-lg md:px-8 md:text-base xl:px-11 xl:text-lg">
         {heading}
       </h3>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         {movieArrays.map((movieArr, i) => (
           <div key={movieArr[0].slug} className="flex flex-col">
             <div
@@ -44,7 +35,8 @@ function PopupMovieWrapper({ movies, heading }: Props) {
               )}
           </div>
         ))}
-      </div>
+      </div> */}
+      <MovieArraysWrapper movies={movies} />
     </div>,
     document.getElementById("popup") as HTMLDivElement,
   );

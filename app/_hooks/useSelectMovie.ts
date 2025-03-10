@@ -8,6 +8,7 @@ export const useSelectMovie: () => [
   React.Ref<HTMLElement | null>,
   IMovie | null,
   (movie: IMovie) => void,
+  () => void,
 ] = () => {
   const [selectedMovie, setSelectedMovie] = useState<null | IMovie>(null);
   const containerRef = useRef<HTMLElement | null>(null);
@@ -41,5 +42,9 @@ export const useSelectMovie: () => [
     }
   };
 
-  return [containerRef, selectedMovie, handleSelectMovie];
+  const reset = () => {
+    setSelectedMovie(null);
+  };
+
+  return [containerRef, selectedMovie, handleSelectMovie, reset];
 };

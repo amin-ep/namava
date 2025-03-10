@@ -15,7 +15,7 @@ function PlaylistModalTop({ onClose, title }: Props) {
           className="aspect-square w-3.5 md:w-4 xl:w-6"
         />
       </button>
-      <span>{title}</span>
+      <span className="text-white">{title}</span>
     </div>
   );
 }

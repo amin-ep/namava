@@ -39,7 +39,7 @@ function LinkButton({
     glassy:
       " gap-[2px] bg-[rgba(255,255,255,0.2)] text-xs text-white hover:bg-[rgba(255,255,255,0.4)] disabled:cursor-not-allowed",
     white: "bg-white text-gray-900 hover:bg-primary-default hover:text-white",
-    red: "bg-red-default text-white",
+    red: "bg-red-default text-white hover:bg-primary-default hover:text-white",
   };
 
   const classes = cls(

@@ -35,3 +35,7 @@ export interface IGetPlaylistByIdResponse extends Status {
     document: IPlaylist;
   };
 }
+
+export interface IDeleteItemFromListResponse extends Status {
+  data: IPlaylist;
+}
