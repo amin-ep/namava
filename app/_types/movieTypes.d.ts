@@ -45,7 +45,9 @@ export interface IGetMoviesResponse extends Status {
 
 export interface IGetMoviesBasedOnGenresResponse extends Status {
   result: number;
-  data: IMovie[];
+  data: {
+    docs: IMovie[];
+  };
 }
 
 export interface IGetMovieBySlugResponse extends Status {

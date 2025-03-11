@@ -50,10 +50,36 @@ export async function getMoviesByGenre(genre: string) {
       contentType: "application/json",
       url: `/movie?genres=${genre}`,
       authorization: false,
+      params: {
+        sort: "+createdAt",
+      },
     });
 
     if (res.data.status === "success") {
-      return res.data.data;
+      return res.data.data.docs;
+    }
+  } catch (err) {
+    return handleServerActionError(err);
+  }
+}
+
+export async function getMoviesByDoubleGenreName(
+  first: string,
+  second: string,
+) {
+  try {
+    const res = await apiRequest<IGetMoviesBasedOnGenresResponse>({
+      method: "GET",
+      contentType: "application/json",
+      url: `/movie?genres=${first},${second}`,
+      authorization: false,
+      params: {
+        sort: "+createdAt",
+      },
+    });
+
+    if (res.status === 200) {
+      return res.data.data.docs;
     }
   } catch (err) {
     return handleServerActionError(err);

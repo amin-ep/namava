@@ -7,16 +7,6 @@
   box-sizing: border-box;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #fff;
-}
-
 input,
 button {
   outline: none;
@@ -73,7 +63,7 @@ input[type="search"]::-webkit-search-cancel-button {
   .banner-content {
     min-height: 135vw;
 
-    @apply absolute inset-0 z-[5] w-full bg-cover bg-center bg-no-repeat p-0 before:absolute before:bottom-0 before:left-0 before:right-0 before:-z-10 before:h-24 before:bg-gradient-to-t before:from-gray-950 before:to-transparent xsm:pb-10;
+    @apply absolute inset-0 z-[5] w-full bg-cover bg-top bg-no-repeat p-0 before:absolute before:bottom-0 before:left-0 before:right-0 before:-z-10 before:h-24 before:bg-gradient-to-t before:from-gray-950 before:to-transparent xsm:pb-10;
   }
 }
 

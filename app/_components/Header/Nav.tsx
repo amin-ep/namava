@@ -10,6 +10,7 @@ import HeaderMobileNav from "./HeaderMobileNav";
 import NavList from "./NavList";
 import { usePathname } from "next/navigation";
 import cls from "classnames";
+import Link from "next/link";
 
 const items: MobileNavListItem[] = [
   {
@@ -53,7 +54,9 @@ function Nav() {
         pathname.split("/")[1] === "account" && "hidden md:flex",
       )}
     >
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
       <HeaderMobileNav items={items} />
       <NavList />
     </div>

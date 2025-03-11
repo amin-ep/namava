@@ -1,29 +1,29 @@
 .wrapper {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding-inline: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding-inline: 20px;
 }
 
 @media (min-width: 500px) {
-    .wrapper {
-        gap: 12px;
-        padding-inline: 24px;
-    }
+  .wrapper {
+    gap: 12px;
+    padding-inline: 24px;
+  }
 }
 
 @media (min-width: 800px) {
-    .wrapper {
-        gap: 14px;
-        grid-template-columns: repeat(3, 1fr);
-        padding-inline: 32px;
-    }
+  .wrapper {
+    gap: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-inline: 32px;
+  }
 }
 
 @media (min-width: 1280px) {
-    .wrapper {
-        gap: 16px;
-        grid-template-columns: repeat(4, 1fr);
-        padding-inline: 44px;
-    }
+  .wrapper {
+    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    padding-inline: 44px;
+  }
 }
