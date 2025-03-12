@@ -9,6 +9,7 @@ import ActorsSlider from "./_components/ActorsSlider";
 import MovieSlider from "@/app/_components/MovieSlider/MovieSlider";
 import Comments from "./_components/Comments";
 import PageContainer from "@/app/_components/PageContainer";
+import BannerLoader from "@/app/_components/BannerLoader";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const slug = (await params).slug;
@@ -27,7 +28,7 @@ async function Page({ params }: { params: Params }) {
     <>
       {movie && (
         <PageContainer topPadding={false} extraStyles="text-white">
-          <Suspense fallback={<p className="text-8xl">Loading...</p>}>
+          <Suspense fallback={<BannerLoader />}>
             <Banner movie={movie} />
           </Suspense>
           <div className="mb-10 px-5 xsm:mb-8 xsm:px-6 md:mb-11 md:px-8 xl:mb-12 xl:px-11">

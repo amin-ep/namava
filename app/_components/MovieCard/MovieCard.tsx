@@ -2,7 +2,7 @@
 
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
-import { Skeleton, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import cls from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
         )}
       >
         <div className="relative">
-          {!imageIsLoaded && <MuiSkeleton imageIsLoaded={imageIsLoaded} />}
+          {!imageIsLoaded && <MuiSkeleton />}
           {movie.isFree && (
             <FreeStatusLabel extraStyles="absolute top-2 right-2 md:top-3 md:right-3 xl:top-4 xl:right-4" />
           )}
@@ -63,6 +63,7 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
             )}
             unoptimized
             onLoad={handleImageOnLoad}
+            placeholder="empty"
           />
         </div>
         <p className="text-right text-[10px] font-normal leading-[1.7] text-white md:text-xs">
@@ -109,18 +110,11 @@ function Details({ movie }: { movie: IMovie }) {
   );
 }
 
-function MuiSkeleton({ imageIsLoaded }: { imageIsLoaded: boolean }) {
+function MuiSkeleton() {
   return (
-    <div
-      className={cls(
-        "absolute inset-0 block h-full w-full",
-        // imageIsLoaded ? "hidden" : "",
-      )}
-    >
+    <div className={cls("absolute inset-0 h-full w-full")}>
       <Skeleton
         animation="wave"
-        width={86}
-        height={127}
         sx={{
           width: "100%",
           height: "100%",
@@ -139,4 +133,5 @@ function MuiSkeleton({ imageIsLoaded }: { imageIsLoaded: boolean }) {
   );
 }
 
+// TODO: fix the skeleton!
 export default MovieCard;

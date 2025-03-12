@@ -29,4 +29,5 @@ function NeonCard({ href, imagePath }: Props) {
   );
 }
 
+// TODO: fix the skeleton
 export default NeonCard;

@@ -1,16 +1,19 @@
 import MovieSlider from "../_components/MovieSlider/MovieSlider";
 import { IMovie } from "../_types/movieTypes";
-import SliderBanner from "../_components/SliderBanner/SliderBanner";
-import { getAllMovies, getNewestMovies } from "../api/movieApi";
+import { getAllMovies } from "../api/movieApi";
 import NeonSlider from "./_components/NeonSlider";
 import PageContainer from "../_components/PageContainer";
+import NewestMoviesBanner from "../_components/NewestMoviesBanner";
+import { Suspense } from "react";
+import RippleLoader from "../_components/RippleLoader/RippleLoader";
 
 async function Page() {
-  const movies = await getNewestMovies();
   const data = await getAllMovies();
   return (
     <PageContainer topPadding={false}>
-      <SliderBanner data={movies as IMovie[]} />
+      <Suspense fallback={<RippleLoader />}>
+        <NewestMoviesBanner />
+      </Suspense>
       <div>
         <NeonSlider />
         <MovieSlider heading="ویژه" movies={data as IMovie[]} />
