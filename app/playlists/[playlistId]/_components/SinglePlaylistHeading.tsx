@@ -3,11 +3,11 @@
 import PlaylistTitleForm from "@/app/_components/PlaylistTitleForm";
 import { useSinglePlaylist } from "@/app/_contexts/SinglePlaylistContext";
 import { IPlaylist } from "@/app/_types/playlistTypes";
+import { useLayoutEffect, useState } from "react";
+import PlaylistDropdownMenu from "../../_components/PlaylistDropdownMenu";
 import DeletingOptions from "./DeletingOptions";
 import MobileHeadingActions from "./MobileHeadingActions";
 import TooltipButton from "./TooltipButton";
-import PlaylistDropdownMenu from "../../_components/PlaylistDropdownMenu";
-import { useState } from "react";
 
 type Props = { title: IPlaylist["title"]; playlist: IPlaylist; length: number };
 
@@ -26,12 +26,16 @@ function SinglePlaylistHeading({ length, playlist, title }: Props) {
 
   const handleOpenSortBy = () => setOpenSortBy(true);
 
+  useLayoutEffect(() => {
+    if (sortBy) setOpenSortBy(false);
+  }, [sortBy]);
+
   return (
     <div className="relative">
       <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         {!isDeleting ? (
-          <p className="align-middle text-base">
-            <span>{title}</span>
+          <p className="align-middle text-base text-white">
+            <span>{title} </span>
             <span className="text-gray-400">({length})</span>
           </p>
         ) : (
@@ -45,7 +49,11 @@ function SinglePlaylistHeading({ length, playlist, title }: Props) {
               <TooltipButton
                 onClick={handleOpenSortBy}
                 img={{ alt: "فیلتر", src: "/icons/sort-amount-down-white.svg" }}
-                tooltipTitle="جدیدترین به قدیمی ترین"
+                tooltipTitle={
+                  sortBy === "newest"
+                    ? "جدیدترین به قدیمی ترین"
+                    : "قدیمی ترین به جدیدترین"
+                }
               />
               <TooltipButton
                 onClick={openEditTitle}
@@ -82,13 +90,14 @@ function SinglePlaylistHeading({ length, playlist, title }: Props) {
               iconPath: sortBy === "newest" ? "mark-nobg-white.svg" : undefined,
               onClick: sortNewest,
               title: "جدیدترین به قدیمی ترین",
-              extraStyles: "border-b-gray-500 border-b",
+              extraStyles: "border-b-gray-500 border-b h-[46px]",
             },
             {
               alt: "oldest",
               iconPath: sortBy === "oldest" ? "mark-nobg-white.svg" : undefined,
               onClick: sortOldest,
-              title: "جدیدترین به قدیمی ترین",
+              title: "قدیمی ترین به جدیدترین",
+              extraStyles: "h-[46px]",
             },
           ]}
           close={() => setOpenSortBy(false)}

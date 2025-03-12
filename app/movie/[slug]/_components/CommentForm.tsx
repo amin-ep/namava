@@ -1,26 +1,23 @@
 "use client";
 
+import MiniSpinner from "@/app/_components/MiniSpinner/MiniSpinner";
 import { ICreateCommentPayload } from "@/app/_types/commentTypes";
-import cls from "classnames";
+import Checkbox from "@/app/search/_components/Filters/Checkbox";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { createComment } from "../actions";
-import styles from "./CommentForm.module.css";
-import MiniSpinner from "@/app/_components/MiniSpinner/MiniSpinner";
 
 type Props = { movieId: string };
 
 function CommentForm({ movieId }: Props) {
   const [isPending, startTransition] = useTransition();
   const [spoils, setSpoils] = useState(false);
-  const [checkmarkLength, setCheckmarkLength] = useState<null | number>(null);
-  const checkboxRef = useRef<null | HTMLInputElement>(null);
-
   const pathname = usePathname();
 
-  const handleInputChange = (e: React.ChangeEvent) => {
+  // spoils checkbox on change function
+  const handleSpoilsChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     setSpoils(target.checked);
   };
@@ -36,20 +33,13 @@ function CommentForm({ movieId }: Props) {
   });
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    reset({
-      spoils: spoils,
-    });
-  }, [spoils, reset]);
-
-  useEffect(() => {
     reset({
       movie: movieId,
-      spoils: false,
+      spoils: spoils,
     });
-  }, [movieId, reset]);
+  }, [movieId, reset, spoils]);
 
+  // if comment is sending set the cursor on progress
   useEffect(() => {
     if (document) {
       if (isPending) {
@@ -60,6 +50,7 @@ function CommentForm({ movieId }: Props) {
     }
   }, [isPending]);
 
+  // send comment
   const onSubmit = (data: ICreateCommentPayload) => {
     data.spoils = Boolean(data.spoils);
     startTransition(async () => {
@@ -67,9 +58,6 @@ function CommentForm({ movieId }: Props) {
 
       if (res === "success") {
         reset({ movie: movieId, spoils: false, text: "" });
-        if (checkboxRef.current) {
-          checkboxRef.current.checked = false;
-        }
         setSpoils(false);
       }
     });
@@ -87,6 +75,7 @@ function CommentForm({ movieId }: Props) {
         />
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-[1fr_2rem] items-center gap-2 md:grid-cols-[1fr_2.5rem] md:gap-6">
+            {/* COMMENT TEXT INPUT */}
             <input
               type="text"
               {...register("text", {
@@ -96,8 +85,11 @@ function CommentForm({ movieId }: Props) {
               placeholder="نظرتان درباره این فیلم چیست؟"
               className="h-10 rounded-xl bg-white px-2 py-3 text-xs text-gray-900 outline-none placeholder:text-gray-500 md:h-[52px] md:py-4 xl:px-6 xl:py-6"
             />
+            {/* COMMENT MOVIE INPUT */}
             <input type="hidden" {...register("movie", { required: true })} />
+            {/* COMMENT SPOIL INPUT */}
             <input type="hidden" {...register("spoils")} />
+            {/* SUBMIT BUTTON */}
             <button
               type="submit"
               disabled={!isValid}
@@ -116,78 +108,18 @@ function CommentForm({ movieId }: Props) {
               )}
             </button>
           </div>
+          {/* SPOILS CHECKBOX */}
           <div>
-            <SpoilerCheckbox
-              checkmarkLength={checkmarkLength}
-              spoils={spoils}
-              onChange={handleInputChange}
-              ref={checkboxRef}
-              setCheckmarkLength={setCheckmarkLength}
+            <Checkbox
+              checked={spoils}
+              setChecked={setSpoils}
+              onChangeCallback={handleSpoilsChange}
               label="این نظر حاوی اسپویلر است و داستان فیلم را لو می‌دهد."
             />
           </div>
         </div>
       </div>
     </form>
-  );
-}
-
-function SpoilerCheckbox({
-  label,
-  onChange,
-  ref,
-  spoils,
-  checkmarkLength,
-  setCheckmarkLength,
-}: {
-  label: string;
-  onChange: (e: React.ChangeEvent) => void;
-  ref: React.Ref<null | HTMLInputElement>;
-  spoils: boolean;
-  checkmarkLength: number | null;
-  setCheckmarkLength: React.Dispatch<React.SetStateAction<number | null>>;
-}) {
-  return (
-    <div className="flex items-center gap-2 text-white">
-      <div>
-        <input
-          id="spoiler-checkbox"
-          type="checkbox"
-          className={styles.input}
-          onChange={onChange}
-          ref={ref}
-        />
-        <svg
-          className={cls(
-            styles.checkbox,
-            spoils ? styles["checkbox-active"] : "",
-          )}
-          aria-hidden="true"
-          viewBox="0 0 17 10"
-          fill="none"
-        >
-          <path
-            className={styles["checkbox-path"]}
-            d="M1 4.5L5 9L14 1"
-            strokeWidth="2"
-            stroke={spoils ? "#000" : "none"}
-            strokeDasharray={checkmarkLength as number}
-            strokeDashoffset={spoils ? 0 : (checkmarkLength as number)}
-            ref={(ref) => {
-              if (ref) {
-                setCheckmarkLength(ref.getTotalLength());
-              }
-            }}
-          />
-        </svg>
-      </div>
-      <label
-        className="cursor-pointer text-sm leading-[18px]"
-        htmlFor="spoiler-checkbox"
-      >
-        {label}
-      </label>
-    </div>
   );
 }
 

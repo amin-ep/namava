@@ -34,7 +34,7 @@ function DeletePlaylistModal({ isOpen, onClose, playlist }: Props) {
 
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <div className="w-[396px] rounded-xl bg-gray-900 px-3 pb-6 pt-2.5 xsm:w-[428px] xsm:px-4 xsm:pt-3.5 md:w-[468px] md:pt-5 lg:w-[500px] xl:px-4 xl:pt-4">
+      <div className="w-[396px] rounded-xl bg-gray-900 px-3 pb-6 pt-2.5 text-white xsm:w-[428px] xsm:px-4 xsm:pt-3.5 md:w-[468px] md:pt-5 lg:w-[500px] xl:px-4 xl:pt-4">
         <PlaylistModalTop title="اخطار" onClose={onClose} />
         <div className="flex flex-col items-center justify-center">
           <Image

@@ -76,11 +76,11 @@ function CheckboxList({ isOpen, list, title, searchPlaceholder, type }: Props) {
           <p className="text-right text-sm text-gray-400">{title}</p>
         </div>
         {filteredItems.map((item) => (
-          <Checkbox
-            onChangeCallback={handleCheckboxChange}
-            label={item.title}
-            key={item.title}
+          <FilterCheckbox
             filterType={type}
+            label={item.title}
+            onChange={handleCheckboxChange}
+            key={item.title}
           />
         ))}
       </DropDownContainer>
@@ -102,6 +102,28 @@ function CheckboxList({ isOpen, list, title, searchPlaceholder, type }: Props) {
       />
     );
   }
+}
+
+function FilterCheckbox({
+  onChange,
+  label,
+  filterType,
+}: {
+  onChange: (e: React.ChangeEvent, label: string) => void;
+  label: string;
+  filterType: "genre" | "country" | undefined;
+}) {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox
+      onChangeCallback={onChange}
+      label={label}
+      filterType={filterType}
+      setChecked={setChecked}
+      checked={checked}
+    />
+  );
 }
 
 export default CheckboxList;

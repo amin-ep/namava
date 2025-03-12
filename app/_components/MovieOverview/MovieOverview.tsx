@@ -9,11 +9,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import BuySubscriptionLink from "../BuySubscriptionLink";
-import MiniSpinner from "../MiniSpinner/MiniSpinner";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
 import MovieStars from "../MovieStars";
 import MovieStats from "../MovieStats/MovieStats";
 import MovieTooltipIconActions from "../MovieTooltipIconActions/MovieTooltipIconActions";
+import RippleLoader from "../RippleLoader/RippleLoader";
 import styles from "./MovieOverview.module.css";
 
 type Props = { movie: IMovie };
@@ -51,19 +51,17 @@ function MovieOverview({ movie }: Props) {
                 </Link>
               </div>
               {/* details */}
-              {/* <div className="mb-3 flex items-center justify-start gap-4 text-xs text-white xl:text-sm"> */}
               <MovieStats movie={movie} extraStyles="mb-3" />
-              {/* </div> */}
               {/* Description */}
               <div className="mb-4 text-xs text-white xl:mb-[18px]">
                 <Link href={`/movie/${movie.slug}`}>{movie.description}</Link>
               </div>
               {/* Actions */}
-              <div className="mb-4 flex items-center xl:mb-[18px] xl:gap-4">
+              <div className="mb-4 flex items-center gap-4 xl:mb-[18px]">
                 <BuySubscriptionLink />
                 {isLoggedIn && (
                   <MovieTooltipIconActions
-                    extraStyles="xl:gap-4"
+                    extraStyles="gap-4"
                     movieId={movie._id}
                   />
                 )}
@@ -77,9 +75,9 @@ function MovieOverview({ movie }: Props) {
           </div>
         </div>
       ) : (
-        <div className="flex w-full items-center justify-center">
-          <MiniSpinner color="white" />
+        <div className="absolute inset-0 z-10 flex w-full items-center justify-center bg-gray-950">
           {/* LOADING PLACEHOLDER */}
+          <RippleLoader />
         </div>
       )}
     </div>

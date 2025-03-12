@@ -8,6 +8,7 @@ import MovieInfo from "./_components/MovieInfo";
 import ActorsSlider from "./_components/ActorsSlider";
 import MovieSlider from "@/app/_components/MovieSlider/MovieSlider";
 import Comments from "./_components/Comments";
+import PageContainer from "@/app/_components/PageContainer";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const slug = (await params).slug;
@@ -25,7 +26,7 @@ async function Page({ params }: { params: Params }) {
   return (
     <>
       {movie && (
-        <div className="pb-36 text-white">
+        <PageContainer topPadding={false} extraStyles="text-white">
           <Suspense fallback={<p className="text-8xl">Loading...</p>}>
             <Banner movie={movie} />
           </Suspense>
@@ -51,7 +52,7 @@ async function Page({ params }: { params: Params }) {
             />
           )}
           <Comments movieId={movie._id} />
-        </div>
+        </PageContainer>
       )}
     </>
   );

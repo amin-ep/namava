@@ -22,7 +22,8 @@ export default function SliderBanner({ data }: { data: IMovie[] }) {
 
   return (
     <div className="relative">
-      {data.length > 0 && (
+      {!data && <p className="text-white">Loading...</p>}
+      {data && data.length > 0 && (
         <>
           <Swiper
             slidesPerView={1}

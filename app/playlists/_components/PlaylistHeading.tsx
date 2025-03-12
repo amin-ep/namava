@@ -8,7 +8,7 @@ function PlaylistHeading() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   return (
     <>
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between text-white">
         <h3 className="text-base font-bold leading-7 md:text-lg md:leading-8">
           لیست ها
         </h3>

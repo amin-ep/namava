@@ -32,6 +32,7 @@ function PlaylistItemBottomButton({ playlist }: Props) {
       </button>
       {menuIsOpen && (
         <PlaylistDropdownMenu
+          extraStyles="left-0"
           items={[
             {
               alt: "edit-title",

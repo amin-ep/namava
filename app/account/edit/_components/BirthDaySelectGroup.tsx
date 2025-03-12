@@ -11,7 +11,7 @@ import {
   Path,
   RegisterOptions,
 } from "react-hook-form";
-import Select from "../../../_components/Select";
+import Select from "../../../_components/Select/Select";
 import SelectLabel from "./SelectLabel";
 import { jalaaliMonths } from "@/app/_utils/constants";
 

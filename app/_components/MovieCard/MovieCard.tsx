@@ -2,7 +2,7 @@
 
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useMediaQuery } from "@mui/material";
 import cls from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -40,7 +40,6 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
       )}
       onClick={onClick}
     >
-      {!imageIsLoaded && <MuiSkeleton imageIsLoaded={imageIsLoaded} />}
       <div
         className={cls(
           "flex flex-col gap-1 transition duration-700 xsm:gap-2",
@@ -48,10 +47,11 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
         )}
       >
         <div className="relative">
+          {!imageIsLoaded && <MuiSkeleton imageIsLoaded={imageIsLoaded} />}
           {movie.isFree && (
             <FreeStatusLabel extraStyles="absolute top-2 right-2 md:top-3 md:right-3 xl:top-4 xl:right-4" />
           )}
-          <Details movie={movie} />
+          {imageIsLoaded && <Details movie={movie} />}
           <Image
             src={`${FILE_BASE_URL}/${movie.posterUrl}`}
             alt={movie.name}
@@ -113,18 +113,26 @@ function MuiSkeleton({ imageIsLoaded }: { imageIsLoaded: boolean }) {
   return (
     <div
       className={cls(
-        "absolute inset-0 h-full w-full",
-        imageIsLoaded ? "hidden" : "",
+        "absolute inset-0 block h-full w-full",
+        // imageIsLoaded ? "hidden" : "",
       )}
     >
       <Skeleton
         animation="wave"
+        width={86}
+        height={127}
         sx={{
           width: "100%",
           height: "100%",
           bgcolor: "GrayText",
           margin: 0,
           padding: 0,
+        }}
+        classes={{
+          root: styles.skeleton,
+          heightAuto: styles["skeleton-height-auto"],
+          circular: styles["skeleton-circular"],
+          fitContent: styles["skeleton-fit-content"],
         }}
       />
     </div>

@@ -14,7 +14,7 @@ function NotFound() {
           <Image
             width={180}
             height={117}
-            src="/404.png"
+            src="/icons/404-icon.svg"
             alt="404-image"
             className="w-[180px] md:w-72 xl:w-[336px]"
           />
@@ -26,7 +26,7 @@ function NotFound() {
           </p>
         </div>
         <Link
-          className="hover:bg-primary-default w-56 rounded-xl bg-white px-5 py-3 text-center text-xs text-stone-800 hover:text-white md:w-60 md:text-sm"
+          className="w-56 rounded-xl bg-white px-5 py-3 text-center text-xs text-stone-800 hover:bg-primary-default hover:text-white md:w-60 md:text-sm"
           href="/"
         >
           رفتن به خانه

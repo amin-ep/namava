@@ -9,7 +9,7 @@ import { UpdateMePayload, User } from "@/app/_types/userTypes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
-import Select from "../../../_components/Select";
+import Select from "../../../_components/Select/Select";
 import { updateMe } from "../actions";
 import BirthDaySelectGroup from "./BirthDaySelectGroup";
 import SelectLabel from "./SelectLabel";
@@ -23,7 +23,7 @@ function EditForm({ user }: { user: User }) {
 
   const {
     register,
-    formState: { isValidating },
+    formState: { isValidating, errors },
     getValues,
     handleSubmit,
     control,
@@ -61,6 +61,9 @@ function EditForm({ user }: { user: User }) {
       }
     }
   }, [getValues, isValidating, user]);
+
+  console.log(getValues());
+  console.log(errors);
 
   // Click Province Item
   const handleClickProvinceItem = (
@@ -179,20 +182,19 @@ function EditForm({ user }: { user: User }) {
           ></Controller>
         </div>
 
-        {/* BirthDay Select group */}
+        {/* BIRTHDAY Select group */}
         <BirthDaySelectGroup
           control={control}
           validation={{ required: false, minLength: 1 }}
           defaultDate={user?.birthDate}
           name="birthDate"
         />
-        {/* Radio Group */}
+        {/* GENDER Radio Group */}
         <div className="flex flex-col gap-2">
           <SelectLabel label={{ optionalTitle: "اختیاری", title: "جنسیت" }} />
           <CustomRadioGroup
             validation={{
               required: false,
-              validate: (val) => val === "زن" || val === "مرد" || "",
             }}
             name="gender"
             options={["مرد", "زن"]}

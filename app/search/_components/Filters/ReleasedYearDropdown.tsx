@@ -1,6 +1,6 @@
 "use client";
 
-import Select from "@/app/_components/Select";
+import Select from "@/app/_components/Select/Select";
 import { useSearch } from "@/app/_contexts/SearchContext";
 import { useSelect } from "@/app/_hooks/useSelect";
 import { georgianYearsArray } from "@/app/_utils/constants";

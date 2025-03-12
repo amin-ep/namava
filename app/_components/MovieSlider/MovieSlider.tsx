@@ -61,11 +61,15 @@ function MovieSlider({ movies, heading, disablePopup }: Props) {
             <GridSlider dataType="movies">
               {movies.map((movie) => (
                 <SwiperSlide key={movie._id}>
-                  <MovieCard
-                    selectedMovie={selectedMovie as IMovie}
-                    onClick={() => handleSelectMovie(movie)}
-                    movie={movie}
-                  />
+                  {movie ? (
+                    <MovieCard
+                      selectedMovie={selectedMovie as IMovie}
+                      onClick={() => handleSelectMovie(movie)}
+                      movie={movie}
+                    />
+                  ) : (
+                    <p className="text-white">Loading...</p>
+                  )}
                 </SwiperSlide>
               ))}
             </GridSlider>

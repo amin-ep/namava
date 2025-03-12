@@ -3,8 +3,12 @@
 import { useSinglePlaylist } from "@/app/_contexts/SinglePlaylistContext";
 import cls from "classnames";
 import Image from "next/image";
-import React, { useLayoutEffect } from "react";
-import { useMovieArrays } from "../../_hooks/useMovieArrays";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useSelectMovie } from "../../_hooks/useSelectMovie";
 import { IMovie } from "../../_types/movieTypes";
 import MovieCard from "../MovieCard/MovieCard";
@@ -14,10 +18,45 @@ import styles from "./MovieArraysWrapper.module.css";
 type Props = {
   movies: IMovie[];
   deletable: boolean;
+  sortBy?: "newest" | "oldest";
 };
 
-function MovieArraysWrapper({ movies, deletable }: Props) {
-  const movieArrays = useMovieArrays(movies);
+function MovieArraysWrapper({ movies, deletable, sortBy }: Props) {
+  const [movieArrays, setMovieArrays] = useState<IMovie[][]>([]);
+
+  const handleMovieArrays = useCallback(() => {
+    if (!movies) return;
+
+    let rowColumns = 3;
+    if (window.innerWidth >= 500 && window.innerWidth < 768) {
+      rowColumns = 4;
+    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+      rowColumns = 5;
+    } else if (window.innerWidth >= 1280) {
+      rowColumns = 7;
+    }
+
+    let moviesData = movies;
+
+    if (sortBy === "newest") {
+      moviesData = movies.sort((a, b) => b.releaseYear - a.releaseYear);
+    } else if (sortBy === "oldest") {
+      moviesData = movies.sort((a, b) => a.releaseYear - b.releaseYear);
+    }
+
+    const moviesGroupArray = new Array(Math.ceil(movies.length / rowColumns))
+      .fill("")
+      .map((_, i) => moviesData.slice(i * rowColumns, (i + 1) * rowColumns));
+
+    setMovieArrays(moviesGroupArray);
+  }, [movies, sortBy]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleMovieArrays);
+    handleMovieArrays();
+    return () => window.removeEventListener("resize", handleMovieArrays);
+  }, [handleMovieArrays, movies]);
+
   const {
     isDeleting,
     addItemForDelete,

@@ -1,5 +1,11 @@
+import RippleLoader from "./_components/RippleLoader/RippleLoader";
+
 function Loading() {
-  return <div>Loading...</div>;
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <RippleLoader />
+    </div>
+  );
 }
 
 export default Loading;

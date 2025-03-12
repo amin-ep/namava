@@ -9,7 +9,7 @@ export const metadata = {
 
 function Page() {
   return (
-    <PageContainer>
+    <PageContainer topPadding>
       <CategoryWrapper>
         {categories
           .filter((c) => c.imageSrc !== undefined)
