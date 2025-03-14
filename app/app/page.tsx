@@ -10,7 +10,7 @@ export const metadata = {
 function Page() {
   return (
     <AppProvider>
-      <div className="bg-white">
+      <div className="bg-white pb-20 xl:pb-[100px]">
         <Banner />
         <h3 className="mt-5 text-center text-gray-900 md:mt-6 md:text-lg md:leading-8">
           دستگاه ها

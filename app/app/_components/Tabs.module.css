@@ -89,12 +89,12 @@
 }
 
 .tabpanel {
-  gap: 12px;
+  /* gap: 12px; */
   margin: 0 auto;
-  display: flex;
-  padding: 20px;
+  /* display: flex; */
+  /* padding: 20px; */
   max-width: 440px;
-  flex-direction: column;
+  /* flex-direction: column; */
 }
 
 @media (min-width: 446px) {
@@ -116,9 +116,9 @@
   }
 
   .tabpanel {
-    gap: 16px;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    /* gap: 16px; */
+    /* padding-top: 24px;
+    padding-bottom: 24px; */
   }
 }
 

@@ -51,15 +51,22 @@ interface IPanelItem {
 }
 
 const pcLaptopItems: IPanelItem[] = [
-  { href: "/", imageSrc: "windows-icon.svg", title: "ویندوز" },
-  { href: "/", imageSrc: "brand-apple.svg", title: "مک" },
+  { href: "/", imageSrc: "/icons/windows-icon.svg", title: "ویندوز" },
+  { href: "/", imageSrc: "/icons/brand-apple.svg", title: "مک" },
 ];
 
 const androidTvItems: IPanelItem[] = [
-  { href: "/", imageSrc: "download-blue.svg", title: "دریافت مستقیم" },
-  { href: "/", imageSrc: "google-play-logo.svg", title: "گوگل پلی" },
-  { href: "/", imageSrc: "myket-icon.svg", title: "مایکت" },
+  { href: "/", imageSrc: "/icons/download-blue.svg", title: "دریافت مستقیم" },
+  { href: "/", imageSrc: "/icons/google-play-logo.svg", title: "گوگل پلی" },
+  { href: "/", imageSrc: "/icons/myket-icon.svg", title: "مایکت" },
 ];
+
+const iosItems: IPanelItem[] = [
+  { href: "/", imageSrc: "/sibapp-logo.png", title: "سیب اپ" },
+  { href: "/", imageSrc: "/iapps-icon.ico", title: "آی اپس" },
+  { href: "/", imageSrc: "/sibche-icon.jpeg", title: "سیبچه" },
+];
+
 function Tabs() {
   const { setTab, activeTab } = useApp();
 
@@ -96,28 +103,74 @@ function Tabs() {
           دانلود اپلیکیشن:
         </h3>
         <TabPanel className={styles.tabpanel}>
-          {pcLaptopItems.map((item) => (
-            <PanelLink
-              href={item.href}
-              imageSrc={`/icons/${item.imageSrc}`}
-              title={item.title}
-              key={item.title}
-            />
-          ))}
+          <div
+            id={`panel-${activeTab}`}
+            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
+          >
+            {pcLaptopItems.map((item) => (
+              <PanelLink
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                key={item.title}
+              />
+            ))}
+          </div>
         </TabPanel>
         <TabPanel className={styles.tabpanel}>
-          {androidTvItems.map((item) => (
-            <PanelLink
-              href={item.href}
-              imageSrc={`/icons/${item.imageSrc}`}
-              title={item.title}
-              key={item.title}
-            />
-          ))}
+          <div
+            id={`panel-${activeTab}`}
+            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
+          >
+            {androidTvItems.map((item) => (
+              <PanelLink
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                key={item.title}
+              />
+            ))}
+          </div>
         </TabPanel>
-        <TabPanel className={styles.tabpanel}>آی او اس</TabPanel>
-        <TabPanel className={styles.tabpanel}>اندروید</TabPanel>
+        <TabPanel className={styles.tabpanel}>
+          <div
+            id={`panel-${activeTab}`}
+            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
+          >
+            {iosItems.map((item) => (
+              <PanelLink
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                key={item.title}
+              />
+            ))}
+          </div>
+        </TabPanel>
+        <TabPanel className={styles.tabpanel}>
+          <div
+            id={`panel-${activeTab}`}
+            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
+          >
+            {androidTvItems.map((item) => (
+              <PanelLink
+                href={item.href}
+                imageSrc={item.imageSrc}
+                title={item.title}
+                key={item.title}
+              />
+            ))}
+          </div>
+        </TabPanel>
       </ReactTabs>
+      <div className="flex items-center justify-center">
+        <Link
+          href="/"
+          className="text-center text-xs font-bold text-primary-default hover:text-black md:text-sm md:leading-6"
+        >
+          مشاهده نسخه وب
+        </Link>
+      </div>
     </div>
   );
 }
