@@ -5,8 +5,9 @@ import HeaderShuffleAction from "./HeaderShuffleAction";
 import UserOptions from "./UserOptions";
 import HeaderMobileAppAction from "./HeaderMobileAppAction";
 import LinkButton from "../LinkButton";
+import HeaderActionsIconWrapper from "./HeaderActionsIconWrapper";
 
-async function UserActions() {
+async function HeaderActions() {
   const token = await (
     await cookies()
   ).get(process.env.JWT_SECRET_KEY as string)?.value;
@@ -14,15 +15,17 @@ async function UserActions() {
   return (
     <div className="flex-end flex items-center gap-1 base:gap-3">
       <div className="flex items-center justify-end gap-3 text-[28px] text-white md:gap-5 lg:gap-6 xl:text-[40px]">
-        <HeaderActionLinkButton
-          extraStyles="hidden base:block"
-          variation="link"
-          alt="search"
-          href="/search"
-          src="/icons/search-white.svg"
-        />
-        <HeaderShuffleAction />
-        <HeaderMobileAppAction />
+        <HeaderActionsIconWrapper>
+          <HeaderActionLinkButton
+            extraStyles="hidden base:block"
+            variation="link"
+            alt="search"
+            href="/search"
+            src="/icons/search-white.svg"
+          />
+          <HeaderShuffleAction />
+          <HeaderMobileAppAction />
+        </HeaderActionsIconWrapper>
         {token ? (
           <UserOptions />
         ) : (
@@ -45,4 +48,4 @@ async function UserActions() {
   );
 }
 
-export default UserActions;
+export default HeaderActions;

@@ -7,12 +7,14 @@ import cls from "classnames";
 import MobileNavList from "../MobileNavList";
 import { MobileNavListItem } from "@/app/_types/globalTypes";
 import { useModal } from "@/app/_hooks/useModal";
+import { useIsLoggedIn } from "@/app/_hooks/useIsLoggedIn";
 
 interface IItemContent {
   title: string;
   href?: string;
   iconPath: { active?: string; default: string };
   onClick?: () => void;
+  authorization?: boolean;
 }
 
 const footerModalMenuItems: MobileNavListItem[] = [
@@ -67,6 +69,7 @@ function MobileFooter() {
         active: "/icons/folder-open-white.svg",
         default: "/icons/folder-open-gray.svg",
       },
+      authorization: true,
     },
     {
       title: "بیشتر",
@@ -77,37 +80,50 @@ function MobileFooter() {
     },
   ];
 
+  const [isLoggedIn] = useIsLoggedIn();
+
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-20 grid h-14 grid-cols-5 border-t border-[#37383e] bg-gray-900 p-0 md:hidden">
-      {items.map((item) =>
-        item.href ? (
-          <Link className={classes} key={item.href} href={item.href as string}>
-            <ItemContent
-              iconPath={item.iconPath}
-              title={item.title}
-              href={item.href}
-            />
-          </Link>
-        ) : (
-          <div
-            className="flex items-center justify-center"
-            key={item.iconPath.default}
-          >
-            {isOpen && (
-              <MobileNavList
-                className="bottom-14 left-1 h-72 overflow-auto"
-                close={close}
-                theme="dark"
-                items={footerModalMenuItems}
-                closeOnScroll={false}
-              />
-            )}
-            <button className={classes} onClick={item.onClick}>
-              <ItemContent iconPath={item.iconPath} title={item.title} />
-            </button>
-          </div>
-        ),
+    <footer
+      className={cls(
+        "fixed bottom-0 left-0 right-0 z-20 grid h-14 border-t border-[#37383e] bg-gray-900 p-0 md:hidden",
+        !isLoggedIn ? "grid-cols-4" : "grid-cols-5",
       )}
+    >
+      {items
+        .filter((el) => (!isLoggedIn ? !el.authorization : el))
+        .map((item) =>
+          item.href ? (
+            <Link
+              className={classes}
+              key={item.href}
+              href={item.href as string}
+            >
+              <ItemContent
+                iconPath={item.iconPath}
+                title={item.title}
+                href={item.href}
+              />
+            </Link>
+          ) : (
+            <div
+              className="flex items-center justify-center"
+              key={item.iconPath.default}
+            >
+              {isOpen && (
+                <MobileNavList
+                  className="bottom-14 left-1 h-72 overflow-auto"
+                  close={close}
+                  theme="dark"
+                  items={footerModalMenuItems}
+                  closeOnScroll={false}
+                />
+              )}
+              <button className={classes} onClick={item.onClick}>
+                <ItemContent iconPath={item.iconPath} title={item.title} />
+              </button>
+            </div>
+          ),
+        )}
     </footer>
   );
 }

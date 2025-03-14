@@ -1,0 +1,150 @@
+.tablist {
+  gap: 12px;
+  width: 100%;
+  display: flex;
+  z-index: 0;
+  position: relative;
+  min-height: 170px;
+  overflow-x: auto;
+  align-items: center;
+  padding-top: 24px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 24px;
+}
+
+.tab {
+  height: 102px;
+  display: flex;
+  margin: 1px;
+  padding: 8px;
+  position: relative;
+  max-width: 68px;
+  min-width: 68px;
+  background: #ffffff;
+  transition:
+    padding 0.25s,
+    height 0.25s,
+    min-width 0.25s,
+    box-shadow 0.25s,
+    width 0.25s;
+  align-items: center;
+  border-radius: 8px;
+  flex-direction: column;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-gray-300);
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  -webkit-transition:
+    padding 0.25s,
+    height 0.25s,
+    min-width 0.25s,
+    box-shadow 0.25s,
+    width 0.25s;
+  -moz-transition:
+    padding 0.25s,
+    height 0.25s,
+    min-width 0.25s,
+    box-shadow 0.25s,
+    width 0.25s;
+  -ms-transition:
+    padding 0.25s,
+    height 0.25s,
+    min-width 0.25s,
+    box-shadow 0.25s,
+    width 0.25s;
+  -o-transition:
+    padding 0.25s,
+    height 0.25s,
+    min-width 0.25s,
+    box-shadow 0.25s,
+    width 0.25s;
+  cursor: pointer;
+  outline: none;
+}
+
+.selected-tab {
+  height: 112px;
+  padding: 12px;
+  max-width: 76px;
+  min-width: 76px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+}
+
+.selected-tab-pc-laptop {
+  border-color: #ed5d49;
+}
+.selected-tab-android-tv {
+  border-color: #c67b0d;
+}
+.selected-tab-android {
+  border-color: #51af39;
+}
+.selected-tab-ios {
+  border-color: #6ffeee;
+}
+
+.tabpanel {
+  gap: 12px;
+  margin: 0 auto;
+  display: flex;
+  padding: 20px;
+  max-width: 440px;
+  flex-direction: column;
+}
+
+@media (min-width: 446px) {
+  .tablist {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 500px) {
+  .tablist {
+    padding-bottom: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tablist {
+    gap: 32px;
+    min-height: 255px;
+  }
+
+  .tabpanel {
+    gap: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tab {
+    gap: 4px;
+    width: 100px;
+    height: 153px;
+    padding: 12px;
+    max-width: unset;
+    min-width: unset;
+  }
+
+  .selected-tab {
+    width: 120px;
+    height: 177px;
+    padding: 24px 22px;
+    max-width: unset;
+    min-width: unset;
+  }
+}
+
+@media (min-width: 1280px) {
+  .tablist {
+    min-height: 284px;
+    padding-top: 36px;
+    padding-bottom: 40px;
+  }
+}

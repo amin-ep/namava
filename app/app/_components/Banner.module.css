@@ -1,0 +1,28 @@
+.banner {
+  background-image: url("/app-page-banner.png");
+  color: #ffffff;
+  height: 400px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  padding-top: 78px;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-width: 768px) {
+  .banner {
+    padding-right: 48px;
+    flex-direction: row;
+    padding-bottom: 78px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .banner {
+    margin-bottom: 8px;
+    padding-right: 240px;
+  }
+}

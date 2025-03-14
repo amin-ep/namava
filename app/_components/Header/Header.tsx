@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import cls from "classnames";
 import styles from "./Header.module.css";
+import HeaderAppPageLeftSection from "./HeaderAppPageLeftSection";
 
 function Header({ children }: { children: ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
@@ -53,6 +54,7 @@ function Header({ children }: { children: ReactNode }) {
       )}
     >
       {children}
+      {pathname === "/app" && <HeaderAppPageLeftSection />}
     </header>
   );
 }

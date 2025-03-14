@@ -1,6 +1,9 @@
 "use client";
 
 import { MobileNavListItem } from "@/app/_types/globalTypes";
+import cls from "classnames";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BsCameraReelsFill, BsFillCollectionPlayFill } from "react-icons/bs";
 import { LuPopcorn } from "react-icons/lu";
 import { MdChildCare } from "react-icons/md";
@@ -8,9 +11,6 @@ import { TbCategoryFilled, TbHomeFilled } from "react-icons/tb";
 import Logo from "../Logo";
 import HeaderMobileNav from "./HeaderMobileNav";
 import NavList from "./NavList";
-import { usePathname } from "next/navigation";
-import cls from "classnames";
-import Link from "next/link";
 
 const items: MobileNavListItem[] = [
   {
@@ -47,6 +47,7 @@ const items: MobileNavListItem[] = [
 
 function Nav() {
   const pathname = usePathname();
+  const disableRoutes = ["/app"];
   return (
     <div
       className={cls(
@@ -57,8 +58,12 @@ function Nav() {
       <Link href="/">
         <Logo />
       </Link>
-      <HeaderMobileNav items={items} />
-      <NavList />
+      {!disableRoutes.includes(pathname) && (
+        <>
+          <HeaderMobileNav items={items} />
+          <NavList />
+        </>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { logout } from "@/app/auth/login-otp/actions";
 import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ReactNode,
   useCallback,
@@ -59,6 +60,13 @@ const reducer = (state: State, action: Actions) => {
 };
 
 function UserOptions() {
+  const pathname = usePathname();
+
+  const isDisableRoute = useMemo(() => {
+    const disableRoutes: string[] = ["/app"];
+    return disableRoutes.includes(pathname);
+  }, [pathname]);
+
   const [optionsStyles, setOptionsStyles] = useState<string>("hidden");
   const [{ openingPattern, isOpen }, dispatch] = useReducer(
     reducer,
@@ -70,6 +78,7 @@ function UserOptions() {
 
   // Styling container
   useEffect(() => {
+    if (isDisableRoute) return;
     const handleOptionsStyles = () => {
       if (window.innerWidth < 500) {
         if (isOpen) {
@@ -91,10 +100,11 @@ function UserOptions() {
 
     return () =>
       window.removeEventListener("resize", handleOptionsStyles, true);
-  }, [isOpen, optionsStyles]);
+  }, [isOpen, optionsStyles, isDisableRoute]);
 
   // changing opening pattern of user options in different window sizes
   useEffect(() => {
+    if (isDisableRoute) return;
     const handleOpeningPattern = () => {
       if (window.innerWidth < 500) {
         dispatch({ type: "openingPattern", payload: "onClick" });
@@ -113,9 +123,10 @@ function UserOptions() {
     return () => {
       window.removeEventListener("resize", handleOpeningPattern);
     };
-  }, []);
+  }, [isDisableRoute]);
 
   useEffect(() => {
+    if (isDisableRoute) return;
     const handleOpenOnClick = () => {
       dispatch({ type: "toggle" });
     };
@@ -139,9 +150,10 @@ function UserOptions() {
         window.removeEventListener("resize", handleChangingWindowSize);
       };
     }
-  }, [openingPattern, isOpen]);
+  }, [openingPattern, isOpen, isDisableRoute]);
 
   useEffect(() => {
+    if (isDisableRoute) return;
     if (openingPattern === "onHover" && isOpen) {
       const handleCloseDuringScroll = () => {
         if (isOpen) {
@@ -154,9 +166,10 @@ function UserOptions() {
       return () =>
         window.removeEventListener("scroll", handleCloseDuringScroll);
     }
-  }, [isOpen, openingPattern]);
+  }, [isOpen, openingPattern, isDisableRoute]);
 
   useEffect(() => {
+    if (isDisableRoute) return;
     if (openingPattern === "onClick") {
       if (isOpen) {
         document.body.style.overflowY = "hidden";
@@ -164,7 +177,7 @@ function UserOptions() {
         document.body.style.overflowY = "auto";
       }
     }
-  }, [isOpen, openingPattern]);
+  }, [isOpen, openingPattern, isDisableRoute]);
 
   const items: {
     title: string;
@@ -230,74 +243,76 @@ function UserOptions() {
     }, 2000);
   }, []);
 
-  return (
-    <div
-      className={cls("relative flex items-center justify-center")}
-      {...(openingPattern === "onHover" && {
-        onMouseEnter: handleContainerOnMouseEnter,
-        onMouseOut: handleContainerOnMouseOut,
-      })}
-    >
-      {isOpen && (
+  if (isDisableRoute) return null;
+  else
+    return (
+      <div
+        className={cls("relative flex items-center justify-center")}
+        {...(openingPattern === "onHover" && {
+          onMouseEnter: handleContainerOnMouseEnter,
+          onMouseOut: handleContainerOnMouseOut,
+        })}
+      >
+        {isOpen && (
+          <div
+            className={cls(
+              "fixed inset-0 bg-black/50 transition duration-[1300ms] xsm:hidden",
+              isOpen ? "z-10 opacity-100" : "-z-50 opacity-0",
+            )}
+            onClick={() => {
+              dispatch({
+                type: "close",
+              });
+            }}
+          ></div>
+        )}
+        <button ref={buttonRef}>
+          <Image
+            src="/user-icon.png"
+            alt="user"
+            width={25}
+            height={25}
+            className="aspect-square w-[30px] rounded-full outline outline-2 outline-offset-2 outline-[#d95c5c] xl:w-9"
+          />
+        </button>
+
         <div
           className={cls(
-            "fixed inset-0 bg-black/50 transition duration-[1300ms] xsm:hidden",
-            isOpen ? "z-10 opacity-100" : "-z-50 opacity-0",
+            "fixed bottom-0 left-0 right-0 top-1/4 z-20 grid h-full grid-cols-1 grid-rows-[20%_1fr] transition duration-500 xsm:bottom-[unset] xsm:left-1 xsm:right-[unset] xsm:top-[58px] xsm:h-[80vh] xsm:max-h-[469px] xsm:w-[272px] xsm:rounded-xl xsm:before:absolute xsm:before:-top-3 xsm:before:left-7 xsm:before:z-20 xsm:before:h-5 xsm:before:w-4 xsm:before:bg-[url('/triangle.svg')] xsm:before:bg-no-repeat base:left-[11px] lg:left-6 xl:left-[26px] xl:top-20",
+            optionsStyles,
           )}
-          onClick={() => {
-            dispatch({
-              type: "close",
-            });
-          }}
-        ></div>
-      )}
-      <button ref={buttonRef}>
-        <Image
-          src="/user-icon.png"
-          alt="user"
-          width={25}
-          height={25}
-          className="aspect-square w-[30px] rounded-full outline outline-2 outline-offset-2 outline-[#d95c5c] xl:w-9"
-        />
-      </button>
-
-      <div
-        className={cls(
-          "fixed bottom-0 left-0 right-0 top-1/4 z-20 grid h-full grid-cols-1 grid-rows-[20%_1fr] transition duration-500 xsm:bottom-[unset] xsm:left-1 xsm:right-[unset] xsm:top-[58px] xsm:h-[80vh] xsm:max-h-[469px] xsm:w-[272px] xsm:rounded-xl xsm:before:absolute xsm:before:-top-3 xsm:before:left-7 xsm:before:z-20 xsm:before:h-5 xsm:before:w-4 xsm:before:bg-[url('/triangle.svg')] xsm:before:bg-no-repeat base:left-[11px] lg:left-6 xl:left-[26px] xl:top-20",
-          optionsStyles,
-        )}
-        ref={optionsRef}
-      >
-        <div className="grid h-[calc(100vh)] grid-cols-1 grid-rows-[90px_auto] rounded-xl bg-white shadow-[0_10px_12px_rgba(0,0,0,0.3)] xsm:h-[340px]">
-          <div className="flex flex-col items-center justify-center gap-[10px] rounded-t-xl bg-red-default p-4">
-            <p className="text-sm text-white">اشتراک فعالی ندارید.</p>
-            <Link
-              href="/plans"
-              className="w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:bg-primary-default hover:text-white"
-            >
-              خرید اشتراک
-            </Link>
-          </div>
-          <div className="h-[calc(100vh-90px)] overflow-auto px-3 py-2 text-xs text-gray-800 xsm:h-[250px] xsm:rounded-b-xl">
-            <ul className="flex flex-col gap-[15px]">
-              {items.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center justify-start gap-2 hover:text-primary-default"
-                    {...(item.onClick && { onClick: item.onClick })}
-                  >
-                    <span className="text-stone-400">{item.icon}</span>
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          ref={optionsRef}
+        >
+          <div className="grid h-[calc(100vh)] grid-cols-1 grid-rows-[90px_auto] rounded-xl bg-white shadow-[0_10px_12px_rgba(0,0,0,0.3)] xsm:h-[340px]">
+            <div className="flex flex-col items-center justify-center gap-[10px] rounded-t-xl bg-red-default p-4">
+              <p className="text-sm text-white">اشتراک فعالی ندارید.</p>
+              <Link
+                href="/plans"
+                className="w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:bg-primary-default hover:text-white"
+              >
+                خرید اشتراک
+              </Link>
+            </div>
+            <div className="h-[calc(100vh-90px)] overflow-auto px-3 py-2 text-xs text-gray-800 xsm:h-[250px] xsm:rounded-b-xl">
+              <ul className="flex flex-col gap-[15px]">
+                {items.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="flex items-center justify-start gap-2 hover:text-primary-default"
+                      {...(item.onClick && { onClick: item.onClick })}
+                    >
+                      <span className="text-stone-400">{item.icon}</span>
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default UserOptions;
