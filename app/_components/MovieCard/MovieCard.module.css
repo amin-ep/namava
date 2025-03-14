@@ -13,32 +13,10 @@
   height: 100%;
   padding: 0;
   margin: 0;
+  background-color: blue;
+  position: absolute;
+  inset: 0;
 }
-
-.skeleton-fit-content {
-  all: unset;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.skeleton-height-auto {
-  all: unset;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.skeleton-circular {
-  all: unset;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 @media (min-width: 767px) {
   .details:hover {
     opacity: 100;

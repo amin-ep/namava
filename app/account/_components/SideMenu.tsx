@@ -6,6 +6,7 @@ import { logout } from "@/app/auth/login-otp/actions";
 import cls from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { memo } from "react";
 import { FaStar, FaUser } from "react-icons/fa6";
 import { IoIosListBox } from "react-icons/io";
 import { PiPowerFill } from "react-icons/pi";
@@ -33,7 +34,7 @@ const navItems: MobileNavListItem[] = [
   },
 ];
 
-function SideMenu({
+const SideMenu = memo(function SideMenu({
   firstName,
   lastName,
 }: {
@@ -91,6 +92,6 @@ function SideMenu({
       </aside>
     </div>
   );
-}
+});
 
 export default SideMenu;

@@ -2,7 +2,7 @@
 
 import { IMovie } from "@/app/_types/movieTypes";
 import { FILE_BASE_URL } from "@/app/_utils/constants";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useMediaQuery } from "@mui/material";
 import cls from "classnames";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ function MovieCard({ movie, onClick, selectedMovie }: Props) {
     >
       <div
         className={cls(
-          "flex flex-col gap-1 transition duration-700 xsm:gap-2",
+          "relative flex flex-col gap-1 transition duration-700 xsm:gap-2",
           movieIsSelected ? "translate-y-4" : "",
         )}
       >
@@ -111,27 +111,31 @@ function Details({ movie }: { movie: IMovie }) {
 }
 
 function MuiSkeleton() {
+  const xlWindow = useMediaQuery("(min-width:1280px)");
+  const mdWindow = useMediaQuery("(min-width:768px)");
+
   return (
-    <div className={cls("absolute inset-0 h-full w-full")}>
+    <div className={cls("absolute inset-0 z-[1] h-full w-full")}>
       <Skeleton
         animation="wave"
         sx={{
+          position: "absolute",
+          inset: 0,
           width: "100%",
           height: "100%",
           bgcolor: "GrayText",
           margin: 0,
           padding: 0,
+          minHeight: "100%",
+          maxHeight: "100%",
+          borderRadius: mdWindow ? "4px" : xlWindow ? "6px" : "3px",
         }}
-        classes={{
-          root: styles.skeleton,
-          heightAuto: styles["skeleton-height-auto"],
-          circular: styles["skeleton-circular"],
-          fitContent: styles["skeleton-fit-content"],
-        }}
+        height="100%"
+        width="100%"
+        variant="rectangular"
       />
     </div>
   );
 }
 
-// TODO: fix the skeleton!
 export default MovieCard;

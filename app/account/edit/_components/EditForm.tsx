@@ -23,7 +23,7 @@ function EditForm({ user }: { user: User }) {
 
   const {
     register,
-    formState: { isValidating, errors },
+    formState: { isValidating },
     getValues,
     handleSubmit,
     control,
@@ -61,9 +61,6 @@ function EditForm({ user }: { user: User }) {
       }
     }
   }, [getValues, isValidating, user]);
-
-  console.log(getValues());
-  console.log(errors);
 
   // Click Province Item
   const handleClickProvinceItem = (
