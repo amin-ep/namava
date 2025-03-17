@@ -1,4 +1,4 @@
-import BuySubscriptionLink from "@/app/_components/BuySubscriptionLink";
+import PlayLink from "@/app/_components/PlayLink";
 import MovieBranding from "@/app/_components/MovieBranding";
 import MovieStars from "@/app/_components/MovieStars";
 import MovieStats from "@/app/_components/MovieStats/MovieStats";
@@ -28,7 +28,7 @@ async function Banner({ movie }: Props) {
               <MovieBranding wrapperBreakpoint="medium" movie={movie} />
               <MovieStats movie={movie} />
               <div className="flex justify-center gap-4 md:justify-start">
-                <BuySubscriptionLink />
+                <PlayLink isFree={movie.isFree} movieId={movie._id} />
                 <MovieTrailerAction videoUrl={movie.videoUrl} />
                 {authToken && (
                   <MovieTooltipIconActions

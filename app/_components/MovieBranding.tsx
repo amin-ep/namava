@@ -31,10 +31,10 @@ function MovieBranding({ movie, wrapperBreakpoint = "xSmall" }: Props) {
         </Link>
       </div>
       <div className={cls("flex flex-row justify-center gap-4", breakPoint)}>
+        {movie.isFree && <FreeStatusLabel />}
         <h2 className="flex items-center text-sm text-white xsm:text-base md:text-lg xl:text-xl">
           <Link href={`/movie/${movie.slug}`}>{movie.name}</Link>
         </h2>
-        {movie.isFree && <FreeStatusLabel />}
       </div>
     </>
   );

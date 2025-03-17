@@ -6,7 +6,7 @@ export interface IMovie {
   name: string;
   englishName: string;
   duration: number;
-  isFree?: boolean;
+  isFree: boolean;
   ageLimit: number;
   genres: string[];
   actors?: {
@@ -52,4 +52,10 @@ export interface IGetMoviesBasedOnGenresResponse extends Status {
 
 export interface IGetMovieBySlugResponse extends Status {
   data: IMovie;
+}
+
+export interface IGetMovieByIdResponse extends Status {
+  data: {
+    document: IMovie;
+  };
 }

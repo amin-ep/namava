@@ -3,18 +3,20 @@
 import { IoPlay } from "react-icons/io5";
 import LinkButton from "./LinkButton";
 
-function BuySubscriptionLink() {
+type Props = { isFree: boolean; movieId: string };
+
+function PlayLink({ isFree, movieId }: Props) {
   return (
     <LinkButton
       extraStyles="font-semibold flex items-center gap-2"
       variation="link"
       color="white"
-      href="/plans"
+      href={isFree ? `/play/${movieId}` : "/plans"}
     >
       <IoPlay size={20} />
-      خرید اشتراک
+      {isFree ? "پخش رایگان" : "خرید اشتراک"}
     </LinkButton>
   );
 }
 
-export default BuySubscriptionLink;
+export default PlayLink;

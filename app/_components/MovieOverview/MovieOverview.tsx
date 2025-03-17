@@ -8,7 +8,7 @@ import cls from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import BuySubscriptionLink from "../BuySubscriptionLink";
+import PlayLink from "../PlayLink";
 import MovieMoreInfoLink from "../MovieMoreInfoLink";
 import MovieStars from "../MovieStars";
 import MovieStats from "../MovieStats/MovieStats";
@@ -58,7 +58,7 @@ function MovieOverview({ movie }: Props) {
               </div>
               {/* Actions */}
               <div className="mb-4 flex items-center gap-4 xl:mb-[18px]">
-                <BuySubscriptionLink />
+                <PlayLink isFree={movie.isFree} movieId={movie._id} />
                 {isLoggedIn && (
                   <MovieTooltipIconActions
                     extraStyles="gap-4"

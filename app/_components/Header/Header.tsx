@@ -23,8 +23,16 @@ function Header({ children }: { children: ReactNode }) {
     ];
   }, []);
 
+  const dynamicDisableRoutes = useMemo(() => {
+    return ["play"];
+  }, []);
+
   useEffect(() => {
-    if (disableRoutes.includes(pathname)) return;
+    if (
+      disableRoutes.includes(pathname) ||
+      dynamicDisableRoutes.includes(pathname.split("/")[1])
+    )
+      return;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -38,7 +46,7 @@ function Header({ children }: { children: ReactNode }) {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [disableRoutes, pathname]);
+  }, [pathname]);
 
   return (
     <header
@@ -50,7 +58,9 @@ function Header({ children }: { children: ReactNode }) {
           : "",
         hidden ? styles.hidden : styles.shown,
         scrolled ? styles.scrolled : styles.static,
-        disableRoutes.includes(pathname) && "hidden",
+        (disableRoutes.includes(pathname) ||
+          dynamicDisableRoutes.includes(pathname.split("/")[1])) &&
+          "hidden",
       )}
     >
       {children}

@@ -37,6 +37,10 @@ function MobileFooter() {
   const { close, isOpen, open } = useModal();
   const classes: string = "flex flex-col items-center justify-center";
 
+  const disableRoutes = ["play"];
+
+  const pathname = usePathname();
+
   const items: IItemContent[] = [
     {
       title: "خانه",
@@ -87,6 +91,7 @@ function MobileFooter() {
       className={cls(
         "fixed bottom-0 left-0 right-0 z-20 grid h-14 border-t border-[#37383e] bg-gray-900 p-0 md:hidden",
         !isLoggedIn ? "grid-cols-4" : "grid-cols-5",
+        disableRoutes.includes(pathname.split("/")[1]) && "hidden",
       )}
     >
       {items

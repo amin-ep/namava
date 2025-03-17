@@ -1,4 +1,5 @@
 import {
+  IGetMovieByIdResponse,
   IGetMovieBySlugResponse,
   IGetMoviesBasedOnGenresResponse,
   IGetMoviesResponse,
@@ -96,6 +97,22 @@ export async function getMovieBySlug(slug: IMovie["slug"]) {
 
     if (res.data.status === "success") {
       return res.data.data;
+    }
+  } catch (err) {
+    return handleServerActionError(err);
+  }
+}
+
+export async function getMovieById(id: string) {
+  try {
+    const res = await apiRequest<IGetMovieByIdResponse>({
+      contentType: "application/json",
+      method: "GET",
+      url: `/movie/${id}`,
+    });
+
+    if (res.status === 200) {
+      return res.data.data.document;
     }
   } catch (err) {
     return handleServerActionError(err);

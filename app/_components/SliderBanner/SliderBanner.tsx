@@ -48,18 +48,22 @@ export default function SliderBanner({ data }: { data: IMovie[] }) {
                 }}
                 className={cls("banner-content")}
               >
-                <div className="absolute bottom-12 z-20 h-fit w-full px-5 xsm:bottom-[unset] xsm:right-0 xsm:top-[72px] xsm:max-w-full xsm:px-6 md:top-[100px] md:max-w-[75%] md:px-8 xl:top-[9.03125vw] xl:px-11">
-                  <div className="z-30 flex w-full flex-col gap-4 text-center xsm:justify-start xsm:text-right">
-                    <MovieBranding movie={movie} />
-                    <MovieStats movie={movie} extraStyles="hidden xl:flex" />
-                    <SliderBannerActions
-                      slug={movie.slug}
-                      videoUrl={movie.videoUrl}
-                    />
+                <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-gray-950 to-black/30">
+                  <div className="absolute bottom-12 z-20 h-fit w-full px-5 xsm:bottom-[unset] xsm:right-0 xsm:top-[72px] xsm:max-w-full xsm:px-6 md:top-[100px] md:max-w-[75%] md:px-8 xl:top-[9.03125vw] xl:px-11">
+                    <div className="z-30 flex w-full flex-col gap-4 text-center xsm:justify-start xsm:text-right">
+                      <MovieBranding movie={movie} />
+                      <MovieStats movie={movie} extraStyles="hidden xl:flex" />
+                      <SliderBannerActions
+                        slug={movie.slug}
+                        videoUrl={movie.videoUrl}
+                        isFree={movie.isFree}
+                        movieId={movie._id}
+                      />
 
-                    {movie?.actors!.length > 0 && (
-                      <MovieStars actors={movie?.actors} />
-                    )}
+                      {movie?.actors!.length > 0 && (
+                        <MovieStars actors={movie?.actors} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>
