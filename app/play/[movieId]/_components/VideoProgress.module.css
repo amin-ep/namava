@@ -1,0 +1,22 @@
+.slider-thumb {
+  background-color: var(--color-primary-default);
+  box-shadow: none;
+}
+
+.slider-marked,
+.slider-track {
+  background-color: var(--color-primary-default);
+}
+
+.slider-rail {
+  background-color: var(--color-gray-200);
+}
+
+.slider-thumb:active,
+.slider-thumb:hover {
+  box-shadow: none;
+}
+
+.slider:focus .slider-thumb {
+  box-shadow: none;
+}

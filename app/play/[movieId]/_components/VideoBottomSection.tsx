@@ -1,6 +1,7 @@
 import React from "react";
 import VideoControls from "./VideoControls";
 import VideoTimeBar from "./VideoTimeBar";
+import VideoProgress from "./VideoProgress";
 
 function VideoBottomSection() {
   return (
@@ -8,7 +9,8 @@ function VideoBottomSection() {
       {/* Duration */}
       <VideoTimeBar />
       {/* Progress bar */}
-      <div></div>
+      {/* <div></div> */}
+      <VideoProgress />
       {/* Control buttons */}
       <VideoControls />
     </div>

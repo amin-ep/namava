@@ -19,7 +19,7 @@ function VideoTimeBar() {
   };
 
   return (
-    <div className="flex w-full items-center justify-between text-white">
+    <div className="flex w-full items-center justify-between text-xs text-white lg:text-sm">
       <span>{formatTime(duration)}</span>
       <span>{formatTime(progressTime)}</span>
     </div>

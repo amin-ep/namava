@@ -16,7 +16,6 @@ interface IContext {
   videoRef: React.RefObject<HTMLVideoElement | null> | null;
   toggleScreen: () => void;
   duration: number;
-  progressRef: React.RefObject<HTMLInputElement | null> | null;
   progressTime: number;
   muted: boolean;
   toggleMute: () => void;
@@ -24,6 +23,8 @@ interface IContext {
   backwardTime: () => void;
   changeSpeed: (n: number) => void;
   playingSpeed: number;
+  setVolume: React.Dispatch<React.SetStateAction<number>>;
+  volume: number;
 }
 
 const VideoContext = createContext({
@@ -33,7 +34,6 @@ const VideoContext = createContext({
   videoRef: null,
   toggleScreen() {},
   duration: 0,
-  progressRef: null,
   progressTime: 0,
   muted: false,
   toggleMute() {},
@@ -41,6 +41,8 @@ const VideoContext = createContext({
   forwardTime() {},
   changeSpeed() {},
   playingSpeed: 1,
+  setVolume: () => {},
+  volume: 100,
 } as IContext);
 
 export function VideoProvider({ children }: { children: React.ReactNode }) {
@@ -50,9 +52,9 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
   const [duration, setDuration] = useState<number>(0);
   const [progressTime, setProgressTime] = useState(0);
   const [playingSpeed, setPlayingSpeed] = useState<number>(1);
+  const [volume, setVolume] = useState<number>(100);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const progressRef = useRef<null | HTMLInputElement>(null);
   const playAnimationRef = useRef<number | null>(null);
 
   const handleTogglePlaying = () =>
@@ -61,7 +63,13 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
   // Toggle Fullscreen
   const toggleScreen = () => setFullScreen((scrn) => !scrn);
 
-  const toggleMute = () => setMuted((m) => !m);
+  const toggleMute = () => {
+    if (volume > 0) {
+      setVolume(0);
+    } else {
+      setVolume(100);
+    }
+  };
 
   const handleChangePlayingSpeed = (value: number) => {
     setPlayingSpeed(value);
@@ -69,10 +77,12 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
 
   const handleForwardTime = () => {
     videoRef.current!.currentTime += 10;
+    setProgressTime((p) => p + 10);
   };
 
   const handleBackwardTime = () => {
     videoRef.current!.currentTime -= 10;
+    setProgressTime((p) => p - 10);
   };
 
   const updateProgress = useCallback(() => {
@@ -80,7 +90,6 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
 
     const currentTime = videoRef.current.currentTime;
     setProgressTime(currentTime);
-    if (progressRef.current) progressRef.current.value = currentTime.toString();
 
     if (isPlaying)
       playAnimationRef.current = requestAnimationFrame(updateProgress);
@@ -120,9 +129,6 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
     if (videoRef.current) {
       const seconds = videoRef.current.duration;
       setDuration(seconds);
-      if (progressRef.current) {
-        progressRef.current.max = seconds.toString();
-      }
     }
     // handle fullscreen change event
     if (document) {
@@ -141,12 +147,10 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!videoRef.current) return;
-    if (muted) {
-      videoRef.current.muted = true;
-    } else {
-      videoRef.current.muted = false;
-    }
-  }, [muted]);
+
+    videoRef.current.volume = volume / 100;
+    setMuted(volume / 100 == 0);
+  }, [volume]);
 
   return (
     <VideoContext
@@ -157,7 +161,6 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
         toggleScreen: toggleScreen,
         isFullScreen: fullScreen,
         duration,
-        progressRef,
         progressTime,
         muted,
         backwardTime: handleBackwardTime,
@@ -165,6 +168,8 @@ export function VideoProvider({ children }: { children: React.ReactNode }) {
         toggleMute,
         changeSpeed: handleChangePlayingSpeed,
         playingSpeed: playingSpeed,
+        setVolume,
+        volume,
       }}
     >
       {children}
