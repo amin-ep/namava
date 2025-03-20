@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import Checkbox from "./Checkbox";
+import Checkbox from "../../../_components/Checkbox/Checkbox";
 import DropDownContainer from "./DropdownContainer";
 import cls from "classnames";
 import { useSearch } from "@/app/_contexts/SearchContext";

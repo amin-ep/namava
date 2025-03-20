@@ -4,7 +4,7 @@ import CategoryMovieSlider from "../_components/CategoryMovieSlider";
 import NewestMoviesBanner from "../_components/NewestMoviesBanner";
 import PageContainer from "../_components/PageContainer";
 import SliderLoader from "../_components/SliderLoader";
-import { categories } from "../_utils/helpers";
+import { categories } from "../_utils/constants";
 
 function Page() {
   return (

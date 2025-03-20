@@ -2,7 +2,7 @@
 
 import MiniSpinner from "@/app/_components/MiniSpinner/MiniSpinner";
 import { ICreateCommentPayload } from "@/app/_types/commentTypes";
-import Checkbox from "@/app/search/_components/Filters/Checkbox";
+import Checkbox from "@/app/_components/Checkbox/Checkbox";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";

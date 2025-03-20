@@ -1,8 +1,7 @@
 "use client";
 
 import { useSearch } from "@/app/_contexts/SearchContext";
-import { countriesArray } from "@/app/_utils/constants";
-import { categories } from "@/app/_utils/helpers";
+import { categories, countriesArray } from "@/app/_utils/constants";
 import Image from "next/image";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import SearchFiltersCheckboxList from "./CheckboxList";

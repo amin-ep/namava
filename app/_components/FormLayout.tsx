@@ -27,7 +27,12 @@ function FormLayout({
       <header className="flex flex-col gap-8">
         <div className="relative flex items-center justify-center py-5">
           <Link href="/">
-            <Image src="/logo.svg" width={85} height={40} alt="Namava Logo" />
+            <Image
+              src="/logo-primary.svg"
+              width={85}
+              height={40}
+              alt="Namava Logo"
+            />
           </Link>
           {headerLink && (
             <MainLink

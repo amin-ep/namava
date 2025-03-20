@@ -1,5 +1,6 @@
 import PageContainer from "../_components/PageContainer";
-import { categories } from "../_utils/helpers";
+import { categories } from "../_utils/constants";
+
 import CategoryItem from "./_components/CategoryItem";
 import CategoryWrapper from "./_components/CategoryWrapper/CategoryWrapper";
 

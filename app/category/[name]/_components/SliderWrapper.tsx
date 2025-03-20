@@ -1,6 +1,7 @@
 import MovieSlider from "@/app/_components/MovieSlider/MovieSlider";
 import { IMovie } from "@/app/_types/movieTypes";
-import { categories, findPersianCategoryName } from "@/app/_utils/helpers";
+import { categories } from "@/app/_utils/constants";
+import { findPersianCategoryName } from "@/app/_utils/helpers";
 import { getMoviesByDoubleGenreName } from "@/app/api/movieApi";
 
 type Props = { categoryName: string };

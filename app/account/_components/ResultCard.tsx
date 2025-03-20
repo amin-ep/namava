@@ -13,7 +13,12 @@ function ResultCard({
   return (
     <div className="mx-auto flex h-dvh w-full flex-col items-center gap-7 bg-white py-20 xsm:mt-40 xsm:h-[unset] xsm:max-w-[500px] xsm:gap-8 xsm:rounded-xl xsm:p-10 xsm:shadow-[0_0_8px_0_rgba(0,0,0,0.2)]">
       <Link href="/">
-        <Image src="/logo.svg" width={85} height={40} alt="Namava Logo" />
+        <Image
+          src="/logo-primary.svg"
+          width={85}
+          height={40}
+          alt="Namava Logo"
+        />
       </Link>
       <Image
         src={
@@ -33,7 +38,7 @@ function ResultCard({
       </p>
       <Link
         href={link.href}
-        className="bg-primary-default my-3 flex h-[42px] w-[272px] cursor-pointer items-center justify-center rounded-xl px-5 text-xs leading-[42px] text-white xsm:my-4 xsm:w-[360px]"
+        className="my-3 flex h-[42px] w-[272px] cursor-pointer items-center justify-center rounded-xl bg-primary-default px-5 text-xs leading-[42px] text-white xsm:my-4 xsm:w-[360px]"
       >
         {link.label}
       </Link>

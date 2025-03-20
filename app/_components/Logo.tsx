@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { memo } from "react";
 
-const Logo = memo(function Logo() {
+type Props = { color?: "primary" | "white" };
+
+const Logo = memo(function Logo({ color = "white" }: Props) {
   return (
     <Image
-      src="/logo-white.svg"
+      src={`/logo-${color}.svg`}
       alt="logo"
       width={60}
       height={25}

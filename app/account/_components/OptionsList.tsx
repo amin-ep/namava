@@ -17,7 +17,12 @@ function OptionsList({
     <div className="flex flex-col gap-7 rounded-xl bg-white px-6 py-10 xsm:p-10 xsm:shadow-[0_0px_8px_0_rgba(0,0,0,0.2)] md:px-8">
       <div className="flex items-center justify-center xsm:mb-1">
         <Link href="/">
-          <Image src="/logo.svg" width={85} height={40} alt="Namava Logo" />
+          <Image
+            src="/logo-primary.svg"
+            width={85}
+            height={40}
+            alt="Namava Logo"
+          />
         </Link>
       </div>
       <div>

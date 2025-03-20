@@ -1,3 +1,5 @@
+import { SubscriptionOption } from "../_types/subscriptionTypes";
+
 export const API_BASE_URL = "http://localhost:8000/api";
 
 export const JWT_EXPIRATION_DATE = Date.now() + 90 * 24 * 60 * 60 * 1000;
@@ -150,3 +152,141 @@ export const georgianYearsArray: string[] = Array.from(
   { length: new Date().getFullYear() - 1900 + 1 },
   (_, i) => (1900 + i).toString(),
 );
+
+export const categories: { title: string; imageSrc?: string; href: string }[] =
+  [
+    {
+      title: "ایرانی",
+      imageSrc: "/categories/irani-category.jpg",
+      href: "persian",
+    },
+    {
+      title: "انیمه و انیمیشن",
+      imageSrc: "/categories/anime-animation-category.jpg",
+      href: "anime-animation",
+    },
+    {
+      title: "دوبله نماوا",
+      imageSrc: "/categories/namava-dubbed-category.jpg",
+      href: "exclusive-dubs",
+    },
+    {
+      title: "پردیس نماوا",
+      imageSrc: "/categories/pardis-namava-category.jpg",
+      href: "collection-pardis",
+    },
+    {
+      title: "برترین ها",
+      imageSrc: "/categories/the-best-category.jpg",
+      href: "tops",
+    },
+    {
+      title: "ترکی",
+      imageSrc: "/categories/turkish-category.jpg",
+      href: "turkish",
+    },
+    {
+      title: "هندی",
+      imageSrc: "/categories/indian-category.jpg",
+      href: "indian",
+    },
+    {
+      title: "کره ای",
+      imageSrc: "/categories/korean-category.jpg",
+      href: "korean",
+    },
+    {
+      title: "کمدی",
+      imageSrc: "/categories/comedy-category.jpg",
+      href: "comedy",
+    },
+    {
+      title: "اکشن",
+      imageSrc: "/categories/action-category.jpg",
+      href: "action",
+    },
+    {
+      title: "اسکار",
+      imageSrc: "/categories/oscar-category.jpg",
+      href: "oscar",
+    },
+    {
+      title: "علمی تخیلی",
+      imageSrc: "/categories/science-fiction-category.jpg",
+      href: "scifi",
+    },
+    {
+      title: "درام",
+      imageSrc: "/categories/drama-category.jpg",
+      href: "drama",
+    },
+    {
+      title: "عاشقانه",
+      imageSrc: "/categories/romantic-category.jpg",
+      href: "romance",
+    },
+    {
+      title: "ترسناک",
+      imageSrc: "/categories/thriller-category.jpg",
+      href: "horror",
+    },
+    {
+      title: "جنایی",
+      imageSrc: "/categories/crime-category.jpg",
+      href: "crime",
+    },
+    {
+      title: "کلاسیک",
+      imageSrc: "/categories/classic-category.jpg",
+      href: "classic",
+    },
+    {
+      title: "خانوادگی",
+      imageSrc: "/categories/family-category.jpg",
+      href: "family",
+    },
+    {
+      title: "مستند",
+      imageSrc: "/categories/documentary-category.jpg",
+      href: "documentary",
+    },
+    {
+      title: "فیلم های کوتاه",
+      imageSrc: "/categories/short-movie-category.jpg",
+      href: "short-movie",
+    },
+    {
+      title: "ماجراجویی",
+      imageSrc: "/categories/adventure-category.jpg",
+      href: "adventure",
+    },
+    {
+      title: "فیلم خارجی",
+      href: "foreign-movie",
+    },
+    {
+      title: "جنگی",
+      href: "war",
+    },
+  ];
+
+export const subscriptionOptions: SubscriptionOption[] = [
+  {
+    price: 160000,
+    discountPercentage: 10,
+    expirationDate: "یک ماهه",
+    key: "SCR01",
+  },
+  {
+    price: 480000,
+    discountPercentage: 40,
+    expirationDate: "سه ماهه",
+    key: "SCR03",
+  },
+  {
+    price: 960000,
+    discountPercentage: 30,
+    expirationDate: "شش ماهه",
+    key: "SCR06",
+  },
+];
