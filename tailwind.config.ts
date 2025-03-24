@@ -33,6 +33,7 @@ export default {
         },
         white: "#ffffff",
         black: "#000000",
+        success: "#99c14d",
       },
       screens: {
         xsm: "500px",

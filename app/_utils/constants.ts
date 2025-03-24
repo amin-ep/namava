@@ -276,17 +276,20 @@ export const subscriptionOptions: SubscriptionOption[] = [
     discountPercentage: 10,
     expirationDate: "یک ماهه",
     key: "SCR01",
+    month: 1,
   },
   {
     price: 480000,
     discountPercentage: 40,
     expirationDate: "سه ماهه",
     key: "SCR03",
+    month: 3,
   },
   {
     price: 960000,
     discountPercentage: 30,
     expirationDate: "شش ماهه",
     key: "SCR06",
+    month: 6,
   },
 ];

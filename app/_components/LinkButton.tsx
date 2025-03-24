@@ -2,6 +2,7 @@
 
 import cls from "classnames";
 import Link from "next/link";
+import MiniSpinner from "./MiniSpinner/MiniSpinner";
 
 interface Props {
   variation: "link" | "button";
@@ -61,7 +62,7 @@ function LinkButton({
         {...(onMouseLeave && { onMouseLeave: onMouseLeave })}
         className={classes}
       >
-        {children}
+        {isPending ? <MiniSpinner color="white" /> : children}
       </button>
     );
   } else if (variation === "link") {

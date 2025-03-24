@@ -9,7 +9,6 @@ function BannerStats() {
 
   const handleDownloadButtonClick = () => {
     const tabPanel = document.querySelector(`#panel-${activeTab}`);
-    console.log(tabPanel);
     if (tabPanel) {
       tabPanel.scrollIntoView({
         behavior: "smooth",

@@ -6,11 +6,23 @@ import UserOptions from "./UserOptions";
 import HeaderMobileAppAction from "./HeaderMobileAppAction";
 import LinkButton from "../LinkButton";
 import HeaderActionsIconWrapper from "./HeaderActionsIconWrapper";
+import { getMySubscriptions } from "@/app/api/subscriptionApi";
+import { ISubscription } from "@/app/_types/subscriptionTypes";
 
 async function HeaderActions() {
   const token = await (
     await cookies()
   ).get(process.env.JWT_SECRET_KEY as string)?.value;
+
+  let activeSubscription: ISubscription | null = null;
+  if (token) {
+    const subscriptions = await getMySubscriptions();
+
+    activeSubscription =
+      (subscriptions as ISubscription[]).find(
+        (el) => new Date(el.expiresAt).getTime() > Date.now(),
+      ) || null;
+  }
 
   return (
     <div className="flex-end flex items-center gap-1 base:gap-3">
@@ -27,7 +39,7 @@ async function HeaderActions() {
           <HeaderMobileAppAction />
         </HeaderActionsIconWrapper>
         {token ? (
-          <UserOptions />
+          <UserOptions subscriptionExpiresAt={activeSubscription?.expiresAt} />
         ) : (
           <>
             <Link

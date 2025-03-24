@@ -2,7 +2,7 @@ import { Params } from "next/dist/server/request/params";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "../_components/Container";
-import PaymentSummary from "./_components/PaymentSummary";
+import PaymentSummary from "../../_components/PaymentSummary";
 
 async function Page({ params }: { params: Params }) {
   const key = (await params).key;
@@ -32,7 +32,7 @@ async function Page({ params }: { params: Params }) {
         تکمیل خرید
       </h1>
       <Container>
-        <PaymentSummary subKey={key as string} />
+        <PaymentSummary status="waiting" subKey={key as string} />
       </Container>
     </div>
   );

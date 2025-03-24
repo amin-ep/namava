@@ -24,7 +24,7 @@ function Header({ children }: { children: ReactNode }) {
   }, []);
 
   const dynamicDisableRoutes = useMemo(() => {
-    return ["play", "plans"];
+    return ["play", "plans", "purchase"];
   }, []);
 
   useEffect(() => {

@@ -3,12 +3,12 @@ import TopSection from "./_components/TopSection/TopSection";
 import BannerImage from "./_components/BannerImage";
 import SubCard from "./_components/SubCard/SubCard";
 import { subscriptionOptions } from "../_utils/constants";
-import { getMySubscription } from "../api/subscriptionApi";
+import { getMySubscriptions } from "../api/subscriptionApi";
 import { ISubscription } from "../_types/subscriptionTypes";
 import Container from "./_components/Container";
 
 async function Page() {
-  const subscriptions = await getMySubscription();
+  const subscriptions = await getMySubscriptions();
   return (
     <div className="bg-gray-100">
       <TopSection />

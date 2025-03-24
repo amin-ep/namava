@@ -3,7 +3,7 @@ import { InfoField } from "../page";
 import Container from "./Container";
 import InfoHeader from "./InfoHeader";
 import InfoList from "./InfoList";
-import { numericJalaaliBirthDate } from "@/app/_utils/helpers";
+import { numericJalaaliDate } from "@/app/_utils/helpers";
 
 const userLabels: { [key: string]: string } = {
   firstName: "نام",
@@ -32,7 +32,7 @@ function PersonalInfo({ info }: { info: User }) {
       infoArr.at(userBirthDateIndex)?.content as string,
     );
 
-    userBirthDate = numericJalaaliBirthDate(userGeorgianBirthDate);
+    userBirthDate = numericJalaaliDate(userGeorgianBirthDate);
   }
 
   if (userBirthDateValue !== "-") {

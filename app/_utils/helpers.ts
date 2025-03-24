@@ -5,7 +5,7 @@ export const jMonthIndex = (strMonth: string) => {
   return jalaaliMonths().findIndex((el) => el === strMonth);
 };
 
-export const numericJalaaliBirthDate = (date: string | Date) => {
+export const numericJalaaliDate = (date: string | Date) => {
   const georgianBirthDate = new Date(date);
   const birthYear = georgianBirthDate.getFullYear();
   const birthMonth = georgianBirthDate.getMonth();
@@ -73,4 +73,11 @@ export const calculateFinalPrice = (
   price: number,
 ) => {
   return (price * (100 - discountPercentage)) / 100;
+};
+
+export const calcSubExpireDay = (expiresAt: Date | string) => {
+  const currentTime = Date.now();
+  const numericExpiresAt = new Date(expiresAt).getTime();
+  const days = (numericExpiresAt - currentTime) / 1000 / 24 / 60 / 60;
+  return Math.round(days);
 };

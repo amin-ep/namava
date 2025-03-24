@@ -5,6 +5,10 @@ export interface ISubscription {
   user: User;
   price: number;
   expiresAt: Date | string;
+  months: number;
+  subCode: number;
+  _id: string;
+  createdAt: Date;
 }
 
 export type SubscriptionOption = {
@@ -12,8 +16,26 @@ export type SubscriptionOption = {
   expirationDate: string;
   discountPercentage: number;
   key: string;
+  month: number;
 };
 
 export interface IGetMySubscriptionResponse extends Status {
   data: ISubscription[];
+}
+
+export interface IPaySubscriptionResponse extends Status {
+  data: {
+    document: ISubscription;
+  };
+}
+
+export interface IPaySubscriptionPayload {
+  price: number;
+  months: number;
+}
+
+export interface IGetCurrentSubscriptionResponse extends Status {
+  data: {
+    document: ISubscription;
+  };
 }

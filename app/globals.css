@@ -181,6 +181,8 @@ input[type="search"]::-webkit-search-cancel-button {
 
   --color-white: #ffffff;
   --color-black: #000000;
+
+  --color-success: #99c14d;
 }
 
 @layer components {

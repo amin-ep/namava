@@ -1,0 +1,7 @@
+.item > span {
+  color: var(--color-gray-400);
+}
+
+.item:hover span {
+  color: var(--color-primary-default);
+}

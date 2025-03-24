@@ -5,7 +5,6 @@ import { apiRequest, handleServerActionError } from "@/app/api";
 import { revalidatePath } from "next/cache";
 
 export async function updateMe(payload: UpdateMePayload) {
-  console.log(payload);
   try {
     const res = await apiRequest<UpdateMeResponseData>({
       method: "PATCH",

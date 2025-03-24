@@ -11,7 +11,7 @@ function Footer() {
   const pathname = usePathname();
   const [isVisible, ref] = useInView();
 
-  const disableRoutes = ["auth", "play"];
+  const disableRoutes = ["auth", "play", "purchase"];
 
   if (!disableRoutes.includes(pathname.split("/")[1]))
     return (
