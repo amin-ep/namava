@@ -9,9 +9,14 @@ import { subscriptionOptions } from "@/app/_utils/constants";
 import { IPaySubscriptionPayload } from "@/app/_types/subscriptionTypes";
 import { useQueryClient } from "@tanstack/react-query";
 
-type Props = { subKey: string; finalPrice: number };
+type Props = {
+  subKey: string;
+  finalPrice: number;
+  tax: number;
+  discount: null | number;
+};
 
-function PayButton({ subKey, finalPrice }: Props) {
+function PayButton({ subKey, finalPrice, tax, discount }: Props) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -24,7 +29,10 @@ function PayButton({ subKey, finalPrice }: Props) {
       price: finalPrice,
       months: subscriptionOptions.find((el) => el.key === subKey)
         ?.month as number,
+      tax,
     };
+
+    if (discount) payload.discount = discount;
 
     startTransition(async () => {
       const buyResponse = await paySub(payload);

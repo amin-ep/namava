@@ -18,20 +18,43 @@ export async function paySub(payload: IPaySubscriptionPayload) {
       data: payload,
     });
 
-    const currentTime = Date.now();
-
-    const subscriptionExpiresAt: { [key: number]: Date } = {
-      1: new Date(currentTime + 30 * 24 * 60 * 60 * 1000),
-      3: new Date(currentTime + 90 * 24 * 60 * 60 * 1000),
-      6: new Date(currentTime + 180 * 24 * 60 * 60 * 1000),
-    };
-
     if (res.status === 201) {
-      console.log(res.data);
+      const subscriptionExpiresAt = (monthsToExpire: number) => {
+        let duration: Date | null = null;
+        const currentTime = Date.now();
+        const subscriptionExpiresAt: {
+          duration: Date;
+          months: number;
+        }[] = [
+          {
+            duration: new Date(currentTime + 30 * 24 * 60 * 60 * 1000),
+            months: 1,
+          },
+          {
+            duration: new Date(currentTime + 90 * 24 * 60 * 60 * 1000),
+            months: 3,
+          },
+          {
+            duration: new Date(currentTime + 180 * 24 * 60 * 60 * 1000),
+            months: 6,
+          },
+        ];
+
+        duration =
+          subscriptionExpiresAt.find((el) => el.months == monthsToExpire)
+            ?.duration || null;
+
+        if (duration == null) {
+          throw new Error("Invalid expiresAt");
+        } else {
+          return duration;
+        }
+      };
+      const expires = subscriptionExpiresAt(payload.months);
       (await cookies()).set({
         name: process.env.SUBSCRIPTION_KEY as string,
         value: res?.data.data.document._id,
-        expires: subscriptionExpiresAt[payload.months],
+        expires: expires,
       });
       revalidatePath("/");
       return { status: "success", data: res.data.data.document };

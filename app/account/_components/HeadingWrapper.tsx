@@ -2,6 +2,7 @@
 import MobileNavList from "@/app/_components/MobileNavList";
 import { useModal } from "@/app/_hooks/useModal";
 import { MobileNavListItem } from "@/app/_types/globalTypes";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaStar, FaUser } from "react-icons/fa";
 import { HiOutlineBars3, HiOutlineXMark } from "react-icons/hi2";
@@ -33,14 +34,13 @@ function HeadingWrapper() {
   const [headingTitle, setHeadingTitle] = useState("");
 
   const { close, isOpen, open } = useModal();
-
-  // const listRef = useRef<HTMLUListElement | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (document) {
       setHeadingTitle(document.title);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="relative mb-5 flex items-center justify-center md:hidden">

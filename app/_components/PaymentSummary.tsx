@@ -70,7 +70,19 @@ async function PaymentSummary({ subKey, status = "waiting" }: Props) {
               {calcFinalPrice()} تومان
             </span>
           </div>
-          <PayButton finalPrice={+calcFinalPrice()} subKey={subKey} />
+          <PayButton
+            discount={
+              (userSubscriptions as ISubscription[]).length === 0
+                ? calculateDiscountPrice(
+                    subOption.discountPercentage,
+                    subOption.price,
+                  )
+                : null
+            }
+            tax={tax}
+            finalPrice={+calcFinalPrice()}
+            subKey={subKey}
+          />
         </div>
       )}
     </div>

@@ -1,0 +1,47 @@
+.table {
+  display: table;
+  border-spacing: 0 1px;
+}
+
+.thead-table-row {
+  background: white;
+  border-bottom: none;
+}
+
+.thead-table-cell {
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+}
+
+.tbody-table-row {
+  background-color: white;
+  border-bottom: none;
+  border-style: none;
+  cursor: pointer;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.tbody-table-cell {
+  border-bottom: none;
+  font-size: 12px;
+}
+
+@media (min-width: 500px) {
+  .table {
+    border-spacing: 0 12px;
+  }
+}
+
+@media (min-width: 800px) {
+  .thead-table-cell {
+    font-size: 14px;
+  }
+  .tbody-table-cell {
+    font-size: 14px;
+  }
+}

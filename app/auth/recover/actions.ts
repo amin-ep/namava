@@ -98,6 +98,7 @@ export async function resetPassword(
         value: res?.data.token,
         expires: JWT_EXPIRATION_DATE,
       });
+      (await cookies()).delete("FORGET-PASSWORD-EMAIL");
       return { status: "success" };
     }
   } catch (err) {

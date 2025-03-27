@@ -39,7 +39,9 @@ async function HeaderActions() {
           <HeaderMobileAppAction />
         </HeaderActionsIconWrapper>
         {token ? (
-          <UserOptions subscriptionExpiresAt={activeSubscription?.expiresAt} />
+          <UserOptions
+            subscriptionExpiresAt={activeSubscription?.expiresAt as Date}
+          />
         ) : (
           <>
             <Link

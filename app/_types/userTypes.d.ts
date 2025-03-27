@@ -1,6 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { Status } from "./globalTypes";
 import { IReaction } from "./reactionTypes";
+import { ISubscription } from "./subscriptionTypes";
 
 // User
 export type User = {
@@ -21,6 +22,7 @@ export type User = {
   candidateEmail?: string;
   [key: string]: string;
   reactedFields: IReaction[];
+  subscriptions: ISubscription[];
 };
 // ***
 

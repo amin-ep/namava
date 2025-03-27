@@ -5,8 +5,14 @@ import {
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
-import { removeUnrecognizedFields } from "@/app/_utils/helpers";
+import { ISubscription } from "@/app/_types/subscriptionTypes";
+import { User } from "@/app/_types/userTypes";
+import {
+  removeUnrecognizedFields,
+  subscriptionExpiresAt,
+} from "@/app/_utils/helpers";
 import { apiRequest, handleServerActionError } from "@/app/api";
+import { getCurrentSubscription } from "@/app/api/subscriptionApi";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -42,6 +48,7 @@ export async function otpLogin(
         value: entryValues.email as string,
         expires,
       });
+
       return {
         status: res?.data.status as string,
         message: res?.data.message as string,
@@ -60,6 +67,7 @@ export async function otpVerifyLogin(
   formData: FormData,
 ) {
   try {
+    let userData: User | undefined;
     const payload = removeUnrecognizedFields(Object.fromEntries(formData));
 
     const res = await apiRequest<OTPLoginVerificationResponseData>({
@@ -70,6 +78,7 @@ export async function otpVerifyLogin(
     });
 
     if (res?.statusText === "OK") {
+      userData = res.data.data;
       const cookieStore = await cookies();
       cookieStore.delete("otp-login-email");
       const expires = Date.now() + 90 * 24 * 60 * 60 * 1000;
@@ -78,6 +87,19 @@ export async function otpVerifyLogin(
         value: res?.data.token,
         expires: expires,
       });
+
+      if (userData.role === "user" && userData.subscriptions.length > 0) {
+        const userActiveSubscription = userData.subscriptions.find(
+          (sub) => new Date(sub.expiresAt).getTime() > Date.now(),
+        );
+        if (userActiveSubscription) {
+          cookieStore.set({
+            name: process.env.SUBSCRIPTION_KEY as string,
+            value: userActiveSubscription?._id,
+            expires: new Date(userActiveSubscription.expiresAt).getTime(),
+          });
+        }
+      }
 
       return { status: "success" };
     }
@@ -92,6 +114,7 @@ export async function otpVerifyLogin(
 export async function logout() {
   try {
     (await cookies()).delete(process.env.JWT_SECRET_KEY as string);
+    (await cookies()).delete(process.env.SUBSCRIPTION_KEY as string);
 
     revalidatePath("/");
   } catch (err) {

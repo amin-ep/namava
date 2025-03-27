@@ -3,6 +3,7 @@ import { apiRequest, handleServerActionError } from ".";
 import {
   IGetCurrentSubscriptionResponse,
   IGetMySubscriptionResponse,
+  IGetSubscriptionByIdResponse,
 } from "../_types/subscriptionTypes";
 
 export async function getMySubscriptions() {
@@ -37,6 +38,23 @@ export async function getCurrentSubscription() {
 
     if (res.status === 200) {
       return res.data.data.document;
+    }
+  } catch (err) {
+    return handleServerActionError(err);
+  }
+}
+
+export async function getSubscriptionById(id: string) {
+  try {
+    const res = await apiRequest<IGetSubscriptionByIdResponse>({
+      contentType: "application/json",
+      method: "GET",
+      url: `/subscription/${id}`,
+      authorization: true,
+    });
+
+    if (res.status === 200) {
+      return { status: "success", data: res.data.data.document };
     }
   } catch (err) {
     return handleServerActionError(err);

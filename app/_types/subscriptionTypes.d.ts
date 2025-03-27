@@ -9,6 +9,8 @@ export interface ISubscription {
   subCode: number;
   _id: string;
   createdAt: Date;
+  tax: number;
+  discount?: number;
 }
 
 export type SubscriptionOption = {
@@ -32,9 +34,17 @@ export interface IPaySubscriptionResponse extends Status {
 export interface IPaySubscriptionPayload {
   price: number;
   months: number;
+  discount?: number;
+  tax: number;
 }
 
 export interface IGetCurrentSubscriptionResponse extends Status {
+  data: {
+    document: ISubscription;
+  };
+}
+
+export interface IGetSubscriptionByIdResponse extends Status {
   data: {
     document: ISubscription;
   };

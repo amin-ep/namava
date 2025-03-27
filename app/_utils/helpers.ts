@@ -1,23 +1,19 @@
-import jalaali from "jalaali-js";
+import jalaali, { toJalaali } from "jalaali-js";
 import { categories, jalaaliMonths } from "./constants";
 
 export const jMonthIndex = (strMonth: string) => {
   return jalaaliMonths().findIndex((el) => el === strMonth);
 };
 
-export const numericJalaaliDate = (date: string | Date) => {
-  const georgianBirthDate = new Date(date);
-  const birthYear = georgianBirthDate.getFullYear();
-  const birthMonth = georgianBirthDate.getMonth();
-  const birthDate = georgianBirthDate.getDate();
+export const numericJalaaliDate = (inputDate: string | Date) => {
+  const georgianDate = new Date(inputDate);
+  const year = georgianDate.getFullYear();
+  const month = georgianDate.getMonth();
+  const date = georgianDate.getDate();
 
-  const jalaaliBirthDateObject = jalaali.toJalaali(
-    birthYear,
-    birthMonth + 1,
-    birthDate,
-  );
+  const jalaaliDateObject = jalaali.toJalaali(year, month + 1, date);
 
-  return `${jalaaliBirthDateObject.jy}/${jalaaliBirthDateObject.jm}/${jalaaliBirthDateObject.jd}`;
+  return `${jalaaliDateObject.jy}/${jalaaliDateObject.jm}/${jalaaliDateObject.jd}`;
 };
 
 export const removeUnrecognizedFields = (
@@ -80,4 +76,14 @@ export const calcSubExpireDay = (expiresAt: Date | string) => {
   const numericExpiresAt = new Date(expiresAt).getTime();
   const days = (numericExpiresAt - currentTime) / 1000 / 24 / 60 / 60;
   return Math.round(days);
+};
+
+export const jalaaliNumericDateAndTime = (date: Date | string) => {
+  const georgianDate = new Date(date);
+  const year = georgianDate.getFullYear();
+  const month = georgianDate.getMonth();
+  const day = georgianDate.getDate();
+  const jalaaliDateObject = toJalaali(year, month + 1, day);
+
+  return `${jalaaliDateObject.jy.toString().slice(2, 4)}/${jalaaliDateObject.jm.toString().padStart(2, "0")}/${jalaaliDateObject.jd.toString().padStart(2, "0")} - ${georgianDate.getHours().toString().padStart(2, "0")}:${georgianDate.getMinutes().toString().padStart(2, "0")}`;
 };
