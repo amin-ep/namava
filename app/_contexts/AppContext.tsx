@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 
-export type TabValue = "pc-laptop" | "android-tv" | "ios" | "android";
+export type TabValue = "pc-laptop" | "android-tv" | "ios" | "android" | string;
 
 interface IContext {
   activeTab: TabValue;

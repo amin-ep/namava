@@ -5,14 +5,9 @@ import {
   OTPLoginVerificationResponseData,
 } from "@/app/_types/authTypes";
 import { FormActionPreviousState } from "@/app/_types/globalTypes";
-import { ISubscription } from "@/app/_types/subscriptionTypes";
 import { User } from "@/app/_types/userTypes";
-import {
-  removeUnrecognizedFields,
-  subscriptionExpiresAt,
-} from "@/app/_utils/helpers";
+import { removeUnrecognizedFields } from "@/app/_utils/helpers";
 import { apiRequest, handleServerActionError } from "@/app/api";
-import { getCurrentSubscription } from "@/app/api/subscriptionApi";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -115,6 +110,7 @@ export async function logout() {
   try {
     (await cookies()).delete(process.env.JWT_SECRET_KEY as string);
     (await cookies()).delete(process.env.SUBSCRIPTION_KEY as string);
+    (await cookies()).delete("SHEET-MODAL-CLOSED");
 
     revalidatePath("/");
   } catch (err) {

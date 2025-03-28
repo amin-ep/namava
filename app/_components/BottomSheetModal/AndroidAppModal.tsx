@@ -40,7 +40,8 @@ function AndroidAppModal({ onClose, isOpen, openWebAppModal }: IProps) {
               extraStyles="w-full"
               color="glassy"
               variation="link"
-              linkDownload="/files/namava.apk"
+              href="/files/namava.apk"
+              linkDownload
             >
               {/* FIXME */}
               <Image

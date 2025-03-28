@@ -12,6 +12,7 @@ import androidTvColored from "../../../public/icons/android-tv-icon-colored.svg"
 import iosColored from "../../../public/icons/brand-apple-colored.svg";
 import androidColored from "../../../public/icons/android-icon-colored.svg";
 import Link from "next/link";
+import TabPanelContent from "./TabPanelContent";
 
 const tabHeadings: {
   imageSrc: string;
@@ -45,7 +46,7 @@ const tabHeadings: {
   },
 ];
 
-interface IPanelItem {
+export interface IPanelItem {
   href: string;
   title: string;
   imageSrc: string;
@@ -161,70 +162,19 @@ function Tabs() {
         </h3>
         {/* PC & LAPTOP APPS */}
         <TabPanel className={styles.tabpanel}>
-          <div
-            id={`panel-${activeTab}`}
-            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
-          >
-            {pcLaptopItems.map((item) => (
-              <PanelLink
-                href={item.href}
-                imageSrc={item.imageSrc}
-                title={item.title}
-                key={item.title}
-                {...(item.download && { download: true })}
-              />
-            ))}
-          </div>
+          <TabPanelContent activeTab={activeTab} items={pcLaptopItems} />
         </TabPanel>
         {/* ANDROID TV APP */}
         <TabPanel className={styles.tabpanel}>
-          <div
-            id={`panel-${activeTab}`}
-            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
-          >
-            {androidTvItems.map((item) => (
-              <PanelLink
-                href={item.href}
-                imageSrc={item.imageSrc}
-                title={item.title}
-                key={item.title}
-                {...(item.download && { download: true })}
-              />
-            ))}
-          </div>
+          <TabPanelContent activeTab={activeTab} items={androidTvItems} />
         </TabPanel>
         {/* IOS APP */}
         <TabPanel className={styles.tabpanel}>
-          <div
-            id={`panel-${activeTab}`}
-            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
-          >
-            {iosItems.map((item) => (
-              <PanelLink
-                href={item.href}
-                imageSrc={item.imageSrc}
-                title={item.title}
-                key={item.title}
-              />
-            ))}
-          </div>
+          <TabPanelContent activeTab={activeTab} items={iosItems} />
         </TabPanel>
         {/* ANDROID APP */}
         <TabPanel className={styles.tabpanel}>
-          <div
-            id={`panel-${activeTab}`}
-            className="flex flex-col gap-3 p-5 md:gap-4 md:px-6 xl:py-6"
-          >
-            {androidItems.map((item) => (
-              <PanelLink
-                href={item.href}
-                imageSrc={item.imageSrc}
-                title={item.title}
-                key={item.title}
-                {...(item.download && { download: true })}
-              />
-            ))}
-          </div>
+          <TabPanelContent activeTab={activeTab} items={androidItems} />
         </TabPanel>
       </ReactTabs>
       <div className="flex items-center justify-center">
@@ -236,26 +186,6 @@ function Tabs() {
         </Link>
       </div>
     </div>
-  );
-}
-
-function PanelLink({ href, imageSrc, title }: IPanelItem) {
-  return (
-    <Link
-      href={href}
-      className="flex justify-center rounded-md border border-gray-400 py-2"
-    >
-      <Image
-        alt={title}
-        src={imageSrc}
-        width={20}
-        height={20}
-        className="w-5 md:w-6"
-      />
-      <span className="mr-2 text-xs font-bold leading-5 text-gray-700 md:text-sm md:leading-6">
-        {title}
-      </span>
-    </Link>
   );
 }
 

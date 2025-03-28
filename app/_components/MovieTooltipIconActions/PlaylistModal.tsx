@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import Modal from "../Modal";
 import PlaylistModalTop from "../PlaylistModalTop";
 import PlaylistTitleForm from "../PlaylistTitleForm";
@@ -58,31 +58,34 @@ function PlaylistModal({ isOpen, onClose, movieId }: Props) {
     "flex items-center gap-3 align-middle xsm:gap-4 md:gap-5";
 
   // add movie to playlist
-  const handleAddMovieToPlaylist = async (id: string) => {
-    startTransition(async () => {
-      // check if movie is added send notification and return
-      const targetPlaylist = playLists?.find((el) => el._id === id);
-      const movieIsAddedToPlaylist = targetPlaylist?.movies.some(
-        (movie) => movie._id === movieId,
-      );
-      if (movieIsAddedToPlaylist) {
-        notify("error", "این عنوان قبلا به لیست افزوده شده است.");
-        return;
-      }
+  const handleAddMovieToPlaylist = useCallback(
+    async (id: string) => {
+      startTransition(async () => {
+        // check if movie is added send notification and return
+        const targetPlaylist = playLists?.find((el) => el._id === id);
+        const movieIsAddedToPlaylist = targetPlaylist?.movies.some(
+          (movie) => movie._id === movieId,
+        );
+        if (movieIsAddedToPlaylist) {
+          notify("error", "این عنوان قبلا به لیست افزوده شده است.");
+          return;
+        }
 
-      // if movie is not added add it into target list
-      const res = await addSingleMovieToList(id, movieId);
-      if (res?.status === "success") {
-        queryClient.invalidateQueries({
-          queryKey: ["playlists"],
-        });
-        notify("success", res.message);
-        onClose();
-      } else {
-        notify("success", res?.message as string);
-      }
-    });
-  };
+        // if movie is not added add it into target list
+        const res = await addSingleMovieToList(id, movieId);
+        if (res?.status === "success") {
+          queryClient.invalidateQueries({
+            queryKey: ["playlists"],
+          });
+          notify("success", res.message);
+          onClose();
+        } else {
+          notify("success", res?.message as string);
+        }
+      });
+    },
+    [movieId, notify, onClose, playLists, queryClient],
+  );
 
   useEffect(() => {
     if (document) {

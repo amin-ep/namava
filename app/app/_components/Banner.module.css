@@ -2,12 +2,12 @@
   background-image: url("/app-page-banner.png");
   color: #ffffff;
   height: 400px;
-  display: flex;
+  /* display: flex; */
   overflow: hidden;
   position: relative;
-  align-items: center;
+  /* align-items: center; */
   padding-top: 78px;
-  flex-direction: column;
+  /* flex-direction: column; */
   background-size: cover;
   background-position: center;
 }
@@ -15,7 +15,7 @@
 @media (min-width: 768px) {
   .banner {
     padding-right: 48px;
-    flex-direction: row;
+    /* flex-direction: row; */
     padding-bottom: 78px;
   }
 }

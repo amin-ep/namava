@@ -15,7 +15,7 @@ interface Props {
   isPending?: boolean;
   disabled?: boolean;
   linkTarget?: React.HTMLAttributeAnchorTarget;
-  linkDownload?: string;
+  linkDownload?: boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
