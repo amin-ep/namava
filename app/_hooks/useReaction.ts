@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { toggleReaction } from "../_lib/actions";
 import { IReaction, ToggleReactionPayload } from "../_types/reactionTypes";
 import { User } from "../_types/userTypes";
@@ -17,7 +17,21 @@ export function useReaction(movieId?: string, commentId?: string) {
 
   const pathname = usePathname();
 
-  const handleLike = async () => {
+  const handlePayload = useCallback(
+    (value: IReaction["value"]) => {
+      const payload: ToggleReactionPayload = { value };
+      if (commentId) {
+        payload.comment = commentId;
+      } else if (movieId) {
+        payload.movie = movieId;
+      }
+
+      return payload;
+    },
+    [commentId, movieId],
+  );
+
+  const handleLike = useCallback(async () => {
     const payload = handlePayload("like");
 
     await toggleReaction(payload, pathname);
@@ -25,9 +39,9 @@ export function useReaction(movieId?: string, commentId?: string) {
     queryClient.invalidateQueries({
       queryKey: ["currentUser"],
     });
-  };
+  }, [handlePayload, pathname, queryClient]);
 
-  const handleDislike = async () => {
+  const handleDislike = useCallback(async () => {
     const payload = handlePayload("dislike");
 
     await toggleReaction(payload, pathname);
@@ -35,14 +49,14 @@ export function useReaction(movieId?: string, commentId?: string) {
     queryClient.invalidateQueries({
       queryKey: ["currentUser"],
     });
-  };
+  }, [handlePayload, pathname, queryClient]);
 
   const { data } = useQuery({
     queryKey: ["currentUser"],
     queryFn: getMe,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (data) {
       let userHasReacted: null | IReaction | undefined = null;
       if (movieId !== undefined) {
@@ -61,17 +75,6 @@ export function useReaction(movieId?: string, commentId?: string) {
       }
     }
   }, [data, movieId, commentId]);
-
-  const handlePayload = (value: IReaction["value"]) => {
-    const payload: ToggleReactionPayload = { value };
-    if (commentId) {
-      payload.comment = commentId;
-    } else if (movieId) {
-      payload.movie = movieId;
-    }
-
-    return payload;
-  };
 
   return { handleLike, handleDislike, reactionValue };
 }

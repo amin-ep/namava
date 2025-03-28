@@ -4,6 +4,7 @@ import CommentUnauthorizedSection from "./CommentUnauthorizedSection";
 import CommentsList from "./CommentsList";
 import { getMovieComments } from "@/app/api/commentApi";
 import { IComment } from "@/app/_types/commentTypes";
+import EmptyCommentsSection from "./EmptyCommentsSection";
 
 type Props = { movieId: string };
 
@@ -27,7 +28,11 @@ async function Comments({ movieId }: Props) {
             <CommentUnauthorizedSection />
           )}
         </div>
-        <CommentsList comments={comments} />
+        {comments.length > 0 ? (
+          <CommentsList comments={comments} />
+        ) : (
+          <EmptyCommentsSection />
+        )}
       </div>
     </div>
   );
