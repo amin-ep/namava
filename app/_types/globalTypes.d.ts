@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type NavMenuItem = { title: string; href: string };
 
 export interface Status {
@@ -13,7 +11,9 @@ export interface Message {
 export interface MobileNavListItem {
   title: string;
   href: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
+  iconPath?: string;
+  activeIconPath?: string;
 }
 
 export interface LinkField {
