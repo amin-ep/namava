@@ -7,18 +7,21 @@ import styles from "./VideoProgress.module.css";
 function VideoProgress() {
   const { videoRef, progressTime } = useVideo();
 
-  const handleChangeInput:
-    | ((event: Event, value: number | number[], activeThumb: number) => void)
-    | undefined = (e, val) => {
-    videoRef!.current!.currentTime = val as number;
+  const handleChangeInput = (
+    e: Event | React.SyntheticEvent,
+    val: number | number[],
+  ) => {
+    if (videoRef?.current) {
+      videoRef.current.currentTime = val as number;
+    }
   };
 
   return (
     <div className="mb-4" style={{ direction: "ltr" }}>
       <Slider
-        key={progressTime}
         value={progressTime}
         onChange={handleChangeInput}
+        onChangeCommitted={handleChangeInput}
         min={0}
         max={videoRef?.current?.duration}
         classes={{

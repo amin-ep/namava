@@ -142,7 +142,6 @@ function Tooltip({ children, title }: TooltipProps) {
       >
         <div>{children}</div>
       </MUITooltip>
-      ;
     </ThemeProvider>
   );
 }
