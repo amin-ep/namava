@@ -8,7 +8,7 @@ function Search() {
   const [showInputReset, setShowInputReset] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { handleSearch } = useSearch();
+  const { handleSearch, resetSearch } = useSearch();
 
   function handleSearchInputChange(e: React.ChangeEvent) {
     handleSearch(e);
@@ -20,7 +20,10 @@ function Search() {
     }
   }
 
-  const handleResetInput = () => (inputRef!.current!.value = "");
+  const handleResetInput = () => {
+    inputRef!.current!.value = "";
+    resetSearch();
+  };
 
   return (
     <div className="relative flex items-center rounded-xl bg-gray-700 px-4">
@@ -38,6 +41,7 @@ function Search() {
         onChange={handleSearchInputChange}
         id="search"
         type="search"
+        autoComplete="off"
         className="h-[42px] w-full rounded-l-xl bg-transparent px-4 py-3 !pr-0 text-right text-xs leading-[21] text-white md:h-[60px] md:px-4 md:py-4 md:text-sm"
       />
       {showInputReset && (

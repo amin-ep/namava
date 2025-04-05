@@ -28,11 +28,11 @@ export default function RootLayout({
     <html lang="fa-IR">
       <body className={`${iran_yekan.className} bg-gray-950 antialiased`}>
         <QueryClientProvider>
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            buttonPosition="top-right"
-            position="bottom"
-          />
+          {/* <ReactQueryDevtools
+              initialIsOpen={false}
+              buttonPosition="top-right"
+              position="bottom"
+            /> */}
           <Toast />
           <Header>
             <PrevPageButton />

@@ -11,7 +11,9 @@ function PrevPageButton() {
 
   useEffect(() => {
     const splittedPathname = pathname.split("/");
-    if (splittedPathname[1] !== "account") {
+    const ableRoutes = ["account", "search"];
+
+    if (!ableRoutes.includes(splittedPathname[1])) {
       setShowButton(false);
     } else {
       setShowButton(true);

@@ -23,7 +23,7 @@ function Checkbox({
   const [checkmarkLength, setCheckmarkLength] = useState<null | number>(null);
   const inputRef = useRef<null | HTMLInputElement>(null);
 
-  const { filters } = useSearch();
+  const { filterInitialValues, filters, filterMode } = useSearch();
 
   const id = useId();
 
@@ -34,12 +34,19 @@ function Checkbox({
   useLayoutEffect(() => {
     if (filterType) {
       let isChecked: boolean = false;
+      const filterOptions = () => {
+        if (filterMode === "onChange") {
+          return filters;
+        } else {
+          return filterInitialValues;
+        }
+      };
       if (filterType === "genre") {
-        isChecked = filters.genres?.some(
+        isChecked = filterOptions().genres?.some(
           (el) => el.trim() === label.trim(),
         ) as boolean;
       } else if (filterType === "country") {
-        isChecked = filters.countries?.some(
+        isChecked = filterOptions().countries?.some(
           (el) => el.trim() === label.trim(),
         ) as boolean;
       }
@@ -53,7 +60,7 @@ function Checkbox({
         }
       }
     }
-  }, [filterType, filters, label]);
+  }, [filterType, filterInitialValues, label, filterMode]);
 
   return (
     <div className="flex items-center text-white">

@@ -19,7 +19,8 @@ const theme = createTheme({
 });
 
 function SortDropdownList({ isOpen }: Props) {
-  const { handleSortBy, filters } = useSearch();
+  const { handleSortBy, filters, filterMode, filterInitialValues } =
+    useSearch();
 
   return (
     <DropDownContainer isOpen={isOpen}>
@@ -36,7 +37,11 @@ function SortDropdownList({ isOpen }: Props) {
           onChange={(e) => {
             handleSortBy(e.target.value as SortBy);
           }}
-          value={filters.sortBy}
+          value={
+            filterMode === "onChange"
+              ? filters.sortBy
+              : filterInitialValues?.sortBy
+          }
         >
           <CustomRadio
             value="none"

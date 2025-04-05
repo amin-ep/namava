@@ -43,8 +43,11 @@ interface IContext {
   movies: null | IMovie[] | string;
   filters: Filters;
   handleSearch: (e: React.ChangeEvent) => void;
+  resetSearch: () => void;
   reset: () => void;
+  filterInitialValues: Filters;
   hasFiltered: boolean;
+  submitFilters: () => void;
 }
 
 async function getMovies() {
@@ -74,6 +77,7 @@ const SearchContext = createContext({
     sortBy: "none",
   },
   handleSearch() {},
+  resetSearch() {},
   handleAddCountry() {},
   handleRemoveCountry() {},
   handleAddGenre() {},
@@ -83,6 +87,13 @@ const SearchContext = createContext({
   handleSortBy() {},
   reset() {},
   hasFiltered: false,
+  filterInitialValues: {
+    countries: [],
+    genres: [],
+    releasedYear: { from: 1900, to: new Date().getFullYear() },
+    sortBy: "none",
+  },
+  submitFilters() {},
 } as IContext);
 
 interface IState {
@@ -101,7 +112,8 @@ type Actions =
   | { type: "addGenre"; payload: string }
   | { type: "removeGenre"; payload: string }
   | { type: "sortBy"; payload: SortBy }
-  | { type: "reset" };
+  | { type: "reset" }
+  | { type: "submitFilter"; payload: Filters };
 
 const initialState: IState = {
   movies: null,
@@ -127,6 +139,9 @@ const reducer = (state: IState, action: Actions) => {
           countries: [...(state.filters.countries as string[]), action.payload],
         },
       };
+
+    case "submitFilter":
+      return { ...state, filters: action.payload };
 
     case "removeCountry":
       return {
@@ -197,6 +212,9 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [hasFiltered, setHasFiltered] = useState(false);
+  const [filterInitialValues, setFilterInitialValues] = useState<Filters>(
+    initialState.filters,
+  );
   const [{ filters, movies, filterMode }, dispatch] = useReducer(
     reducer,
     initialState,
@@ -217,6 +235,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const target = e.target as HTMLInputElement;
     setSearchTerm(target.value);
   }
+
   useEffect(() => {
     // toggle document scroll if modal is changing
     if (document) {
@@ -348,37 +367,97 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     }
   }, [moviesData, filters, searchTerm]);
 
+  // handle sort
   function handleSortBy(sort: SortBy) {
-    dispatch({ type: "sortBy", payload: sort });
+    if (filterMode === "onChange") {
+      dispatch({ type: "sortBy", payload: sort });
+    } else if (filterMode === "onClick") {
+      setFilterInitialValues({ ...filterInitialValues, sortBy: sort });
+    }
   }
 
+  // handle released year from year
   function handleReleasedYearFrom(year: number) {
-    dispatch({ type: "fromYear", payload: year });
+    if (filterMode === "onChange") {
+      dispatch({ type: "fromYear", payload: year });
+    } else if (filterMode === "onClick") {
+      setFilterInitialValues({
+        ...filterInitialValues,
+        releasedYear: { from: year, to: filterInitialValues.releasedYear.to },
+      });
+    }
   }
 
+  // handle released year to year
   function handleReleasedYearUntil(year: number) {
-    dispatch({ type: "untilYear", payload: year });
+    if (filterMode === "onChange")
+      dispatch({ type: "untilYear", payload: year });
+
+    setFilterInitialValues({
+      ...filterInitialValues,
+      releasedYear: { from: filterInitialValues.releasedYear.from, to: year },
+    });
   }
 
+  // handle add country
   function handleAddCountry(country: string) {
-    dispatch({ type: "addCountry", payload: country });
+    if (filterMode === "onChange")
+      dispatch({ type: "addCountry", payload: country });
+
+    setFilterInitialValues({
+      ...filterInitialValues,
+      countries: [...(filterInitialValues.countries as string[]), country],
+    });
   }
 
+  // handle add genre
   function handleAddGenre(genre: string) {
-    dispatch({ type: "addGenre", payload: genre });
+    if (filterMode === "onChange")
+      dispatch({ type: "addGenre", payload: genre });
+
+    setFilterInitialValues({
+      ...filterInitialValues,
+      genres: [...(filterInitialValues.genres as string[]), genre],
+    });
   }
 
+  // handle remove genre
   function handleRemoveGenre(genre: string) {
-    dispatch({ type: "removeGenre", payload: genre });
+    if (filterMode === "onChange")
+      dispatch({ type: "removeGenre", payload: genre });
+
+    setFilterInitialValues({
+      ...filterInitialValues,
+      genres: filterInitialValues.genres?.filter((g) => g !== genre),
+    });
   }
 
+  // handle remove country
   function handleRemoveCountry(country: string) {
-    dispatch({ type: "removeCountry", payload: country });
+    if (filterMode === "onChange")
+      dispatch({ type: "removeCountry", payload: country });
+
+    setFilterInitialValues({
+      ...filterInitialValues,
+      countries: filterInitialValues.countries?.filter((c) => c !== country),
+    });
   }
 
+  // handle reset
   function reset() {
     dispatch({ type: "reset" });
+    setFilterInitialValues(initialState.filters);
   }
+
+  function resetSearch() {
+    setSearchTerm("");
+  }
+
+  // handle submit filters
+  function handleSubmitFilter() {
+    dispatch({ type: "submitFilter", payload: filterInitialValues });
+  }
+
   return (
     <SearchContext
       value={{
@@ -388,6 +467,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         openModal: handleOpenModal,
         filterMode,
         movies,
+        resetSearch,
         filters,
         handleSearch: handleSearchChange,
         handleSortBy,
@@ -398,6 +478,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         handleRemoveCountry,
         handleRemoveGenre,
         hasFiltered,
+        filterInitialValues,
+        submitFilters: handleSubmitFilter,
       }}
     >
       {children}

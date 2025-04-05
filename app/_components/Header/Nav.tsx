@@ -48,11 +48,15 @@ const items: MobileNavListItem[] = [
 function Nav() {
   const pathname = usePathname();
   const disableRoutes = ["/app"];
+
+  const splittedPathname = pathname.split("/")[1];
+
   return (
     <div
       className={cls(
         "flex items-center justify-start gap-4 md:gap-8",
-        pathname.split("/")[1] === "account" && "hidden md:flex",
+        (splittedPathname === "account" || splittedPathname === "search") &&
+          "hidden md:flex",
       )}
     >
       <Link href="/">

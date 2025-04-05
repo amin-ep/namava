@@ -10,12 +10,9 @@ import DropDownContainer from "./DropdownContainer";
 type Props = { isOpen: boolean };
 
 function ReleasedYear({ isOpen }: Props) {
-  const {
-    filterMode,
-    handleReleasedYearFrom,
-    handleReleasedYearUntil,
-    filters,
-  } = useSearch();
+  const { handleReleasedYearFrom, handleReleasedYearUntil, filters } =
+    useSearch();
+
   const {
     close: closeFromSelect,
     isOpen: fromSelectIsOpen,
@@ -43,9 +40,7 @@ function ReleasedYear({ isOpen }: Props) {
   ) => void = (e) => {
     const textContent = (e?.target as HTMLLIElement).textContent;
     updateFromValue(textContent as string);
-    if (filterMode === "onChange") {
-      handleReleasedYearFrom(Number(textContent));
-    }
+    handleReleasedYearFrom(Number(textContent));
     closeFromSelect();
   };
 
@@ -54,9 +49,7 @@ function ReleasedYear({ isOpen }: Props) {
   ) => void = (e) => {
     const textContent = (e?.target as HTMLLIElement).textContent;
     updateUntilSelect(textContent as string);
-    if (filterMode === "onChange") {
-      handleReleasedYearUntil(Number(textContent));
-    }
+    handleReleasedYearUntil(Number(textContent));
     closeUntilSelect();
   };
 

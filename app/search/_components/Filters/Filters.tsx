@@ -10,7 +10,8 @@ import ReleasedYear from "./ReleasedYearDropdown";
 import SortDropdownList from "./SortDropdownList";
 import cls from "classnames";
 import styles from "./Filters.module.css";
-// import LinkButton from "@/app/_components/LinkButton";
+import LinkButton from "@/app/_components/LinkButton";
+import { IMovie } from "@/app/_types/movieTypes";
 
 type Props = { onClose?: () => void };
 
@@ -24,7 +25,14 @@ function Filters({ onClose }: Props) {
   const [openDropdownName, setOpenDropdownName] = useState<string>("");
   const [filtered, setFiltered] = useState(false);
 
-  const { filters, reset } = useSearch();
+  const {
+    filters,
+    reset,
+    filterMode,
+    submitFilters,
+    filterInitialValues,
+    movies,
+  } = useSearch();
 
   const isOpen = useCallback(
     (title: Options["title"]) => {
@@ -33,17 +41,24 @@ function Filters({ onClose }: Props) {
     [openDropdownName],
   );
 
-  const { sortBy } = filters;
-
   const isYearChanged: boolean =
     filters.releasedYear.to !== new Date().getFullYear() ||
     filters.releasedYear.from != 1900;
+
+  const filtersObject = useMemo(() => {
+    if (filterMode === "onChange") {
+      return filters;
+    } else {
+      return filterInitialValues;
+    }
+  }, [filterInitialValues, filterMode, filters]);
 
   const filterOptions: Options[] = useMemo(() => {
     return [
       {
         title: "ژانرها",
-        badge: filters.genres!.length > 0 ? filters.genres?.length : "",
+        badge:
+          filtersObject.genres!.length > 0 ? filtersObject.genres?.length : "",
         list: ((title) => (
           <SearchFiltersCheckboxList
             type="genre"
@@ -56,7 +71,10 @@ function Filters({ onClose }: Props) {
       },
       {
         title: "کشور سازنده",
-        badge: filters.countries!.length > 0 ? filters.countries?.length : "",
+        badge:
+          filtersObject.countries!.length > 0
+            ? filtersObject.countries?.length
+            : "",
         list: ((title) => (
           <SearchFiltersCheckboxList
             type="country"
@@ -70,29 +88,30 @@ function Filters({ onClose }: Props) {
       {
         title: "سال ساخت",
         badge: isYearChanged
-          ? `${filters.releasedYear.to} - ${filters.releasedYear.from}`
+          ? `${filtersObject.releasedYear.to} - ${filtersObject.releasedYear.from}`
           : "",
         list: ((title) => <ReleasedYear isOpen={isOpen(title)} />)("سال ساخت"),
       },
       {
         title: "مرتب سازی",
-        badge: (sortBy === "none"
+        badge: (filtersObject.sortBy === "none"
           ? ""
-          : sortBy === "imdbRating"
+          : filtersObject.sortBy === "imdbRating"
             ? "امتیاز IMDB"
-            : sortBy === "newest"
+            : filtersObject.sortBy === "newest"
               ? "سال ساخت (جدیدترین)"
-              : sortBy === "oldest"
+              : filtersObject.sortBy === "oldest"
                 ? "سال ساخت (قدیمی ترین)"
-                : sortBy === "") as string,
+                : filtersObject.sortBy === "") as string,
         list: ((title) => <SortDropdownList isOpen={isOpen(title)} />)(
           "مرتب سازی",
         ),
       },
     ];
-  }, [filters, isOpen, isYearChanged, sortBy]);
+  }, [filtersObject, isOpen, isYearChanged]);
+
   useEffect(() => {
-    const { releasedYear, sortBy, countries, genres } = filters;
+    const { releasedYear, sortBy, countries, genres } = filtersObject;
     if (
       countries?.length === 0 &&
       genres?.length === 0 &&
@@ -104,7 +123,7 @@ function Filters({ onClose }: Props) {
     } else {
       setFiltered(true);
     }
-  }, [filters]);
+  }, [filtersObject]);
 
   const handleOpenDropdown = (title: string) => {
     if (title === openDropdownName) {
@@ -114,8 +133,18 @@ function Filters({ onClose }: Props) {
     }
   };
 
+  const handleSubmitFilters = () => {
+    submitFilters();
+    if (onClose) onClose();
+  };
+
   return (
-    <div className="fixed w-full rounded-xl bg-gray-700 px-6 py-4 md:w-[18.5rem] xl:w-[307px]">
+    <div
+      className={cls(
+        "w-full rounded-xl bg-gray-700 px-6 py-4 md:w-[18.5rem] xl:w-[307px]",
+        (movies as IMovie[])?.length > 0 ? "fixed" : "absolute",
+      )}
+    >
       <div
         className={cls("max-h-[400px] w-full overflow-auto", styles.container)}
       >
@@ -154,16 +183,17 @@ function Filters({ onClose }: Props) {
               {option.list}
             </React.Fragment>
           ))}
-          {/* {filterMode === "onClick" && (
-          <LinkButton
-          variation="button"
-          color="primary"
-          disabled={!filtered}
-            buttonType="button"
-          >
-            اعمال
-          </LinkButton>
-        )} */}
+          {filterMode === "onClick" && (
+            <LinkButton
+              variation="button"
+              color="primary"
+              disabled={!filtered}
+              buttonType="button"
+              onClick={handleSubmitFilters}
+            >
+              اعمال
+            </LinkButton>
+          )}
         </div>
       </div>
     </div>

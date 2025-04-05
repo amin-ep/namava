@@ -1,10 +1,8 @@
 "use client";
 
 import { useHasSubscription } from "@/app/_hooks/useHasSubscription";
-import { calcSubExpireDay } from "@/app/_utils/helpers";
 import cls from "classnames";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   useCallback,
@@ -15,6 +13,7 @@ import {
   useState,
 } from "react";
 import UserOptionsMenu from "./UserOptionsMenu";
+import UserOptionsSubscriptionStatus from "./UserOptionsSubscriptionStatus";
 
 interface State {
   isOpen: boolean;
@@ -239,31 +238,10 @@ function UserOptions({ subscriptionExpiresAt }: Props) {
           ref={optionsRef}
         >
           <div className="grid h-[calc(100vh)] grid-cols-1 grid-rows-[90px_auto] rounded-xl bg-white shadow-[0_10px_12px_rgba(0,0,0,0.3)] xsm:h-[340px]">
-            <div
-              className={cls(
-                "flex flex-col items-center justify-center gap-[10px] rounded-t-xl p-4",
-                hasSubscription ? "bg-success" : "bg-red-default",
-              )}
-            >
-              {hasSubscription ? (
-                <>
-                  <p className="text-sm text-white">
-                    باقی مانده اشتراک:{" "}
-                    {calcSubExpireDay(subscriptionExpiresAt as Date)} روز
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-white">اشتراک فعالی ندارید.</p>
-                  <Link
-                    href="/plans"
-                    className="w-full rounded-xl bg-white px-5 text-center text-xs leading-[30px] text-[rgb(26,26,26)] shadow-[0_4px_8px_rgba(0,0,0,0.25)] hover:bg-primary-default hover:text-white"
-                  >
-                    خرید اشتراک
-                  </Link>
-                </>
-              )}
-            </div>
+            <UserOptionsSubscriptionStatus
+              subscriptionExpiresAt={subscriptionExpiresAt as Date}
+              hasSubscription={hasSubscription}
+            />
             <UserOptionsMenu />
           </div>
         </div>
