@@ -4,10 +4,30 @@ import { useModal } from "@/app/_hooks/useModal";
 import Modal from "../Modal";
 import HeaderActionLinkButton from "./HeaderActionLinkButton";
 import Image from "next/image";
-import Link from "next/link";
+import { useTransition } from "react";
+import { generateRandomMovieId } from "@/app/_lib/actions";
+import { useRouter } from "next/navigation";
+import MiniSpinner from "../MiniSpinner/MiniSpinner";
+import { FaPlay } from "react-icons/fa6";
+import LinkButton from "../LinkButton";
 
 function HeaderShuffleAction() {
+  const [isPending, startTransition] = useTransition();
   const { close, open, isOpen } = useModal();
+
+  const router = useRouter();
+
+  const playRandomMovie = () => {
+    startTransition(async () => {
+      const randomId = (await generateRandomMovieId()) as string;
+
+      if (randomId) {
+        close();
+        router.push(`/play/${randomId}`);
+      }
+    });
+  };
+
   return (
     <>
       <HeaderActionLinkButton
@@ -45,6 +65,7 @@ function HeaderShuffleAction() {
             alt="shuffle"
             width={320}
             height={160}
+            unoptimized
             className="z-0 aspect-[2/1] w-full rounded-t-[4px]"
           />
           <div className="flex flex-col items-center justify-center gap-5 p-6 text-center md:p-8 xl:px-10 xl:py-12">
@@ -57,19 +78,24 @@ function HeaderShuffleAction() {
                 می‌کنه.
               </p>
             </div>
-            <Link
-              href="/"
-              className="z-20 flex w-[134px] items-center justify-center gap-2 rounded-xl bg-white py-3 text-xs"
+            <LinkButton
+              // className="z-20 flex w-[134px] items-center justify-center gap-2 rounded-xl bg-white py-3 text-xs"
+              onClick={playRandomMovie}
+              variation="button"
+              color="white"
+              extraStyles="w-[144px] z-20 gap-2"
             >
-              <Image
-                src="/icons/play-dark.svg"
-                alt="play-icon"
-                width={20}
-                height={20}
-                className="aspect-square w-3"
-              />
-              سورپرایزم کن
-            </Link>
+              {isPending ? (
+                <MiniSpinner color="white" />
+              ) : (
+                <>
+                  <span>
+                    <FaPlay size={22} />
+                  </span>
+                  سورپرایزم کن
+                </>
+              )}
+            </LinkButton>
           </div>
         </div>
       </Modal>
