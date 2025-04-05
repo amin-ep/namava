@@ -50,6 +50,7 @@ function MobileNavList({
                   ? "border-gray-500 text-white"
                   : "border-gray-400 text-gray-800",
               )}
+              onClick={close}
             >
               <div className="flex items-center justify-start gap-3">
                 {item.icon && (

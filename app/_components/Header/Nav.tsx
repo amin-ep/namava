@@ -4,9 +4,8 @@ import { MobileNavListItem } from "@/app/_types/globalTypes";
 import cls from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BsCameraReelsFill, BsFillCollectionPlayFill } from "react-icons/bs";
+import { BsCameraReelsFill } from "react-icons/bs";
 import { LuPopcorn } from "react-icons/lu";
-import { MdChildCare } from "react-icons/md";
 import { TbCategoryFilled, TbHomeFilled } from "react-icons/tb";
 import Logo from "../Logo";
 import HeaderMobileNav from "./HeaderMobileNav";
@@ -24,11 +23,6 @@ const items: MobileNavListItem[] = [
     icon: <BsCameraReelsFill size={30} />,
   },
   {
-    title: "سریال ها",
-    href: "/series",
-    icon: <BsFillCollectionPlayFill size={30} />,
-  },
-  {
     title: "دسته بندی",
     href: "/category",
     icon: <TbCategoryFilled size={30} />,
@@ -37,11 +31,6 @@ const items: MobileNavListItem[] = [
     title: "تازه ها",
     href: "/latest",
     icon: <LuPopcorn size={30} />,
-  },
-  {
-    title: "کودکان",
-    href: "/kids",
-    icon: <MdChildCare size={30} />,
   },
 ];
 
@@ -65,7 +54,7 @@ function Nav() {
       {!disableRoutes.includes(pathname) && (
         <>
           <HeaderMobileNav items={items} />
-          <NavList />
+          <NavList items={items} />
         </>
       )}
     </div>

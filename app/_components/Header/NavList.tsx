@@ -1,39 +1,42 @@
 "use client";
 
+import { MobileNavListItem } from "@/app/_types/globalTypes";
 import { findPersianCategoryName } from "@/app/_utils/helpers";
 import cls from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { memo } from "react";
 
-const items = [
-  {
-    title: "خانه",
-    href: "home",
-  },
-  {
-    title: "فیلم ها",
-    href: "movie",
-  },
-  {
-    title: "سریال ها",
-    href: "series",
-  },
-  {
-    title: "دسته بندی",
-    href: "category",
-  },
-  {
-    title: "تازه ها",
-    href: "latest",
-  },
-  {
-    title: "کودکان",
-    href: "kids",
-  },
-];
+// const items = [
+//   {
+//     title: "خانه",
+//     href: "home",
+//   },
+//   {
+//     title: "فیلم ها",
+//     href: "movie",
+//   },
+//   {
+//     title: "سریال ها",
+//     href: "series",
+//   },
+//   {
+//     title: "دسته بندی",
+//     href: "category",
+//   },
+//   {
+//     title: "تازه ها",
+//     href: "latest",
+//   },
+//   {
+//     title: "کودکان",
+//     href: "kids",
+//   },
+// ];
 
-const NavList = memo(function NavList() {
+type Props = { items: MobileNavListItem[] };
+
+const NavList = memo(function NavList({ items }: Props) {
   const pathname = usePathname();
 
   return (
@@ -42,18 +45,16 @@ const NavList = memo(function NavList() {
         {items.map((item) => (
           <li key={item.href}>
             <Link
-              href={`/${item.href}`}
+              href={item.href}
               className={cls(
                 "font-medium hover:text-primary-light",
-                pathname.split("/")[1] === item.href
-                  ? "text-primary-default"
-                  : "text-white",
+                pathname === item.href ? "text-primary-default" : "text-white",
               )}
             >
               {item.title}{" "}
               {item.href === "category" &&
                 pathname.split("/").length == 3 &&
-                pathname.split("/")[1] === "category" &&
+                pathname === "category" &&
                 `(${findPersianCategoryName(pathname.split("/")[2])})`}
             </Link>
           </li>

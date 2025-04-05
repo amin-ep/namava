@@ -1,4 +1,5 @@
 "use client";
+
 import MobileNavList from "@/app/_components/MobileNavList";
 import { useModal } from "@/app/_hooks/useModal";
 import { MobileNavListItem } from "@/app/_types/globalTypes";
@@ -30,6 +31,7 @@ const navItems: MobileNavListItem[] = [
     icon: <IoIosListBox size={21} />,
   },
 ];
+
 function HeadingWrapper() {
   const [headingTitle, setHeadingTitle] = useState("");
 
@@ -57,7 +59,7 @@ function HeadingWrapper() {
             items={navItems}
             theme="light"
             close={close}
-            className="right-16 top-28"
+            className="right-10 top-28 xsm:right-16"
           />
         )}
       </div>
