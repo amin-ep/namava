@@ -6,25 +6,23 @@ import FormSubmit from "@/app/_components/FormSubmit";
 import { useSelect } from "@/app/_hooks/useSelect";
 import { useToast } from "@/app/_hooks/useToast";
 import { UpdateMePayload, User } from "@/app/_types/userTypes";
+import { provincesArr } from "@/app/_utils/constants";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useTransition } from "react";
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
 import Select from "../../../_components/Select/Select";
 import { updateMe } from "../actions";
 import BirthDaySelectGroup from "./BirthDaySelectGroup";
 import SelectLabel from "./SelectLabel";
-import { provincesArr } from "@/app/_utils/constants";
 
 function EditForm({ user }: { user: User }) {
-  const [formIsValid, setFormIsValid] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const notify = useToast();
 
   const {
     register,
-    formState: { isValidating },
-    getValues,
+    formState: { isValid },
     handleSubmit,
     control,
   } = useForm<UpdateMePayload>({
@@ -47,20 +45,6 @@ function EditForm({ user }: { user: User }) {
     clear: clearProvince,
     toggle: toggleProvince,
   } = useSelect(user?.province ?? "");
-
-  // Validate fields
-  useEffect(() => {
-    for (const [key, value] of Object.entries(getValues())) {
-      if (value.trim().length > 0) {
-        if (value.trim() !== user[key]) {
-          setFormIsValid(true);
-          break;
-        }
-      } else {
-        setFormIsValid(false);
-      }
-    }
-  }, [getValues, isValidating, user]);
 
   // Click Province Item
   const handleClickProvinceItem = (
@@ -90,6 +74,7 @@ function EditForm({ user }: { user: User }) {
           delete data[key];
         }
       }
+      console.log(data);
       const result = await updateMe(data);
 
       if (result?.status === "success") {
@@ -100,6 +85,12 @@ function EditForm({ user }: { user: User }) {
       }
     });
   };
+
+  const firstNameMsg =
+    "تعداد کاراکترهای نام باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.";
+
+  const lastNameMsg =
+    "تعداد کاراکترهای نام خانوادگی باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.";
 
   return (
     <form className="md:px-1 xl:px-[68px]" onSubmit={handleSubmit(onSubmit)}>
@@ -114,13 +105,18 @@ function EditForm({ user }: { user: User }) {
             required: false,
             minLength: {
               value: 2,
-              message:
-                "تعداد کاراکترهای نام باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.",
+              message: firstNameMsg,
             },
             maxLength: {
               value: 15,
-              message:
-                "تعداد کاراکترهای نام باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.",
+              message: firstNameMsg,
+            },
+            validate: (val: string) => {
+              // ! DISABLE SYMBOLS & NUMBERS
+              if (!/^[a-zA-Z\u0600-\u06FF\s]+$/.test(val)) {
+                return firstNameMsg;
+              }
+              return true;
             },
           }}
         />
@@ -134,13 +130,18 @@ function EditForm({ user }: { user: User }) {
             required: false,
             minLength: {
               value: 2,
-              message:
-                "تعداد کاراکترهای نام خانوادگی باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.",
+              message: lastNameMsg,
             },
             maxLength: {
               value: 15,
-              message:
-                "تعداد کاراکترهای نام خانوادگی باید حداقل ۲، حداکثر ۱۵ و فاقد عدد و علامت باشد.",
+              message: lastNameMsg,
+            },
+            validate: (val: string) => {
+              // ! DISABLE SYMBOLS & NUMBERS
+              if (!/^[a-zA-Z\u0600-\u06FF\s]+$/.test(val)) {
+                return lastNameMsg;
+              }
+              return true;
             },
           }}
         />
@@ -195,7 +196,6 @@ function EditForm({ user }: { user: User }) {
             }}
             name="gender"
             options={["مرد", "زن"]}
-            defaultChecked={user?.gender}
             control={control}
           />
         </div>
@@ -203,7 +203,7 @@ function EditForm({ user }: { user: User }) {
         <FormSubmit
           label="ثبت تغییرات"
           pendingStatus={isPending}
-          disabled={!formIsValid}
+          disabled={!isValid}
         />
       </div>
     </form>
@@ -211,3 +211,5 @@ function EditForm({ user }: { user: User }) {
 }
 
 export default EditForm;
+
+// TODO: validate form if anything does not changed

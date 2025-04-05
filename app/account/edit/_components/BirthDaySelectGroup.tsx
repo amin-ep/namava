@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelect } from "@/app/_hooks/useSelect";
-import { jMonthIndex, numericJalaaliBirthDate } from "@/app/_utils/helpers";
+import { jMonthIndex, numericJalaaliDate } from "@/app/_utils/helpers";
 import jalaali, { GregorianDateObject } from "jalaali-js";
 import { memo, useEffect, useMemo, useState } from "react";
 import {
@@ -40,7 +40,7 @@ const BirthDaySelectGroup = memo(function BirthDaySelectGroup<
 
   useEffect(() => {
     if (defaultDate) {
-      const numericBirthDate = numericJalaaliBirthDate(new Date(defaultDate));
+      const numericBirthDate = numericJalaaliDate(new Date(defaultDate));
       const numericBirthDateArr = numericBirthDate.split("/");
       setDefaultBirthDateObject({
         year: numericBirthDateArr.at(0) as string,

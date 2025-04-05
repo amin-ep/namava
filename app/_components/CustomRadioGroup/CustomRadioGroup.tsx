@@ -12,13 +12,11 @@ import {
 import CustomRadio from "../CustomRadio/CustomRadio";
 
 function CustomRadioGroup<TFormValues extends FieldValues>({
-  defaultChecked,
   name,
   options,
   validation,
   control,
 }: {
-  defaultChecked?: string;
   name: Path<TFormValues>;
   options: string[];
   validation?: RegisterOptions<TFormValues, Path<TFormValues>>;
@@ -32,10 +30,9 @@ function CustomRadioGroup<TFormValues extends FieldValues>({
       render={({ field }) => (
         <FormControl>
           <RadioGroup
-            {...field}
             row
-            onChange={(_event, value) => field.onChange(value)}
-            value={field.value || defaultChecked || ""}
+            onChange={(event) => field.onChange(event.target.value)}
+            value={field.value ?? ""}
           >
             {options.map((item) => (
               <CustomRadio
@@ -48,7 +45,7 @@ function CustomRadioGroup<TFormValues extends FieldValues>({
           </RadioGroup>
         </FormControl>
       )}
-    ></Controller>
+    />
   );
 }
 
