@@ -74,11 +74,14 @@ function PlaylistModal({ isOpen, onClose, movieId }: Props) {
         // if movie is not added add it into target list
         const res = await addSingleMovieToList(id, movieId);
         if (res?.status === "success") {
-          queryClient.invalidateQueries({
-            queryKey: ["playlists"],
-          });
-          notify("success", res.message);
-          onClose();
+          queryClient
+            .invalidateQueries({
+              queryKey: ["playlists"],
+            })
+            .then(() => {
+              notify("success", res.message);
+              onClose();
+            });
         } else {
           notify("success", res?.message as string);
         }

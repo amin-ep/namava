@@ -28,11 +28,13 @@ function MovieTooltipIconActions({ movieId, extraStyles }: Props) {
 
   return (
     <div className={cls("flex items-center justify-start gap-3", extraStyles)}>
-      <PlaylistModal
-        isOpen={playListModalIsOpen}
-        onClose={handleClosePlaylist}
-        movieId={movieId}
-      />
+      {playListModalIsOpen && (
+        <PlaylistModal
+          isOpen={playListModalIsOpen}
+          onClose={handleClosePlaylist}
+          movieId={movieId}
+        />
+      )}
       <TooltipIconButton
         onClick={handleOpenPlaylist}
         tooltipTitle="افزودن به لیست"
